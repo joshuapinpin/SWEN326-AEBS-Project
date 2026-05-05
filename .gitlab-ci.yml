@@ -1,0 +1,37 @@
+stages:
+  - build
+  - test
+
+variables:
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+
+image: maven:3.9.11-eclipse-temurin-24
+
+cache:
+  paths:
+    - .m2/repository
+
+build:
+  stage: build
+  tags: [docker]
+  script:
+    - cd AEBS
+    - mvn $MAVEN_CLI_OPTS clean compile
+
+test:
+  stage: test
+  tags: [docker]
+  script:
+    - cd AEBS
+    - mvn $MAVEN_CLI_OPTS test
+  artifacts:
+    when: always
+    reports:
+      junit: AEBS/target/surefire-reports/TEST-*.xml
+
+
