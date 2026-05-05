@@ -12,17 +12,17 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- Ensure Java 1.8 compatibility for JUnit 5 -->
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <!-- Java 24 configuration -->
+    <maven.compiler.source>24</maven.compiler.source>
+    <maven.compiler.target>24</maven.compiler.target>
   </properties>
 
   <dependencies>
-    <!-- Use JUnit 5 (JUnit Jupiter) for modern @Test annotations -->
+    <!-- Use JUnit 5 (JUnit Jupiter) for modern testing with Java 24 support -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>5.10.0</version>
+      <version>5.10.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
