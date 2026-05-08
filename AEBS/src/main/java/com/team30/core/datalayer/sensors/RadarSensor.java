@@ -4,7 +4,6 @@ import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.simulation.state.CarState;
 
-
 public class RadarSensor extends Sensor {
 
     protected RadarSensor(SensorId sensorId, CarState carState, int fireEvery) {

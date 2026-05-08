@@ -1,5 +1,6 @@
 package com.team30.simulation.state;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import com.team30.core.datalayer.enums.MovementDirection;
 import com.team30.core.datalayer.enums.ObjectType;
 
@@ -31,7 +32,7 @@ public class WorldObject {
 
     // --- Getters ---
 
-    public double getPosition() {
+    public Type getPosition() {
         return position;
     }
 

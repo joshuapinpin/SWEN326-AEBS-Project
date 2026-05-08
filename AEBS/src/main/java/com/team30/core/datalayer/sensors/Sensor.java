@@ -5,6 +5,8 @@ import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.core.datalayer.observers.SensorObserver;
 import com.team30.simulation.state.CarState;
+import com.team30.simulation.state.WorldObject;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
