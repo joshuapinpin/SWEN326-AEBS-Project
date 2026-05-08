@@ -1,4 +1,4 @@
-package com.team30.core.datalayer;
+package com.team30.core.datalayer.enums;
 
 /**
  * Enum representing different types of sensors used in the AEBS system.

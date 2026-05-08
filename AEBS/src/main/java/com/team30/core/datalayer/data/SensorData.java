@@ -1,25 +1,28 @@
-package com.team30.core.datalayer;
+package com.team30.core.datalayer.data;
+
+import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 
 /**
- * Class representing a sensor reading in the AEBS system.
+ * Class representing sensor data in the AEBS system.
  * Includes the sensor type, sensor ID (primary or redundant), the value of the reading, and the time the reading was taken.
  * SensorReading holds the raw sensor data which is then passed to the SensorInputHandler for validation and formatting.
  * @author Hayley Far
  */
-public class SensorReading {
+public class SensorData {
     private final SensorType sensorType;
     private final SensorId sensorId;
     private final double value;
     private final long timestamp;
 
     /**
-     * Constructor for SensorReading.
+     * Constructor for SensorData.
      * @param sensorType The type of sensor (RADAR, LIDAR, CAMERA, WHEEL_SPEED).
      * @param sensorId The identifier for the sensor (PRIMARY or REDUNDANT).
      * @param value The value of the sensor reading.
      * @param timestamp The time the reading was taken (in milliseconds since epoch).
      */
-    public SensorReading(SensorType sensorType, SensorId sensorId, double value, long timestamp) {
+    public SensorData(SensorType sensorType, SensorId sensorId, double value, long timestamp) {
         this.sensorType = sensorType;
         this.sensorId = sensorId;
         this.value = value;
