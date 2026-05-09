@@ -9,98 +9,121 @@ import com.team30.simulation.state.CarState;
 
 public class BrakeSystemController {
 
-    private static final int    MAX_RETRIES            = 2;
-    private static final double WHEEL_CIRCUMFERENCE    = 2.0;   // metres
-    private static final double WARN_DECELERATION      = 3.0;   // m/s²
-    private static final double BRAKE_DECELERATION     = 8.0;   // m/s²
-    private static final double DECEL_TOLERANCE        = 0.05;  // ±5%
-    private static final long   BRAKE_WAIT_MS          = 50;    // 5 ticks
+    private static final int    MAX_RETRIES         = 2;
+    private static final double WHEEL_CIRCUMFERENCE = 2.0;  // metres
+    private static final double WARN_DECELERATION   = 3.0;  // m/s²
+    private static final double BRAKE_DECELERATION  = 8.0;  // m/s²
+    private static final double DECEL_TOLERANCE     = 0.05; // ±5%
 
     private final CarState carState;
     private int currentAttempts;
     private long brakeCommandTimeMs;
+    private double speedAtLastCommand;  // wheel speed when braking was last commanded
+    private double targetDecel;         // stored across ticks for verification
 
     public BrakeSystemController(CarState carState) {
         this.carState = carState;
         this.currentAttempts = 0;
         this.brakeCommandTimeMs = 0;
+        this.speedAtLastCommand = 0.0;
+        this.targetDecel = 0.0;
     }
 
     /**
-     * Executes braking based on the CollisionAssessment threat level.
+     * Called every tick by AEBSSoftwareSystem.
      *
-     * - NONE while BRAKING → clear brakes, set RESUMING, return CLEARED
-     * - NONE otherwise     → no action, return NOT_NEEDED
+     * First call with a threat: commands braking, stores speed snapshot.
+     * Subsequent calls: verifies deceleration against snapshot from previous tick.
+     *
+     * - NONE while BRAKING → CLEARED, set RESUMING
+     * - NONE otherwise     → NOT_NEEDED
      * - WARNING            → soft brake at WARN_DECELERATION
      * - BRAKE              → hard brake at BRAKE_DECELERATION
-     *
-     * Retries up to MAX_RETRIES + 1 times, checking deceleration after each attempt.
-     * Returns EXHAUSTED if all attempts fail.
-     *
-     * @param assessment the CollisionAssessment from CollisionDetector
-     * @return BrakeDecision containing result, target deceleration, and attempts made
      */
     public BrakeDecision execute(CollisionAssessment assessment) {
         ThreatLevel threat = assessment.getThreatLevel();
 
-        // If threat cleared while braking, resume normal driving
+        // Threat cleared while braking — resume
         if (threat == ThreatLevel.NONE) {
             if (carState.getDrivingMode() == DrivingMode.BRAKING) {
                 carState.setDrivingMode(DrivingMode.RESUMING);
-                carState.setTargetSpeed(carState.getTargetSpeed());
                 carState.setDecelerationRate(0.0);
-                currentAttempts = 0;
-                return new BrakeDecision(false, 0.0, BrakeResult.CLEARED, 0);
+                reset();
+                return new BrakeDecision(false, 0.0, BrakeResult.CLEARED, currentAttempts);
             }
             return new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         }
 
-        // Skip if already in fail-safe — don't interfere
+        // Don't interfere with fail-safe
         if (carState.getDrivingMode() == DrivingMode.FAIL_SAFE) {
             return new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         }
 
-        double targetDecel = (threat == ThreatLevel.BRAKE)
+        targetDecel = (threat == ThreatLevel.BRAKE)
                 ? BRAKE_DECELERATION
                 : WARN_DECELERATION;
 
-        currentAttempts = 0;
+        // First attempt — command braking and store speed snapshot
+        if (currentAttempts == 0) {
+            return commandBrake();
+        }
 
-        // Retry loop — up to MAX_RETRIES + 1 total attempts
-        while (currentAttempts <= MAX_RETRIES) {
-            currentAttempts++;
-            brakeCommandTimeMs = carState.getCurrentTimeMs();
+        // Subsequent ticks — verify deceleration since last command
+        double currentSpeed = carState.getCarSpeed();
+        long elapsedMs = carState.getCurrentTimeMs() - brakeCommandTimeMs;
 
-            // Command braking
-            carState.setDrivingMode(DrivingMode.BRAKING);
-            carState.setDecelerationRate(targetDecel);
+        if (elapsedMs > 0) {
+            double elapsedSecs = elapsedMs / 1000.0;
+            double actualDecel = (speedAtLastCommand - currentSpeed) / elapsedSecs;
 
-            // Read wheel speed before wait
-            double speedBefore = averageWheelSpeed(carState.getWheelRPM());
+            // --- DEBUG ---
+            System.out.println("--- BrakeSystemController verify ---");
+            System.out.println("speedAtLastCommand: " + speedAtLastCommand);
+            System.out.println("currentSpeed:       " + currentSpeed);
+            System.out.println("elapsedMs:          " + elapsedMs);
+            System.out.println("actualDecel:        " + actualDecel);
+            System.out.println("targetDecel:        " + targetDecel);
+            System.out.println("lower bound:        " + (targetDecel * 0.95));
+            System.out.println("upper bound:        " + (targetDecel * 1.05));
+            System.out.println("withinTolerance:    " + isWithinTolerance(actualDecel, targetDecel));
+            // --- END DEBUG ---
 
-            // Wait for brakes to physically respond
-            try {
-                Thread.sleep(BRAKE_WAIT_MS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
 
-            // Read wheel speed after wait
-            double speedAfter = averageWheelSpeed(carState.getWheelRPM());
-
-            // Calculate actual deceleration over 50ms
-            double actualDecel = (speedBefore - speedAfter) / (BRAKE_WAIT_MS / 1000.0);
-
-            // Check within ±5% of target
             if (isWithinTolerance(actualDecel, targetDecel)) {
                 return new BrakeDecision(true, targetDecel, BrakeResult.SUCCESS, currentAttempts);
             }
-
-            // Failed this attempt — retry if attempts remaining
         }
+
+        // Verification failed — retry if attempts remaining
+        if (currentAttempts <= MAX_RETRIES) {
+            return commandBrake();
+        }
+
 
         // All attempts exhausted
         return new BrakeDecision(true, targetDecel, BrakeResult.EXHAUSTED, currentAttempts);
+    }
+
+    /**
+     * Commands braking — sets DrivingMode, decelerationRate,
+     * stores current speed and timestamp for next tick verification.
+     */
+    private BrakeDecision commandBrake() {
+        currentAttempts++;
+        brakeCommandTimeMs = carState.getCurrentTimeMs();
+        speedAtLastCommand = carState.getCarSpeed();
+
+        // --- DEBUG ---
+        System.out.println("--- BrakeSystemController command ---");
+        System.out.println("attempt:            " + currentAttempts);
+        System.out.println("speedAtCommand:     " + speedAtLastCommand);
+        System.out.println("brakeCommandTimeMs: " + brakeCommandTimeMs);
+        System.out.println("targetDecel:        " + targetDecel);
+        // --- END DEBUG ---
+
+        carState.setDrivingMode(DrivingMode.BRAKING);
+        carState.setDecelerationRate(targetDecel);
+        return new BrakeDecision(true, targetDecel, BrakeResult.FAILED, currentAttempts);
     }
 
     /**
@@ -114,7 +137,6 @@ public class BrakeSystemController {
 
     /**
      * Converts wheel RPM array to average wheel speed in m/s.
-     * speed = RPM * circumference / 60
      */
     private double averageWheelSpeed(double[] rpm) {
         if (rpm == null || rpm.length == 0) return 0.0;
@@ -125,6 +147,13 @@ public class BrakeSystemController {
         return sum / rpm.length;
     }
 
-    public int getCurrentAttempts()    { return currentAttempts; }
+    private void reset() {
+        currentAttempts = 0;
+        brakeCommandTimeMs = 0;
+        speedAtLastCommand = 0.0;
+        targetDecel = 0.0;
+    }
+
+    public int getCurrentAttempts()     { return currentAttempts; }
     public long getBrakeCommandTimeMs() { return brakeCommandTimeMs; }
 }
