@@ -21,4 +21,20 @@ public class HazardEvent {
     WeatherCondition newWeather;
     LightCondition newLight;
     boolean triggered;
+
+    public long getTriggerTime() {
+        return triggerTime;
+    }
+
+    public boolean isTriggered() {
+        return triggered;
+    }
+
+    public void setTriggered(boolean triggered) {
+        this.triggered = triggered;
+    }
+
+    public HazardType getType() {
+        return type;
+    }
 }
