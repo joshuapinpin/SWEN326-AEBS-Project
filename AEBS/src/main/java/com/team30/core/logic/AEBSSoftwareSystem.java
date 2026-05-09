@@ -43,16 +43,16 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
-        return null;
+        return collisionDetector.assess(data);
     }
 
     @Override
     protected BrakeDecision brakingSystemController(CollisionAssessment assessment) {
-        return null;
+        return brakeSystemController.execute(assessment);
     }
 
     @Override
-    protected void faultHandler(BrakeDecision decision) {
-
+    protected void faultHandler(BrakeDecision decision, ProcessedSensorData validatedData) {
+        faultHandler.handle(decision, validatedData);
     }
 }
