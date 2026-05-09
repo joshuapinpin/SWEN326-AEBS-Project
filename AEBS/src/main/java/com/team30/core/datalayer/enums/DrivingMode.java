@@ -7,5 +7,6 @@ package com.team30.core.datalayer.enums;
 public enum DrivingMode {
     CRUISING,
     BRAKING,
-    RESUMING
+    RESUMING,
+    FAIL_SAFE
 }
