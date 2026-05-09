@@ -1,6 +1,7 @@
 package com.team30.core.logic;
 
 import com.team30.core.datalayer.data.ProcessedSensorData;
+import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.BrakeResult;
 
 /**
@@ -8,7 +9,7 @@ import com.team30.core.datalayer.enums.BrakeResult;
  * Follows a template method pattern
  */
 public abstract class AEBSPipline {
-    public final void processData(ProcessedSensorData data){
+    public final void processData(SensorData data){
         // Step 1: Check for redundancy in sensor data
         if (redundancyChecker(data)){
             faultHandler(data);

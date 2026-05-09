@@ -60,7 +60,7 @@ public abstract class Sensor {
 
     public void notifyObservers(SensorData data) {
         for (SensorObserver observer : observers) {
-            // TODO: observer.update(data);
+            observer.update(data);
         }
     }
 

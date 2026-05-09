@@ -1,13 +1,14 @@
 package com.team30.core.logic;
 
 import com.team30.core.datalayer.data.ProcessedSensorData;
+import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.BrakeResult;
 import com.team30.core.datalayer.observers.SensorObserver;
 
 public class AEBSSoftwareSystem extends AEBSPipline implements SensorObserver {
 
     @Override
-    public void update(ProcessedSensorData data) {
+    public void update(SensorData data) {
         this.processData(data);
     }
 
