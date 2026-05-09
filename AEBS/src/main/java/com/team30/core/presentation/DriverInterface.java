@@ -2,6 +2,8 @@ package com.team30.core.presentation;
 
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.simulation.state.CarState;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Presentation layer component responsible for communicating AEBS system
@@ -11,6 +13,7 @@ import com.team30.simulation.state.CarState;
  * or sensor faults occur.
 */
 public class DriverInterface {
+    private static final Logger logger = LogManager.getLogger(DriverInterface.class);
     private final CarState carState;
     private boolean aesbActive;
 
@@ -78,8 +81,9 @@ public class DriverInterface {
      * Matches existing FaultHandler usage signature.
      */
     public void showEscalationAlert() {
+        logger.error("Escalation alert triggered — braking failed");
         System.out.println("\n[ESCALATION ALERT] *** CRITICAL WARNING ***");
-        System.out.println("[ESCALATION ALERT] AEBS braking has FAILED after all retry attempts.");
+        System.out.println("[ESCALATION ALERT] AEBS braking has FAILED.");
         System.out.println("[ESCALATION ALERT] TAKE MANUAL CONTROL IMMEDIATELY.");
         printCarState();
     }
@@ -90,9 +94,9 @@ public class DriverInterface {
      * Matches existing FaultHandler usage signature.
      */
     public void showMaintenanceWarning() {
+        logger.warn("Maintenance warning triggered — sensor fault detected");
         System.out.println("\n[MAINTENANCE WARNING] Sensor fault detected.");
         System.out.println("[MAINTENANCE WARNING] Operating on redundant sensor.");
-        System.out.println("[MAINTENANCE WARNING] Please seek maintenance.");
         printCarState();
     }
 
