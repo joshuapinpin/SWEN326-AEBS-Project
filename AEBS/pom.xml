@@ -25,13 +25,6 @@
       <version>5.10.1</version>
       <scope>test</scope>
     </dependency>
-    <!-- Use Lombok for reducing boilerplate code, compatible with Java 24 -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.38</version>
-      <scope>provided</scope>
-    </dependency>
       <!-- Use Jackson library for JSON operations -->
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>

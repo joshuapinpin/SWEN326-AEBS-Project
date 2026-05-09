@@ -6,11 +6,7 @@ import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.core.datalayer.enums.LightCondition;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class HazardEvent {
     long triggerTime;
     HazardType type;
@@ -25,4 +21,20 @@ public class HazardEvent {
     WeatherCondition newWeather;
     LightCondition newLight;
     boolean triggered;
+
+    public long getTriggerTime() {
+        return triggerTime;
+    }
+
+    public boolean isTriggered() {
+        return triggered;
+    }
+
+    public void setTriggered(boolean triggered) {
+        this.triggered = triggered;
+    }
+
+    public HazardType getType() {
+        return type;
+    }
 }

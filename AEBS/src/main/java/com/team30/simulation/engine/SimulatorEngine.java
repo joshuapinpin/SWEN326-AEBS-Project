@@ -10,7 +10,6 @@ import com.team30.simulation.scenario.Scenario;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
