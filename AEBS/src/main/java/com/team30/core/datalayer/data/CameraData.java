@@ -2,6 +2,7 @@ package com.team30.core.datalayer.data;
 
 import com.team30.core.datalayer.enums.ObjectType;
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 
 public class CameraData extends SensorData {
     private final ObjectType classification;  // UNKNOWN if below confidence threshold
@@ -27,4 +28,7 @@ public class CameraData extends SensorData {
     public ObjectType getClassification() { return classification; }
     public boolean isInCurrentLane()      { return inCurrentLane; }
     public double getConfidence()         { return confidence; }
+
+    @Override
+    public SensorType getSensorType() { return SensorType.CAMERA; }
 }

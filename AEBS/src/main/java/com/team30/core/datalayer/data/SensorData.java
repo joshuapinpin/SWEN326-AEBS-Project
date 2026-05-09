@@ -1,6 +1,7 @@
 package com.team30.core.datalayer.data;
 
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 
 public abstract class SensorData {
     private final SensorId sensorId;
@@ -13,7 +14,9 @@ public abstract class SensorData {
         this.isGarbage = isGarbage;
     }
 
-    public SensorId getSensorId()   { return sensorId; }
-    public long getTimestampMs()    { return timestampMs; }
-    public boolean isGarbage()      { return isGarbage; }
+    public abstract SensorType getSensorType();
+
+    public SensorId getSensorId()  { return sensorId; }
+    public long getTimestampMs()   { return timestampMs; }
+    public boolean isGarbage()     { return isGarbage; }
 }

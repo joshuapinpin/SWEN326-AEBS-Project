@@ -1,6 +1,7 @@
 package com.team30.core.datalayer.data;
 
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 
 public class LidarData extends SensorData {
     private final double distance;       // metres ahead, -1 if nothing detected
@@ -26,4 +27,7 @@ public class LidarData extends SensorData {
     public double getDistance()       { return distance; }
     public double getRelativeSpeed()  { return relativeSpeed; }
     public boolean isObjectDetected() { return objectDetected; }
+
+    @Override
+    public SensorType getSensorType() { return SensorType.LIDAR; }
 }

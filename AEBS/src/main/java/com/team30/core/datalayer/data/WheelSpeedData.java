@@ -1,6 +1,7 @@
 package com.team30.core.datalayer.data;
 
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 
 public class WheelSpeedData extends SensorData {
     private final double[] rpm;          // [frontLeft, frontRight, rearLeft, rearRight]
@@ -31,4 +32,7 @@ public class WheelSpeedData extends SensorData {
     public double getFrontRightSpeed() { return wheelSpeeds[1]; }
     public double getRearLeftSpeed()   { return wheelSpeeds[2]; }
     public double getRearRightSpeed()  { return wheelSpeeds[3]; }
+
+    @Override
+    public SensorType getSensorType() { return SensorType.WHEEL_SPEED; }
 }
