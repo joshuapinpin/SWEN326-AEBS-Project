@@ -10,11 +10,22 @@ import java.io.IOException;
 public class ScenarioLoader {
     private final ObjectMapper mapper;
     private File file;
-
-    public ScenarioLoader(){
+    private static final ScenarioLoader loader = new ScenarioLoader();
+    /**
+     * Private constructor to enforce Singleton pattern.
+     * Initializes the replay state with default values.
+     */
+    private ScenarioLoader(){
         mapper = new ObjectMapper();
     }
-
+    /**
+     * Returns the singleton instance of ScenarioLoader
+     *
+     * @return the single ScenarioLoader instance
+     */
+    public static ScenarioLoader of() {
+        return loader;
+    }
     /**
      * Prompts the user to select a JSON file to read.
      * Opens a file chooser dialog filtered for JSON files.
