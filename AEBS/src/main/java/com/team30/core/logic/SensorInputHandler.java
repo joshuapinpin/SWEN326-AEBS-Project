@@ -99,9 +99,8 @@ public class SensorInputHandler {
      */
     private ProcessedSensorData buildProcessedData() {
         Map<SensorType, Map<SensorId, SensorData>> snapshot = new HashMap<>();
-
         for (SensorType type : SensorType.values()) {
-            snapshot.put(type, new HashMap<>());
+            snapshot.put(type, new HashMap<>(buffer.get(type)));  // copies buffer contents
         }
         return new ProcessedSensorData(snapshot, System.currentTimeMillis());
     }
