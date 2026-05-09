@@ -52,8 +52,8 @@ public class SensorInputHandler {
      */
     public void update(SensorData data) {
         if (data == null) {return;}
-        buffer.get(data.sensorType()).put(data.sensorId(), data);
-        updatedSensorTypes.add(data.sensorType());
+        buffer.get(data.getSensorType()).put(data.getSensorId(), data);
+        updatedSensorTypes.add(data.getSensorType());
     }
 
     /**
