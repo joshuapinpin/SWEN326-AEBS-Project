@@ -6,7 +6,7 @@ import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.observers.SensorObserver;
 
-public class AEBSSoftwareSystem extends AEBSPipline implements SensorObserver {
+public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private SensorInputHandler sensorInputHandler;
     private RedundancyChecker redundancyChecker;
     private CollisionDetector collisionDetector;

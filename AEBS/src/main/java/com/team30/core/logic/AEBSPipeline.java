@@ -8,7 +8,7 @@ import com.team30.core.datalayer.data.ProcessedSensorData;
  *
  * Follows a template method pattern
  */
-public abstract class AEBSPipline {
+public abstract class AEBSPipeline {
     public final void runPipeline(){
         // Step 1: Get the latest snapshot
         ProcessedSensorData processedData = handleSensorInput();
