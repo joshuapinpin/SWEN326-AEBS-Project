@@ -24,8 +24,7 @@ public abstract class AEBSPipeline {
         BrakeDecision decision = brakingSystemController(assessment);
 
         // Step 5: Handle any faults detected during the pipeline execution
-        // Todo
-        faultHandler(decision);
+        faultHandler(decision, validatedData);
     }
 
     /**
@@ -65,5 +64,5 @@ public abstract class AEBSPipeline {
      * Signals to the driver
      * @param decision
      */
-    protected abstract void faultHandler(BrakeDecision decision);
+    protected abstract void faultHandler(BrakeDecision decision, ProcessedSensorData validatedData);
 }
