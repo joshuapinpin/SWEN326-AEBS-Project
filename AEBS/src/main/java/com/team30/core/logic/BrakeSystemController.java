@@ -69,12 +69,25 @@ public class BrakeSystemController {
         }
 
         // Subsequent ticks — verify deceleration since last command
-        double currentSpeed = averageWheelSpeed(carState.getWheelRPM());
+        double currentSpeed = carState.getCarSpeed();
         long elapsedMs = carState.getCurrentTimeMs() - brakeCommandTimeMs;
 
         if (elapsedMs > 0) {
             double elapsedSecs = elapsedMs / 1000.0;
             double actualDecel = (speedAtLastCommand - currentSpeed) / elapsedSecs;
+
+            // --- DEBUG ---
+            System.out.println("--- BrakeSystemController verify ---");
+            System.out.println("speedAtLastCommand: " + speedAtLastCommand);
+            System.out.println("currentSpeed:       " + currentSpeed);
+            System.out.println("elapsedMs:          " + elapsedMs);
+            System.out.println("actualDecel:        " + actualDecel);
+            System.out.println("targetDecel:        " + targetDecel);
+            System.out.println("lower bound:        " + (targetDecel * 0.95));
+            System.out.println("upper bound:        " + (targetDecel * 1.05));
+            System.out.println("withinTolerance:    " + isWithinTolerance(actualDecel, targetDecel));
+            // --- END DEBUG ---
+
 
             if (isWithinTolerance(actualDecel, targetDecel)) {
                 return new BrakeDecision(true, targetDecel, BrakeResult.SUCCESS, currentAttempts);
@@ -85,6 +98,7 @@ public class BrakeSystemController {
         if (currentAttempts <= MAX_RETRIES) {
             return commandBrake();
         }
+
 
         // All attempts exhausted
         return new BrakeDecision(true, targetDecel, BrakeResult.EXHAUSTED, currentAttempts);
@@ -97,12 +111,18 @@ public class BrakeSystemController {
     private BrakeDecision commandBrake() {
         currentAttempts++;
         brakeCommandTimeMs = carState.getCurrentTimeMs();
-        speedAtLastCommand = averageWheelSpeed(carState.getWheelRPM());
+        speedAtLastCommand = carState.getCarSpeed();
+
+        // --- DEBUG ---
+        System.out.println("--- BrakeSystemController command ---");
+        System.out.println("attempt:            " + currentAttempts);
+        System.out.println("speedAtCommand:     " + speedAtLastCommand);
+        System.out.println("brakeCommandTimeMs: " + brakeCommandTimeMs);
+        System.out.println("targetDecel:        " + targetDecel);
+        // --- END DEBUG ---
 
         carState.setDrivingMode(DrivingMode.BRAKING);
         carState.setDecelerationRate(targetDecel);
-
-        // Return FAILED for now — next tick will verify and potentially return SUCCESS
         return new BrakeDecision(true, targetDecel, BrakeResult.FAILED, currentAttempts);
     }
 
