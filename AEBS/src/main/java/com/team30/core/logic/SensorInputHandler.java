@@ -8,7 +8,7 @@ import com.team30.core.datalayer.observers.SensorObserver;
 
 import java.util.*;
 
-public class SensorInputHandler implements SensorObserver {
+public class SensorInputHandler{
 
     private final Map<SensorType, Map<SensorId, SensorData>> buffer;
     private final Set<SensorType> updatedSensorTypes;
@@ -26,7 +26,6 @@ public class SensorInputHandler implements SensorObserver {
      * Called by each sensor via the observer pattern whenever it fires.
      * Buffers the latest reading keyed by type and ID.
      */
-    @Override
     public void update(SensorData data) {
         if (data == null) return;
         buffer.get(data.getSensorType()).put(data.getSensorId(), data);
