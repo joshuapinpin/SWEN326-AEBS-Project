@@ -8,5 +8,8 @@ public enum WeatherCondition {
     CLEAR,
     RAIN,
     HEAVY_RAIN,
+    CLOUDY,
+    SNOW,
+    HEAVY_SNOW,
     FOG
 }
