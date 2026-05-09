@@ -10,7 +10,7 @@ import com.team30.simulation.state.CarState;
 public class BrakeSystemController {
 
     private static final int    MAX_RETRIES            = 2;
-    private static final double WHEEL_CIRCUMFERENCE    = 2.0;   // metres
+    public static final double WHEEL_CIRCUMFERENCE    = 2.0;   // metres
     private static final double WARN_DECELERATION      = 3.0;   // m/s²
     private static final double BRAKE_DECELERATION     = 8.0;   // m/s²
     private static final double DECEL_TOLERANCE        = 0.05;  // ±5%
