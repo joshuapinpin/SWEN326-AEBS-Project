@@ -14,9 +14,16 @@ public class BrakeSystemController {
     private final CarState carState;
     private int currentAttempts;
 
+    private int remainingBrakeFailures = 0;
+
+
     public BrakeSystemController(CarState carState) {
         this.carState = carState;
         this.currentAttempts = 0;
+    }
+
+    public void setBrakeFailures(int count) {
+        remainingBrakeFailures = count;
     }
 
     public BrakeDecision execute(CollisionAssessment assessment) {
@@ -27,6 +34,19 @@ public class BrakeSystemController {
         }
 
         if (carState.getDrivingMode() == DrivingMode.BRAKING) {
+
+            if (remainingBrakeFailures > 0) {
+                currentAttempts++;
+                remainingBrakeFailures--;
+                carState.setDecelerationRate(0.0);
+
+                if (currentAttempts >= 3) {
+                    return new BrakeDecision(true, 0.0, BrakeResult.EXHAUSTED, currentAttempts);
+                }
+
+                return new BrakeDecision(true, 0.0, BrakeResult.FAILED, currentAttempts);
+            }
+
             carState.setDecelerationRate(BRAKE_DECELERATION);
 
             if (carState.getCarSpeed() <= 0.1) {
@@ -55,6 +75,13 @@ public class BrakeSystemController {
     private BrakeDecision commandBrake() {
         currentAttempts++;
 
+        if (remainingBrakeFailures > 0) {
+            remainingBrakeFailures--;
+            carState.setDrivingMode(DrivingMode.BRAKING);
+            carState.setDecelerationRate(0.0);
+            return new BrakeDecision(true, 0.0, BrakeResult.FAILED, currentAttempts);
+        }
+
         carState.setDrivingMode(DrivingMode.BRAKING);
         carState.setDecelerationRate(BRAKE_DECELERATION);
 
@@ -64,6 +91,7 @@ public class BrakeSystemController {
     public int getCurrentAttempts() {
         return currentAttempts;
     }
+
 
     public long getBrakeCommandTimeMs() {
         return 0;

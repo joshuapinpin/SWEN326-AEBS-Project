@@ -4,6 +4,8 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
+import com.team30.core.datalayer.enums.BrakeResult;
+import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.ThreatLevel;
 import com.team30.core.datalayer.observers.SensorObserver;
 import com.team30.core.presentation.DriverInterface;
@@ -50,6 +52,8 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
 
 
+    private BrakeDecision latestBrakeDecision;
+
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
         CollisionAssessment assessment =
@@ -91,9 +95,19 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         return assessment;
     }
 
+    public BrakeDecision getLatestBrakeDecision() {
+        return latestBrakeDecision;
+    }
+
     @Override
     protected BrakeDecision brakingSystemController(CollisionAssessment assessment) {
-        return brakeSystemController.execute(assessment);
+        latestBrakeDecision = brakeSystemController.execute(assessment);
+
+        if (latestBrakeDecision.getResult() == BrakeResult.FAILED) {
+            driverInterface.showBrakingActivated();
+        }
+
+        return latestBrakeDecision;
     }
 
     @Override
@@ -103,5 +117,17 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
     public ThreatLevel getPreviousThreat() {
         return previousThreat;
+    }
+
+    public void setBrakeFailures(int count) {
+        brakeSystemController.setBrakeFailures(count);
+    }
+
+    public boolean hasCriticalFailure() {
+        return faultHandler.hasCriticalFailure();
+    }
+
+    public void showMaintenanceWarning(SensorType type) {
+        driverInterface.showMaintenanceWarning(type);
     }
 }
