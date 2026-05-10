@@ -1,54 +1,47 @@
 package com.team30.simulation.engine;
 
-import com.team30.core.datalayer.enums.MovementDirection;
-import com.team30.core.datalayer.enums.WeatherCondition;
+import com.team30.core.datalayer.enums.*;
 import com.team30.core.datalayer.observers.TimeObserver;
 import com.team30.core.datalayer.observers.TimeSubject;
 import com.team30.core.datalayer.sensors.Sensor;
+import com.team30.core.logic.AEBSSoftwareSystem;
 import com.team30.simulation.scenario.HazardEvent;
 import com.team30.simulation.scenario.Scenario;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.team30.core.logic.BrakeSystemController.WHEEL_CIRCUMFERENCE;
-
 public class SimulatorEngine implements TimeSubject {
-    private static final double LANE_WIDTH = 3.5; // in meters
-    private static final long TICK_DURATION_MS = 10; // 10 ms per tick = 100 ticks per second
-    private static final double TICK_DURATION_S = TICK_DURATION_MS / 1000.0;
-    private static final double MIN_SPEED_MS = 0.01; // minimum speed in m/s (full stop)
-    private static final double LOCKUP_DECEL_THRESHOLD = 7.85; // deceleration rate in m/s²
 
-    // Fields
-    private CarState carState;
-    private final Scenario scenario;
-    private final TimeSubject timeSubject;   // holds `this`
-    private final List<Sensor> allSensors;
+    private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
+
+    private static final double LANE_WIDTH             = 3.5;
+    private static final long   TICK_DURATION_MS       = 10;
+    private static final double TICK_DURATION_S        = TICK_DURATION_MS / 1000.0;
+    private static final double MIN_SPEED_MS           = 0.01;
+    private static final double WHEEL_CIRCUMFERENCE    = 2.0;
+    private static final double LOCKUP_DECEL_THRESHOLD = 7.85;
+
+    private final CarState           carState;
+    private final Scenario           scenario;
+    private final List<Sensor>       allSensors;
+    private final AEBSSoftwareSystem aebs;
+    private final List<TimeObserver> timeObservers = new ArrayList<>();
     private long currentTimeMs;
 
-    private final List<TimeObserver> timeObservers = new ArrayList<>();
-
-
-    /**
-     * Constructs a SimulatorEngine and seeds initial world objects from the
-     * scenario into the car state.
-     *
-     * @param carState   mutable vehicle and world state for this run
-     * @param scenario   duration, initial world objects, and scheduled hazards
-     * @param allSensors sensors whose {@link Sensor#onTick} fires each tick
-     */
-    public SimulatorEngine(CarState carState, Scenario scenario, List<Sensor> allSensors) {
+    public SimulatorEngine(CarState carState, Scenario scenario,
+                           List<Sensor> allSensors, AEBSSoftwareSystem aebs) {
         this.carState      = carState;
         this.scenario      = scenario;
         this.allSensors    = allSensors != null ? allSensors : new ArrayList<>();
+        this.aebs          = aebs;
         this.currentTimeMs = 0;
-        this.timeSubject   = this; // engine is its own TimeSubject
 
-        // Copy the scenario's initial objects into the live car state.
-        List<WorldObject> initial = null; // Todo: = scenario.getInitialObjects();
+        List<WorldObject> initial = scenario.getInitialObjects();
         if (initial != null && !initial.isEmpty()) {
             carState.setObjectsInWorld(new ArrayList<>(initial));
         }
@@ -58,54 +51,107 @@ public class SimulatorEngine implements TimeSubject {
     // Main loop
     // -----------------------------------------------------------------------
 
-    /**
-     * Runs the simulation synchronously until the scenario's duration elapses
-     * or the car comes to a full stop.
-     */
     public void run() {
-        System.out.printf(
-                "[SIM] '%s' starting: duration %d ms, tick %d ms%n",
-                scenario.getScenarioName(), scenario.getDurationMs(), TICK_DURATION_MS
-        );
+        System.out.printf("[SIM] '%s' starting — duration=%dms tick=%dms%n",
+                scenario.getScenarioName(), scenario.getDurationMs(), TICK_DURATION_MS);
 
-        while(currentTimeMs <= scenario.getDurationMs()){
+        while (currentTimeMs <= scenario.getDurationMs()) {
             carState.setCurrentTimeMs(currentTimeMs);
 
-            notifyObservers(); // notify time observers at the start of the tick
-            applyHazardEvents(); // apply any scheduled hazard events for this tick
-            updatePhysics(); // update the car's position and speed based on current state
-            fireSensors(); // call onTick for each sensor to update their readings
+            notifyObservers();   // notify time observers
+            applyHazardEvents(); // mutate CarState / spawn objects
+            fireSensors();       // sensors push into SensorInputHandler via observers
+            aebs.runPipeline();  // pull from buffer → assess → brake → fault
+            updatePhysics();     // update speed, positions, RPM
+            logTickSummary();
+            currentTimeMs += TICK_DURATION_MS;
 
-            currentTimeMs += TICK_DURATION_MS; // advance time by one tick
-
-            if (carState.getCarSpeed() < MIN_SPEED_MS) {
-                System.out.printf("[SIM] Car stopped at t=%d ms%n", currentTimeMs);
+            if (currentTimeMs > 0
+                    && scenario.getHazardEvents().stream().allMatch(HazardEvent::isTriggered)
+                    && carState.getObjectsInWorld().isEmpty()) {
                 break;
             }
         }
 
-        System.out.printf(
-                "[SIM] Simulation ended at t=%d ms  final speed=%.3f m/s%n",
-                currentTimeMs, carState.getCarSpeed()
-        );
+        //System.out.printf("[SIM] Ended at t=%dms — final speed=%.3f m/s%n",
+                //currentTimeMs, carState.getCarSpeed());
     }
 
+    // -----------------------------------------------------------------------
+    // Hazard events
+    // -----------------------------------------------------------------------
 
-    private void applyHazardEvents(){
+    private void applyHazardEvents() {
         List<HazardEvent> hazards = scenario.getHazardEvents();
-        if (hazards != null) return;
+        if (hazards == null) return;
 
-        for(HazardEvent event : hazards){
-            if (!event.isTriggered() && event.getTriggerTime() <= currentTimeMs){
-                //Todo: event.apply(carState);
+        for (HazardEvent event : hazards) {
+            if (!event.isTriggered() && event.getTriggerTime() <= currentTimeMs) {
+                applyHazard(event);
                 event.setTriggered(true);
-                System.out.printf("[SIM] Applied hazard '%s' at t=%d ms%n",
-                        event.getType(), currentTimeMs);
+//                System.out.printf("[SIM] t=%5dms  hazard '%s' triggered%n",
+//                        currentTimeMs, event.getType());
             }
         }
     }
 
-    private void updatePhysics(){
+    private void applyHazard(HazardEvent event) {
+        switch (event.getType()) {
+            case OBJECT_ENTERS_ROAD -> {
+                WorldObject obj = new WorldObject(
+                        event.getWorldPosition(),
+                        event.getObjectSpeed(),
+                        0.0,
+                        event.getObjectType(),
+                        event.getMovementDirection(),
+                        event.isInCurrentLane()
+                );
+                carState.getObjectsInWorld().add(obj);
+//                System.out.printf("[SIM] t=%5dms  %s spawned at %.1fm%n",
+//                        currentTimeMs, event.getObjectType(), event.getWorldPosition());
+            }
+            case SENSOR_FAILURE -> {
+                applySensorFailure(event.getSensorType(), event.getSensorId());
+//                System.out.printf("[SIM] t=%5dms  %s %s failed%n",
+//                        currentTimeMs, event.getSensorId(), event.getSensorType());
+            }
+            case WEATHER_CHANGE -> {
+                carState.setWeather(event.getNewWeather());
+//                System.out.printf("[SIM] t=%5dms  weather → %s%n",
+//                        currentTimeMs, event.getNewWeather());
+            }
+            case LIGHT_CHANGE -> {
+                carState.setLight(event.getNewLight());
+//                System.out.printf("[SIM] t=%5dms  light → %s%n",
+//                        currentTimeMs, event.getNewLight());
+            }
+        }
+    }
+
+    private void applySensorFailure(SensorType type, SensorId id) {
+        boolean isPrimary = id == SensorId.PRIMARY;
+        switch (type) {
+            case RADAR       -> { if (isPrimary) carState.setPrimaryRadarFailed(true);
+            else           carState.setRedundantRadarFailed(true); }
+            case LIDAR       -> { if (isPrimary) carState.setPrimaryLidarFailed(true);
+            else           carState.setRedundantLidarFailed(true); }
+            case CAMERA      -> { if (isPrimary) carState.setPrimaryCameraFailed(true);
+            else           carState.setRedundantCameraFailed(true); }
+            case WHEEL_SPEED -> { if (isPrimary) carState.setPrimaryWheelFailed(true);
+            else           carState.setRedundantWheelFailed(true); }
+        }
+        for (Sensor sensor : allSensors) {
+            if (sensor.getSensorId() == id && sensor.getSensorType() == type) {
+                sensor.setWorking(false);
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Physics
+    // -----------------------------------------------------------------------
+
+    private void updatePhysics() {
         double speed        = carState.getCarSpeed();
         double decelApplied = 0.0;
 
@@ -115,14 +161,21 @@ public class SimulatorEngine implements TimeSubject {
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
             }
             case BRAKING -> {
-                double rate = getDecelerationRate(carState.getWeather());
+                double rate  = getDecelerationRate(carState.getWeather());
                 decelApplied = rate;
-                carState.setDecelerationRate(rate); // keep CarState consistent
+                carState.setDecelerationRate(rate);
                 speed = Math.max(speed - rate * TICK_DURATION_S, 0.0);
             }
             case RESUMING -> {
+                carState.setDecelerationRate(0.0);
                 double delta = (carState.getAccelerationRate() / 2.0) * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
+            }
+            case FAIL_SAFE -> {
+                double rate  = getDecelerationRate(carState.getWeather());
+                decelApplied = rate;
+                carState.setDecelerationRate(rate);
+                speed = Math.max(speed - rate * TICK_DURATION_S, 0.0);
             }
         }
 
@@ -139,34 +192,26 @@ public class SimulatorEngine implements TimeSubject {
         List<WorldObject> toRemove = new ArrayList<>();
 
         for (WorldObject obj : objects) {
-
             if (obj.getDirection() == MovementDirection.CROSSING) {
-                // --- Lateral (crossing) movement ---
-                double newLateral = obj.getLateralPosition() + obj.getSpeed() * TICK_DURATION_S;
+                double newLateral = obj.getLateralPosition()
+                        + obj.getSpeed() * TICK_DURATION_S;
                 obj.setLateralPosition(newLateral);
 
-                // Object enters the ego lane.
                 if (!obj.isInCurrentLane() && newLateral >= LANE_WIDTH / 2.0) {
                     obj.setInCurrentLane(true);
-                    System.out.printf(
-                            "[SIM] t=%5d ms  CROSSING %s entered ego lane (lateral=%.2f m)%n",
-                            currentTimeMs, obj.getType(), newLateral);
+//                    System.out.printf("[SIM] t=%5dms  %s entered lane (lateral=%.2fm)%n",
+//                            currentTimeMs, obj.getType(), newLateral);
                 }
-
-                // Object exits the ego lane after fully crossing.
                 if (obj.isInCurrentLane() && newLateral > LANE_WIDTH) {
                     obj.setInCurrentLane(false);
-                    System.out.printf(
-                            "[SIM] t=%5d ms  CROSSING %s exited ego lane (lateral=%.2f m)%n",
-                            currentTimeMs, obj.getType(), newLateral);
+//                    System.out.printf("[SIM] t=%5dms  %s exited lane (lateral=%.2fm)%n",
+//                            currentTimeMs, obj.getType(), newLateral);
                 }
-
             } else {
-                // --- Longitudinal (ahead/behind) movement ---
                 double relativeSpeed = switch (obj.getDirection()) {
                     case SAME_DIRECTION -> carSpeed - obj.getSpeed();
                     case STATIONARY     -> carSpeed;
-                    default             -> carSpeed; // unreachable; CROSSING handled above
+                    default             -> carSpeed;
                 };
 
                 double newPosition = obj.getPosition() - relativeSpeed * TICK_DURATION_S;
@@ -174,32 +219,25 @@ public class SimulatorEngine implements TimeSubject {
 
                 if (newPosition <= 0.0) {
                     toRemove.add(obj);
-                    System.out.printf(
-                            "[SIM] t=%5d ms  %s reached car position — removing%n",
-                            currentTimeMs, obj.getType());
+//                    System.out.printf("[SIM] t=%5dms  %s reached car — removing%n",
+//                            currentTimeMs, obj.getType());
                 }
             }
         }
-
         objects.removeAll(toRemove);
     }
 
     private void updateWheelRPM(double decelApplied) {
         double speed     = carState.getCarSpeed();
         double normalRPM = (speed * 60.0) / WHEEL_CIRCUMFERENCE;
-
         boolean rearLockup = decelApplied >= LOCKUP_DECEL_THRESHOLD;
 
-        if (rearLockup) {
-            System.out.printf("[SIM] t=%5d ms  rear-wheel lockup (decel=%.2f m/s²)%n",
-                    currentTimeMs, decelApplied);
-        }
 
         carState.setWheelRPM(new double[]{
-                normalRPM,                   // front-left
-                normalRPM,                   // front-right
-                rearLockup ? 0.0 : normalRPM, // rear-left
-                rearLockup ? 0.0 : normalRPM  // rear-right
+                normalRPM,
+                normalRPM,
+                rearLockup ? 0.0 : normalRPM,
+                rearLockup ? 0.0 : normalRPM
         });
     }
 
@@ -219,16 +257,16 @@ public class SimulatorEngine implements TimeSubject {
     // Sensor firing
     // -----------------------------------------------------------------------
 
-    private void fireSensors(){
+    private void fireSensors() {
         for (Sensor sensor : allSensors) {
             sensor.onTick(currentTimeMs, carState);
         }
     }
 
-    /**
-     * Registers a {@link TimeObserver} to be notified at the start of each
-     * tick. Duplicate registrations are ignored.
-     */
+    // -----------------------------------------------------------------------
+    // TimeSubject
+    // -----------------------------------------------------------------------
+
     @Override
     public void addObserver(TimeObserver observer) {
         if (observer != null && !timeObservers.contains(observer)) {
@@ -236,16 +274,11 @@ public class SimulatorEngine implements TimeSubject {
         }
     }
 
-    /** Removes a previously registered {@link TimeObserver}. */
     @Override
     public void removeObserver(TimeObserver observer) {
         timeObservers.remove(observer);
     }
 
-    /**
-     * Notifies all registered {@link TimeObserver}s with the current
-     * simulated time. Called at the start of every tick.
-     */
     @Override
     public void notifyObservers() {
         for (TimeObserver observer : timeObservers) {
@@ -257,16 +290,31 @@ public class SimulatorEngine implements TimeSubject {
     // Accessors
     // -----------------------------------------------------------------------
 
-    /** Returns the current simulated time in milliseconds. */
     public long getCurrentTimeMs()      { return currentTimeMs; }
-
-    /** Returns the mutable car state. */
     public CarState getCarState()       { return carState; }
-
-    /** Returns the scenario being simulated. */
     public Scenario getScenario()       { return scenario; }
-
-    /** Returns all sensors registered with this engine. */
     public List<Sensor> getAllSensors() { return allSensors; }
+
+    private void logTickSummary() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("t=%5dms | speed=%5.2fm/s | mode=%-10s | threat=%-10s",
+                currentTimeMs,
+                carState.getCarSpeed(),
+                carState.getDrivingMode(),
+                aebs.getPreviousThreat()
+        ));
+
+        List<WorldObject> objects = carState.getObjectsInWorld();
+        if (objects != null && !objects.isEmpty()) {
+            for (WorldObject obj : objects) {
+                if (obj.isInCurrentLane()) {
+                    sb.append(String.format(" | %s dist=%5.1fm",
+                            obj.getType(), obj.getPosition()));
+                }
+            }
+        }
+
+        logger.info(sb.toString());
+    }
 
 }

@@ -1,40 +1,39 @@
 package com.team30.simulation.scenario;
-import com.team30.core.datalayer.enums.HazardType;
-import com.team30.core.datalayer.enums.ObjectType;
-import com.team30.core.datalayer.enums.MovementDirection;
-import com.team30.core.datalayer.enums.SensorType;
-import com.team30.core.datalayer.enums.SensorId;
-import com.team30.core.datalayer.enums.WeatherCondition;
-import com.team30.core.datalayer.enums.LightCondition;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.team30.core.datalayer.enums.*;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class HazardEvent {
-    long triggerTime;
-    HazardType type;
-    double worldPosition;
-    double objectSpeed;
-    ObjectType objectType;
-    MovementDirection movementDirection;
-    boolean inCurrentLane;
-    SensorType sensorType;
-    SensorId sensorId;
-    boolean working;
-    WeatherCondition newWeather;
-    LightCondition newLight;
-    boolean triggered;
+    public long triggerTime;
+    public HazardType type;
+    public double worldPosition;
+    public double objectSpeed;
+    public ObjectType objectType;
+    public MovementDirection movementDirection;
+    public boolean inCurrentLane;
+    public SensorType sensorType;
+    public SensorId sensorId;
+    public boolean working;
+    public WeatherCondition newWeather;
+    public LightCondition newLight;
+    public boolean triggered;
 
-    public long getTriggerTime() {
-        return triggerTime;
-    }
+    // Default constructor required by Jackson
+    public HazardEvent() {}
 
-    public boolean isTriggered() {
-        return triggered;
-    }
-
-    public void setTriggered(boolean triggered) {
-        this.triggered = triggered;
-    }
-
-    public HazardType getType() {
-        return type;
-    }
+    public long getTriggerTime()                    { return triggerTime; }
+    public HazardType getType()                     { return type; }
+    public double getWorldPosition()                { return worldPosition; }
+    public double getObjectSpeed()                  { return objectSpeed; }
+    public ObjectType getObjectType()               { return objectType; }
+    public MovementDirection getMovementDirection() { return movementDirection; }
+    public boolean isInCurrentLane()                { return inCurrentLane; }
+    public SensorType getSensorType()               { return sensorType; }
+    public SensorId getSensorId()                   { return sensorId; }
+    public boolean isWorking()                      { return working; }
+    public WeatherCondition getNewWeather()         { return newWeather; }
+    public LightCondition getNewLight()             { return newLight; }
+    public boolean isTriggered()                    { return triggered; }
+    public void setTriggered(boolean v)             { this.triggered = v; }
 }

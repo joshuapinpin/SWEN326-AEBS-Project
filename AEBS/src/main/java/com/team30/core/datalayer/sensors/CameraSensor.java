@@ -2,10 +2,7 @@ package com.team30.core.datalayer.sensors;
 
 import com.team30.core.datalayer.data.CameraData;
 import com.team30.core.datalayer.data.SensorData;
-import com.team30.core.datalayer.enums.LightCondition;
-import com.team30.core.datalayer.enums.ObjectType;
-import com.team30.core.datalayer.enums.SensorId;
-import com.team30.core.datalayer.enums.WeatherCondition;
+import com.team30.core.datalayer.enums.*;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
 
@@ -13,6 +10,7 @@ public class CameraSensor extends Sensor {
 
     private static final int    FIRE_EVERY           = 5;
     private static final double CONFIDENCE_THRESHOLD = 0.5;
+    private static final double MAX_RANGE = 200.0;
 
     public CameraSensor(SensorId sensorId, CarState carState) {
         super(sensorId, carState, FIRE_EVERY);
@@ -42,6 +40,11 @@ public class CameraSensor extends Sensor {
         return new CameraData(sensorId, carState.getCurrentTimeMs());
     }
 
+    @Override
+    public SensorType getSensorType() {
+        return SensorType.CAMERA;
+    }
+
     private double calculateConfidence(WeatherCondition w, LightCondition l) {
         double weatherFactor = switch (w) {
             case CLEAR      -> 1.0;
@@ -60,5 +63,10 @@ public class CameraSensor extends Sensor {
         };
 
         return Math.min(1.0, weatherFactor * lightFactor);
+    }
+
+    @Override
+    protected double getMaxRange() {
+        return MAX_RANGE;
     }
 }

@@ -32,22 +32,26 @@ public class ScenarioLoader {
      *
      * @return the selected File object, or null if the user cancels
      */
-    public File getFile(){
+    public File getFile() {
         file = null;
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Open JSON File");
+
+        // Open directly to the scenarios folder in the repo
+        File scenariosDir = new File("AEBS/src/main/resources/scenarios");
+        if (scenariosDir.exists()) {
+            fileChooser.setCurrentDirectory(scenariosDir);
+        }
+
+        fileChooser.setDialogTitle("Select Scenario");
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("JSON files", "json"));
-        // specifically for opening file
+
         int userChoice = fileChooser.showOpenDialog(null);
         if (userChoice == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
-        }
-        else {
-            // user canceled or closed dialog
+        } else {
             JOptionPane.showMessageDialog(null, "File selection canceled.", "Warning", JOptionPane.WARNING_MESSAGE);
             return null;
         }
-        // may return null
         return file;
     }
 

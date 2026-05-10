@@ -1,0 +1,19 @@
+{
+  "scenarioName": "Pedestrian Emergency Stop",
+  "initialCarSpeed": 16.67,
+  "durationMs": 30000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 2000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 30.0,
+      "objectSpeed": 0.0,
+      "objectType": "PEDESTRIAN",
+      "movementDirection": "STATIONARY",
+      "inCurrentLane": true
+    }
+  ],
+  "initialObjects": []
+}

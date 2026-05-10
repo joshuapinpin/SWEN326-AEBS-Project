@@ -4,7 +4,9 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
+import com.team30.core.datalayer.enums.ThreatLevel;
 import com.team30.core.datalayer.observers.SensorObserver;
+import com.team30.core.presentation.DriverInterface;
 
 public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private SensorInputHandler sensorInputHandler;
@@ -12,17 +14,22 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private CollisionDetector collisionDetector;
     private BrakeSystemController brakeSystemController;
     private FaultHandler faultHandler;
+    private DriverInterface driverInterface;
+
+    private ThreatLevel previousThreat = ThreatLevel.NONE;
 
     public AEBSSoftwareSystem(SensorInputHandler sensorInputHandler,
                               RedundancyChecker redundancyChecker,
                               CollisionDetector collisionDetector,
                               BrakeSystemController brakeSystemController,
-                              FaultHandler faultHandler) {
+                              FaultHandler faultHandler,
+                              DriverInterface driverInterface) {
         this.sensorInputHandler = sensorInputHandler;
         this.redundancyChecker = redundancyChecker;
         this.collisionDetector = collisionDetector;
         this.brakeSystemController = brakeSystemController;
         this.faultHandler = faultHandler;
+        this.driverInterface = driverInterface;
     }
 
 
@@ -41,9 +48,47 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         return redundancyChecker.validate(data);
     }
 
+
+
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
-        return collisionDetector.assess(data);
+        CollisionAssessment assessment =
+                collisionDetector.assess(data);
+        if (assessment == null) {
+            return null;
+        }
+        ThreatLevel current = assessment.getThreatLevel();
+
+// Keep BRAKE latched while braking
+        if (previousThreat == ThreatLevel.BRAKE
+                && current != ThreatLevel.BRAKE) {
+            current = ThreatLevel.BRAKE;
+        }
+
+// Only react when threat level changes
+        if (current != previousThreat) {
+
+            switch (current) {
+                case WARNING -> {
+                    driverInterface.emitAuditoryAlert();
+                    driverInterface.showVisualAlert();
+                }
+
+                case BRAKE -> {
+                    if (previousThreat == ThreatLevel.NONE) {
+                        driverInterface.emitAuditoryAlert();
+                        driverInterface.showVisualAlert();
+                    }
+                    driverInterface.showBrakingActivated();
+                }
+
+                case NONE -> {
+                }
+            }
+
+            previousThreat = current;
+        }
+        return assessment;
     }
 
     @Override
@@ -54,5 +99,9 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     @Override
     protected void faultHandler(BrakeDecision decision, ProcessedSensorData validatedData) {
         faultHandler.handle(decision, validatedData);
+    }
+
+    public ThreatLevel getPreviousThreat() {
+        return previousThreat;
     }
 }

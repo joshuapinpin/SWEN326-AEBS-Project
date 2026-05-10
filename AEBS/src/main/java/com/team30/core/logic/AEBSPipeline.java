@@ -19,6 +19,7 @@ public abstract class AEBSPipeline {
 
         // Step 3: Perform collision detection using the validated sensor data
         CollisionAssessment assessment = collisionDetection(validatedData);
+        if (assessment == null) return;
 
         // Step 4: Control the braking system based on the collision assessment
         BrakeDecision decision = brakingSystemController(assessment);
