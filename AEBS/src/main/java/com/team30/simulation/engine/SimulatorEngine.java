@@ -32,14 +32,16 @@ public class SimulatorEngine implements TimeSubject {
     private final AEBSSoftwareSystem aebs;
     private final List<TimeObserver> timeObservers = new ArrayList<>();
     private long currentTimeMs;
+    private boolean deactivated;
 
     public SimulatorEngine(CarState carState, Scenario scenario,
-                           List<Sensor> allSensors, AEBSSoftwareSystem aebs) {
+                           List<Sensor> allSensors, AEBSSoftwareSystem aebs, boolean deactivated) {
         this.carState      = carState;
         this.scenario      = scenario;
         this.allSensors    = allSensors != null ? allSensors : new ArrayList<>();
         this.aebs          = aebs;
         this.currentTimeMs = 0;
+        this.deactivated = deactivated;
 
         List<WorldObject> initial = scenario.getInitialObjects();
         if (initial != null && !initial.isEmpty()) {
@@ -61,7 +63,9 @@ public class SimulatorEngine implements TimeSubject {
             notifyObservers();   // notify time observers
             applyHazardEvents(); // mutate CarState / spawn objects
             fireSensors();       // sensors push into SensorInputHandler via observers
-            aebs.runPipeline();  // pull from buffer → assess → brake → fault
+            if(isDeactivated()){
+                aebs.runPipeline();  // pull from buffer → assess → brake → fault
+            }
             updatePhysics();     // update speed, positions, RPM
             logTickSummary();
             currentTimeMs += TICK_DURATION_MS;
@@ -75,6 +79,15 @@ public class SimulatorEngine implements TimeSubject {
 
         //System.out.printf("[SIM] Ended at t=%dms — final speed=%.3f m/s%n",
                 //currentTimeMs, carState.getCarSpeed());
+    }
+
+    /**
+     * If the scenario is marked as deactivated, the AEBS will not run its pipeline
+     * and thus will not react to any hazards. This allows testing of the physics and
+     * hazard event system in isolation, or simulating a failure mode where the AEBS is offline.
+     */
+    private boolean isDeactivated() {
+        return deactivated;
     }
 
     // -----------------------------------------------------------------------
