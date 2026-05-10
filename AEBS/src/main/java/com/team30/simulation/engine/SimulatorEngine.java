@@ -297,10 +297,12 @@ public class SimulatorEngine implements TimeSubject {
 
     private void logTickSummary() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("t=%5dms | speed=%5.2fm/s | mode=%-10s",
+        sb.append(String.format("t=%5dms | speed=%5.2fm/s | mode=%-10s | threat=%-10s",
                 currentTimeMs,
                 carState.getCarSpeed(),
-                carState.getDrivingMode()));
+                carState.getDrivingMode(),
+                aebs.getPreviousThreat()
+        ));
 
         List<WorldObject> objects = carState.getObjectsInWorld();
         if (objects != null && !objects.isEmpty()) {

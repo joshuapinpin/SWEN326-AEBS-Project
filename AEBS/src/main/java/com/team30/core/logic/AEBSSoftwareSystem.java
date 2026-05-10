@@ -95,4 +95,8 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     protected void faultHandler(BrakeDecision decision, ProcessedSensorData validatedData) {
         faultHandler.handle(decision, validatedData);
     }
+
+    public ThreatLevel getPreviousThreat() {
+        return previousThreat;
+    }
 }

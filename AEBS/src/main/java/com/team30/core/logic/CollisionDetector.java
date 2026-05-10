@@ -125,10 +125,10 @@ public class CollisionDetector {
 
         // Determine threat level from per-type thresholds
         ThreatLevel threat;
-        if (ttc <= brakeThresholds.get(objectType)) {
-            threat = ThreatLevel.BRAKE;
-        } else if (ttc <= warnThresholds.get(objectType)) {
+        if (ttc <= warnThresholds.get(objectType)) {
             threat = ThreatLevel.WARNING;
+        } else if (ttc <= brakeThresholds.get(objectType)) {
+            threat = ThreatLevel.BRAKE;
         } else {
             threat = ThreatLevel.NONE;
         }
