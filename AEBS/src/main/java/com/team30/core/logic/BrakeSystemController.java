@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class BrakeSystemController {
-    private static final Logger logger = LogManager.getLogger(BrakeSystemController.class);
+    //private static final Logger logger = LogManager.getLogger(BrakeSystemController.class);
     private static final int    MAX_RETRIES         = 2;
     public static final double WHEEL_CIRCUMFERENCE = 2.0;  // metres
     private static final double WARN_DECELERATION   = 3.0;  // m/s²
@@ -78,7 +78,7 @@ public class BrakeSystemController {
         if (elapsedMs > 0) {
             double elapsedSecs = elapsedMs / 1000.0;
             double actualDecel = (speedAtLastCommand - currentSpeed) / elapsedSecs;
-
+            /*
             logger.debug("--- verify ---");
             logger.debug("speedAtLastCommand: {}", speedAtLastCommand);
             logger.debug("currentSpeed:       {}", currentSpeed);
@@ -87,11 +87,11 @@ public class BrakeSystemController {
             logger.debug("targetDecel:        {}", targetDecel);
             logger.debug("lower bound:        {}", targetDecel * 0.95);
             logger.debug("upper bound:        {}", targetDecel * 1.05);
-            logger.debug("withinTolerance:    {}", isWithinTolerance(actualDecel, targetDecel));
+            logger.debug("withinTolerance:    {}", isWithinTolerance(actualDecel, targetDecel));*/
 
 
             if (isWithinTolerance(actualDecel, targetDecel)) {
-                logger.info("Braking verified SUCCESS on attempt {}", currentAttempts);
+                //logger.info("Braking verified SUCCESS on attempt {}", currentAttempts);
                 return new BrakeDecision(true, targetDecel, BrakeResult.SUCCESS, currentAttempts);
             }
         }
@@ -103,7 +103,7 @@ public class BrakeSystemController {
 
 
         // All attempts exhausted
-        logger.error("Braking EXHAUSTED after {} attempts — escalating to driver", currentAttempts);
+        //logger.error("Braking EXHAUSTED after {} attempts — escalating to driver", currentAttempts);
         return new BrakeDecision(true, targetDecel, BrakeResult.EXHAUSTED, currentAttempts);
     }
 
@@ -116,9 +116,9 @@ public class BrakeSystemController {
         brakeCommandTimeMs = carState.getCurrentTimeMs();
         speedAtLastCommand = carState.getCarSpeed();
 
-        logger.info("Braking command issued — attempt {} at {}ms", currentAttempts, brakeCommandTimeMs);
+        /*logger.info("Braking command issued — attempt {} at {}ms", currentAttempts, brakeCommandTimeMs);
         logger.debug("speedAtCommand: {}", speedAtLastCommand);
-        logger.debug("targetDecel:    {}", targetDecel);
+        logger.debug("targetDecel:    {}", targetDecel);*/
 
         carState.setDrivingMode(DrivingMode.BRAKING);
         carState.setDecelerationRate(targetDecel);

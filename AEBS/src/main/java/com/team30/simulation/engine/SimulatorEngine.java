@@ -9,11 +9,15 @@ import com.team30.simulation.scenario.HazardEvent;
 import com.team30.simulation.scenario.Scenario;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimulatorEngine implements TimeSubject {
+
+    private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
 
     private static final double LANE_WIDTH             = 3.5;
     private static final long   TICK_DURATION_MS       = 10;
@@ -59,7 +63,7 @@ public class SimulatorEngine implements TimeSubject {
             fireSensors();       // sensors push into SensorInputHandler via observers
             aebs.runPipeline();  // pull from buffer → assess → brake → fault
             updatePhysics();     // update speed, positions, RPM
-
+            logTickSummary();
             currentTimeMs += TICK_DURATION_MS;
 
             if (carState.getCarSpeed() < MIN_SPEED_MS
@@ -294,4 +298,25 @@ public class SimulatorEngine implements TimeSubject {
     public CarState getCarState()       { return carState; }
     public Scenario getScenario()       { return scenario; }
     public List<Sensor> getAllSensors() { return allSensors; }
+
+    private void logTickSummary() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("t=%5dms | speed=%5.2fm/s | mode=%-10s",
+                currentTimeMs,
+                carState.getCarSpeed(),
+                carState.getDrivingMode()));
+
+        List<WorldObject> objects = carState.getObjectsInWorld();
+        if (objects != null && !objects.isEmpty()) {
+            for (WorldObject obj : objects) {
+                if (obj.isInCurrentLane()) {
+                    sb.append(String.format(" | %s dist=%5.1fm",
+                            obj.getType(), obj.getPosition()));
+                }
+            }
+        }
+
+        logger.info(sb.toString());
+    }
+
 }
