@@ -3,6 +3,7 @@ package com.team30.core.datalayer.sensors;
 import com.team30.core.datalayer.data.RadarData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
@@ -43,6 +44,11 @@ public class RadarSensor extends Sensor {
 
     @Override
     protected double getMaxRange() { return MAX_RANGE; }
+
+    @Override
+    public SensorType getSensorType() {
+        return SensorType.RADAR;
+    }
 
     private double getPositionNoise(WeatherCondition w) {
         double noiseRange = switch (w) {

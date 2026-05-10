@@ -5,6 +5,7 @@ import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.observers.SensorObserver;
+import com.team30.core.presentation.DriverInterface;
 
 public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private SensorInputHandler sensorInputHandler;
@@ -12,17 +13,20 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private CollisionDetector collisionDetector;
     private BrakeSystemController brakeSystemController;
     private FaultHandler faultHandler;
+    private DriverInterface driverInterface;
 
     public AEBSSoftwareSystem(SensorInputHandler sensorInputHandler,
                               RedundancyChecker redundancyChecker,
                               CollisionDetector collisionDetector,
                               BrakeSystemController brakeSystemController,
-                              FaultHandler faultHandler) {
+                              FaultHandler faultHandler,
+                              DriverInterface driverInterface) {
         this.sensorInputHandler = sensorInputHandler;
         this.redundancyChecker = redundancyChecker;
         this.collisionDetector = collisionDetector;
         this.brakeSystemController = brakeSystemController;
         this.faultHandler = faultHandler;
+        this.driverInterface = driverInterface;
     }
 
 
@@ -43,7 +47,25 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
-        return collisionDetector.assess(data);
+        CollisionAssessment assessment = collisionDetector.assess(data);
+
+        if (assessment == null) return null;
+
+        // Alert driver based on threat level
+        switch (assessment.getThreatLevel()) {
+            case WARNING -> {
+                driverInterface.emitAuditoryAlert();
+                driverInterface.showVisualAlert();
+            }
+            case BRAKE -> {
+                driverInterface.showBrakingActivated();
+            }
+            case NONE -> {
+                // no alert needed
+            }
+        }
+
+        return assessment;
     }
 
     @Override

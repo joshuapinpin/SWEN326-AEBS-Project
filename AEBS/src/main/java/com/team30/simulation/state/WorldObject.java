@@ -21,6 +21,8 @@ public class WorldObject {
         this.inCurrentLane = inCurrentLane;
     }
 
+    public WorldObject() {}
+
     public double getPosition()        { return position; }
     public double getSpeed()           { return speed; }
     public double getLateralPosition() { return lateralPosition; }

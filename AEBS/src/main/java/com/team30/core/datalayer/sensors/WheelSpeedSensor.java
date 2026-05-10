@@ -3,6 +3,7 @@ package com.team30.core.datalayer.sensors;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.data.WheelSpeedData;
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 import com.team30.simulation.state.CarState;
 
 import java.util.Random;
@@ -37,5 +38,10 @@ public class WheelSpeedSensor extends Sensor {
     @Override
     public SensorData generateGarbageReading() {
         return new WheelSpeedData(sensorId, carState.getCurrentTimeMs());
+    }
+
+    @Override
+    public SensorType getSensorType() {
+        return SensorType.WHEEL_SPEED;
     }
 }

@@ -2,6 +2,7 @@ package com.team30.core.datalayer.sensors;
 
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.SensorId;
+import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.core.datalayer.observers.SensorObserver;
 import com.team30.simulation.state.CarState;
@@ -117,4 +118,5 @@ public abstract class Sensor {
     public void setWorking(boolean v)              { this.working = v; }
     public int getTickCount()                      { return tickCount; }
     public int getFireEvery()                      { return fireEvery; }
+    public abstract SensorType getSensorType();
 }
