@@ -1,2 +1,0 @@
-2026-05-10 14:37:02.702 [ERROR] [BrakeSystemController] Braking EXHAUSTED after 3 attempts — escalating to driver
-2026-05-10 14:37:02.702 [ERROR] [DriverInterface] Escalation alert triggered — braking failed

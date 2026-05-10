@@ -66,9 +66,9 @@ public class SimulatorEngine implements TimeSubject {
             logTickSummary();
             currentTimeMs += TICK_DURATION_MS;
 
-            if (carState.getCarSpeed() < MIN_SPEED_MS
-                    && carState.getDrivingMode() == DrivingMode.BRAKING) {
-                //System.out.printf("[SIM] Car stopped at t=%dms%n", currentTimeMs);
+            if (currentTimeMs > 0
+                    && scenario.getHazardEvents().stream().allMatch(HazardEvent::isTriggered)
+                    && carState.getObjectsInWorld().isEmpty()) {
                 break;
             }
         }

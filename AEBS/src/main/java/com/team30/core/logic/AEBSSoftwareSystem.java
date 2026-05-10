@@ -57,9 +57,15 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         if (assessment == null) {
             return null;
         }
-        ThreatLevel current =
-                assessment.getThreatLevel();
-        // Only react when threat level changes
+        ThreatLevel current = assessment.getThreatLevel();
+
+// Keep BRAKE latched while braking
+        if (previousThreat == ThreatLevel.BRAKE
+                && current != ThreatLevel.BRAKE) {
+            current = ThreatLevel.BRAKE;
+        }
+
+// Only react when threat level changes
         if (current != previousThreat) {
 
             switch (current) {
@@ -69,18 +75,17 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
                 }
 
                 case BRAKE -> {
-                    // Optional:
-                    // still warn before braking
                     if (previousThreat == ThreatLevel.NONE) {
                         driverInterface.emitAuditoryAlert();
                         driverInterface.showVisualAlert();
                     }
                     driverInterface.showBrakingActivated();
                 }
+
                 case NONE -> {
-                    // threat cleared
                 }
             }
+
             previousThreat = current;
         }
         return assessment;
