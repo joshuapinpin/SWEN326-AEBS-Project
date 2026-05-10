@@ -4,6 +4,7 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
+import com.team30.core.datalayer.enums.ThreatLevel;
 import com.team30.core.datalayer.observers.SensorObserver;
 import com.team30.core.presentation.DriverInterface;
 
@@ -14,6 +15,8 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     private BrakeSystemController brakeSystemController;
     private FaultHandler faultHandler;
     private DriverInterface driverInterface;
+
+    private ThreatLevel previousThreat = ThreatLevel.NONE;
 
     public AEBSSoftwareSystem(SensorInputHandler sensorInputHandler,
                               RedundancyChecker redundancyChecker,
@@ -45,26 +48,41 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         return redundancyChecker.validate(data);
     }
 
+
+
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
-        CollisionAssessment assessment = collisionDetector.assess(data);
-
-        if (assessment == null) return null;
-
-        // Alert driver based on threat level
-        switch (assessment.getThreatLevel()) {
-            case WARNING -> {
-                driverInterface.emitAuditoryAlert();
-                driverInterface.showVisualAlert();
-            }
-            case BRAKE -> {
-                driverInterface.showBrakingActivated();
-            }
-            case NONE -> {
-                // no alert needed
-            }
+        CollisionAssessment assessment =
+                collisionDetector.assess(data);
+        if (assessment == null) {
+            return null;
         }
+        ThreatLevel current =
+                assessment.getThreatLevel();
+        // Only react when threat level changes
+        if (current != previousThreat) {
 
+            switch (current) {
+                case WARNING -> {
+                    driverInterface.emitAuditoryAlert();
+                    driverInterface.showVisualAlert();
+                }
+
+                case BRAKE -> {
+                    // Optional:
+                    // still warn before braking
+                    if (previousThreat == ThreatLevel.NONE) {
+                        driverInterface.emitAuditoryAlert();
+                        driverInterface.showVisualAlert();
+                    }
+                    driverInterface.showBrakingActivated();
+                }
+                case NONE -> {
+                    // threat cleared
+                }
+            }
+            previousThreat = current;
+        }
         return assessment;
     }
 

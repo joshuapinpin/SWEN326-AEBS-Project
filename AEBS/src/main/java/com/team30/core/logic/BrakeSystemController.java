@@ -78,20 +78,8 @@ public class BrakeSystemController {
         if (elapsedMs > 0) {
             double elapsedSecs = elapsedMs / 1000.0;
             double actualDecel = (speedAtLastCommand - currentSpeed) / elapsedSecs;
-            /*
-            logger.debug("--- verify ---");
-            logger.debug("speedAtLastCommand: {}", speedAtLastCommand);
-            logger.debug("currentSpeed:       {}", currentSpeed);
-            logger.debug("elapsedMs:          {}", elapsedMs);
-            logger.debug("actualDecel:        {}", actualDecel);
-            logger.debug("targetDecel:        {}", targetDecel);
-            logger.debug("lower bound:        {}", targetDecel * 0.95);
-            logger.debug("upper bound:        {}", targetDecel * 1.05);
-            logger.debug("withinTolerance:    {}", isWithinTolerance(actualDecel, targetDecel));*/
-
 
             if (isWithinTolerance(actualDecel, targetDecel)) {
-                //logger.info("Braking verified SUCCESS on attempt {}", currentAttempts);
                 return new BrakeDecision(true, targetDecel, BrakeResult.SUCCESS, currentAttempts);
             }
         }
