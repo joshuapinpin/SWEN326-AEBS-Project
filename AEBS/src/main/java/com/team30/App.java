@@ -8,6 +8,7 @@ import com.team30.simulation.engine.ScenarioLoader;
 import com.team30.simulation.engine.SimulatorEngine;
 import com.team30.simulation.scenario.Scenario;
 import com.team30.simulation.state.CarState;
+import java.util.Scanner;
 
 import java.util.List;
 
@@ -72,11 +73,24 @@ public class App {
         );
         allSensors.forEach(sensor -> sensor.attach(aebs));
 
-        // ===== 6. SIMULATOR ENGINE =====
-        SimulatorEngine engine = new SimulatorEngine(carState, scenario, allSensors, aebs);
+        // ===== 6. SIMULATOR ENGINE ====
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n[APP] AEBS is currently ACTIVE by default.");
+        System.out.print("[APP] Do you want to deactivate AEBS before starting? (y/n): ");
+
+        String input = scanner.nextLine().trim().toLowerCase();
+
+        if (input.equals("y")) {
+            driverInterface.toggleAEBS(false);
+        } else {
+            driverInterface.toggleAEBS(true);
+        }
+        SimulatorEngine engine = new SimulatorEngine(carState, scenario, allSensors, aebs, driverInterface.isAesbActive());
 
         // ===== 7. RUN =====
         System.out.println("[APP] Starting simulation...");
+
         engine.run();
         System.out.println("[APP] Simulation complete.");
     }
