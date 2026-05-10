@@ -10,6 +10,7 @@ public class CameraSensor extends Sensor {
 
     private static final int    FIRE_EVERY           = 5;
     private static final double CONFIDENCE_THRESHOLD = 0.5;
+    private static final double MAX_RANGE = 200.0;
 
     public CameraSensor(SensorId sensorId, CarState carState) {
         super(sensorId, carState, FIRE_EVERY);
@@ -62,5 +63,10 @@ public class CameraSensor extends Sensor {
         };
 
         return Math.min(1.0, weatherFactor * lightFactor);
+    }
+
+    @Override
+    protected double getMaxRange() {
+        return MAX_RANGE;
     }
 }
