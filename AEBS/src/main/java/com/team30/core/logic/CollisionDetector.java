@@ -18,6 +18,9 @@ public class CollisionDetector {
 
     private CollisionAssessment lastAssessment;
 
+    private static final double MIN_DETECTION_DISTANCE = 0.5;
+    private static final double MAX_DETECTION_DISTANCE = 200.0;
+
     // TTC seconds at which a WARNING is triggered per object type
     private final Map<ObjectType, Double> warnThresholds;
 
@@ -65,14 +68,22 @@ public class CollisionDetector {
         RadarData radar = getBestReading(data, SensorType.RADAR, RadarData.class);
         LidarData lidar = getBestReading(data, SensorType.LIDAR, LidarData.class);
 
-        if (radar != null && radar.isObjectDetected()) {
+        if (radar != null
+                && radar.isObjectDetected()
+                && radar.getDistance() >= MIN_DETECTION_DISTANCE
+                && radar.getDistance() <= MAX_DETECTION_DISTANCE) {
+
             distance = radar.getDistance();
-            relativeSpeed  = radar.getRelativeSpeed();
+            relativeSpeed = radar.getRelativeSpeed();
             objectDetected = true;
         }
-        else if (lidar != null && lidar.isObjectDetected()) {
+        else if (lidar != null
+                && lidar.isObjectDetected()
+                && lidar.getDistance() >= MIN_DETECTION_DISTANCE
+                && lidar.getDistance() <= MAX_DETECTION_DISTANCE) {
+
             distance = lidar.getDistance();
-            relativeSpeed  = lidar.getRelativeSpeed();
+            relativeSpeed = lidar.getRelativeSpeed();
             objectDetected = true;
         }
 
