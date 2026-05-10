@@ -8,5 +8,6 @@ public enum HazardType {
     OBJECT_ENTERS_ROAD,
     SENSOR_FAILURE,
     WEATHER_CHANGE,
-    LIGHT_CHANGE
+    LIGHT_CHANGE,
+    BRAKE_FAILURE
 }

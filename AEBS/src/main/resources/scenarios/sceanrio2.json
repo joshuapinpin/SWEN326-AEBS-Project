@@ -1,0 +1,35 @@
+{
+  "scenarioName": "Radar Failure Fail Safe",
+  "initialCarSpeed": 30.0,
+  "durationMs": 15000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+
+  "hazardEvents": [
+    {
+      "triggerTime": 1000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "PRIMARY"
+    },
+
+    {
+      "triggerTime": 1300,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "REDUNDANT"
+    },
+
+    {
+      "triggerTime": 3000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 80.0,
+      "objectSpeed": 0.0,
+      "objectType": "PEDESTRIAN",
+      "movementDirection": "STATIONARY",
+      "inCurrentLane": true
+    }
+  ],
+
+  "initialObjects": []
+}

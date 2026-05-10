@@ -18,6 +18,7 @@ public class HazardEvent {
     public WeatherCondition newWeather;
     public LightCondition newLight;
     public boolean triggered;
+    private int failureCount;
 
     // Default constructor required by Jackson
     public HazardEvent() {}
@@ -36,4 +37,5 @@ public class HazardEvent {
     public LightCondition getNewLight()             { return newLight; }
     public boolean isTriggered()                    { return triggered; }
     public void setTriggered(boolean v)             { this.triggered = v; }
+    public int getFailureCount() { return failureCount; }
 }

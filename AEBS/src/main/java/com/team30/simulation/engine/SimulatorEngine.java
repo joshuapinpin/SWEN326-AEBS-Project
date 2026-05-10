@@ -1,5 +1,6 @@
 package com.team30.simulation.engine;
 
+import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.enums.*;
 import com.team30.core.datalayer.observers.TimeObserver;
 import com.team30.core.datalayer.observers.TimeSubject;
@@ -66,6 +67,10 @@ public class SimulatorEngine implements TimeSubject {
             if(isDeactivated()){
                 aebs.runPipeline();  // pull from buffer → assess → brake → fault
             }
+            if (aebs.hasCriticalFailure()) {
+                System.out.println("[SIM] Critical AEBS failure detected. Ending simulation.");
+                break;
+            }
             updatePhysics();     // update speed, positions, RPM
             logTickSummary();
             currentTimeMs += TICK_DURATION_MS;
@@ -77,8 +82,6 @@ public class SimulatorEngine implements TimeSubject {
             }
         }
 
-        //System.out.printf("[SIM] Ended at t=%dms — final speed=%.3f m/s%n",
-                //currentTimeMs, carState.getCarSpeed());
     }
 
     /**
@@ -102,8 +105,6 @@ public class SimulatorEngine implements TimeSubject {
             if (!event.isTriggered() && event.getTriggerTime() <= currentTimeMs) {
                 applyHazard(event);
                 event.setTriggered(true);
-//                System.out.printf("[SIM] t=%5dms  hazard '%s' triggered%n",
-//                        currentTimeMs, event.getType());
             }
         }
     }
@@ -120,23 +121,18 @@ public class SimulatorEngine implements TimeSubject {
                         event.isInCurrentLane()
                 );
                 carState.getObjectsInWorld().add(obj);
-//                System.out.printf("[SIM] t=%5dms  %s spawned at %.1fm%n",
-//                        currentTimeMs, event.getObjectType(), event.getWorldPosition());
             }
             case SENSOR_FAILURE -> {
                 applySensorFailure(event.getSensorType(), event.getSensorId());
-//                System.out.printf("[SIM] t=%5dms  %s %s failed%n",
-//                        currentTimeMs, event.getSensorId(), event.getSensorType());
             }
             case WEATHER_CHANGE -> {
                 carState.setWeather(event.getNewWeather());
-//                System.out.printf("[SIM] t=%5dms  weather → %s%n",
-//                        currentTimeMs, event.getNewWeather());
             }
             case LIGHT_CHANGE -> {
                 carState.setLight(event.getNewLight());
-//                System.out.printf("[SIM] t=%5dms  light → %s%n",
-//                        currentTimeMs, event.getNewLight());
+            }
+            case BRAKE_FAILURE -> {
+                aebs.setBrakeFailures(event.getFailureCount());
             }
         }
     }
@@ -158,6 +154,7 @@ public class SimulatorEngine implements TimeSubject {
                 sensor.setWorking(false);
             }
         }
+        aebs.showMaintenanceWarning(type);
     }
 
     // -----------------------------------------------------------------------
@@ -212,13 +209,9 @@ public class SimulatorEngine implements TimeSubject {
 
                 if (!obj.isInCurrentLane() && newLateral >= LANE_WIDTH / 2.0) {
                     obj.setInCurrentLane(true);
-//                    System.out.printf("[SIM] t=%5dms  %s entered lane (lateral=%.2fm)%n",
-//                            currentTimeMs, obj.getType(), newLateral);
                 }
                 if (obj.isInCurrentLane() && newLateral > LANE_WIDTH) {
                     obj.setInCurrentLane(false);
-//                    System.out.printf("[SIM] t=%5dms  %s exited lane (lateral=%.2fm)%n",
-//                            currentTimeMs, obj.getType(), newLateral);
                 }
             } else {
                 double relativeSpeed = switch (obj.getDirection()) {
@@ -232,8 +225,6 @@ public class SimulatorEngine implements TimeSubject {
 
                 if (newPosition <= 0.0) {
                     toRemove.add(obj);
-//                    System.out.printf("[SIM] t=%5dms  %s reached car — removing%n",
-//                            currentTimeMs, obj.getType());
                 }
             }
         }
@@ -310,11 +301,25 @@ public class SimulatorEngine implements TimeSubject {
 
     private void logTickSummary() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("t=%5dms | speed=%5.2fm/s | mode=%-10s | threat=%-10s",
+
+        BrakeDecision decision = aebs.getLatestBrakeDecision();
+
+        String result = "null";
+        int attemptsMade = 0;
+
+        if (decision != null) {
+            result = decision.getResult().toString();
+            attemptsMade = decision.getAttemptsMade();
+        }
+
+        sb.append(String.format(
+                "t=%5dms | speed=%5.2fm/s | mode=%-10s | threat=%-10s | result=%-12s | attempts=%d",
                 currentTimeMs,
                 carState.getCarSpeed(),
                 carState.getDrivingMode(),
-                aebs.getPreviousThreat()
+                aebs.getPreviousThreat(),
+                result,
+                attemptsMade
         ));
 
         List<WorldObject> objects = carState.getObjectsInWorld();

@@ -15,11 +15,12 @@ import java.util.Map;
 public class FaultHandler {
 
     private final DriverInterface driverInterface;
-    private final CarState carState;
+    private boolean escalationAlertShown = false;
+
+    private boolean criticalFailure = false;
 
     public FaultHandler(DriverInterface driverInterface, CarState carState) {
         this.driverInterface = driverInterface;
-        this.carState = carState;
     }
 
     /**
@@ -33,34 +34,39 @@ public class FaultHandler {
      */
     public void handle(BrakeDecision decision, ProcessedSensorData data) {
         if (decision.getResult() == BrakeResult.EXHAUSTED) {
-            engageFailSafe();
-            driverInterface.showEscalationAlert();
+            escalateCriticalFailure();
             return;
         }
 
         int unavailableCount = 0;
+        SensorType unavailableType = null;
+
         for (SensorType type : SensorType.values()) {
             if (isSensorTypeUnavailable(data, type)) {
                 unavailableCount++;
+                unavailableType = type;
             }
         }
 
-        if (unavailableCount >= 2) {
-            engageFailSafe();
-            driverInterface.showEscalationAlert();
-        } else if (unavailableCount == 1) {
-            driverInterface.showMaintenanceWarning();
+        if (unavailableCount >= 1) {
+            escalateCriticalFailure();
+
+        } else {
+            escalationAlertShown = false;
         }
     }
 
-    /**
-     * Engages fail-safe mode — sets DrivingMode to FAIL_SAFE,
-     * brings target speed to zero, applies maximum deceleration.
-     */
-    private void engageFailSafe() {
-        carState.setDrivingMode(DrivingMode.FAIL_SAFE);
-        carState.setTargetSpeed(0.0);
-        carState.setDecelerationRate(8.0);
+    public boolean hasCriticalFailure() {
+        return criticalFailure;
+    }
+
+    private void escalateCriticalFailure() {
+        criticalFailure = true;
+
+        if (!escalationAlertShown) {
+            driverInterface.showEscalationAlert();
+            escalationAlertShown = true;
+        }
     }
 
     /**
