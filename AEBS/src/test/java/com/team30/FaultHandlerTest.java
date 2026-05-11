@@ -14,13 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FaultHandlerTest {
 
-    private ProcessedSensorData createEmptyData() {
-        return new ProcessedSensorData(
-                new HashMap<>(),
-                System.currentTimeMillis()
-        );
-    }
-
     private CarState createCarState() {
         return new CarState(
                 50,
@@ -34,10 +27,65 @@ public class FaultHandlerTest {
         );
     }
 
-    @Test
-    public void testExhaustedBrakeTriggersFailSafe() {
+    /**
+     * Creates valid sensor data for all sensor types.
+     */
+    private Map<SensorType, Map<SensorId, SensorData>> createAllValidSensors() {
 
-        CarState carState = createCarState();
+        Map<SensorType, Map<SensorId, SensorData>> readings =
+                new HashMap<>();
+
+        for (SensorType type : SensorType.values()) {
+
+            Map<SensorId, SensorData> sensorMap =
+                    new HashMap<>();
+
+            SensorData data;
+
+            switch (type) {
+
+                case RADAR:
+                    data = new RadarData(
+                            SensorId.PRIMARY,
+                            System.currentTimeMillis(),
+                            20,
+                            5,
+                            false
+                    );
+                    break;
+
+                case LIDAR:
+                    data = new LidarData(
+                            SensorId.PRIMARY,
+                            System.currentTimeMillis(),
+                            20,
+                            5,
+                            false
+                    );
+                    break;
+
+                default:
+                    data = new RadarData(
+                            SensorId.PRIMARY,
+                            System.currentTimeMillis(),
+                            20,
+                            5,
+                            false
+                    );
+            }
+
+            sensorMap.put(SensorId.PRIMARY, data);
+            readings.put(type, sensorMap);
+        }
+
+        return readings;
+    }
+
+    @Test
+    public void testExhaustedBrakeTriggersCriticalFailure() {
+
+        CarState carState =
+                createCarState();
 
         DriverInterface driverInterface =
                 new DriverInterface(carState);
@@ -53,23 +101,28 @@ public class FaultHandlerTest {
                         3
                 );
 
-        handler.handle(decision, createEmptyData());
+        ProcessedSensorData data =
+                new ProcessedSensorData(
+                        createAllValidSensors(),
+                        System.currentTimeMillis()
+                );
 
+        handler.handle(decision, data);
+
+        assertTrue(handler.hasCriticalFailure());
+
+        // FaultHandler does NOT modify driving mode
         assertEquals(
-                DrivingMode.FAIL_SAFE,
+                DrivingMode.CRUISING,
                 carState.getDrivingMode()
-        );
-
-        assertEquals(
-                0.0,
-                carState.getTargetSpeed()
         );
     }
 
     @Test
-    public void testTwoSensorFailuresTriggerFailSafe() {
+    public void testTwoSensorFailuresTriggerCriticalFailure() {
 
-        CarState carState = createCarState();
+        CarState carState =
+                createCarState();
 
         DriverInterface driverInterface =
                 new DriverInterface(carState);
@@ -77,8 +130,10 @@ public class FaultHandlerTest {
         FaultHandler handler =
                 new FaultHandler(driverInterface, carState);
 
-        Map<SensorType, Map<SensorId, SensorData>> readings = new HashMap<>();
+        Map<SensorType, Map<SensorId, SensorData>> readings =
+                createAllValidSensors();
 
+        // Simulate failures
         readings.put(SensorType.RADAR, new HashMap<>());
         readings.put(SensorType.LIDAR, new HashMap<>());
 
@@ -89,20 +144,28 @@ public class FaultHandlerTest {
                 );
 
         BrakeDecision decision =
-                new BrakeDecision(false, 0, BrakeResult.NOT_NEEDED, 0);
+                new BrakeDecision(
+                        false,
+                        0,
+                        BrakeResult.NOT_NEEDED,
+                        0
+                );
 
         handler.handle(decision, data);
+
+        assertTrue(handler.hasCriticalFailure());
 
         assertEquals(
-                DrivingMode.FAIL_SAFE,
+                DrivingMode.CRUISING,
                 carState.getDrivingMode()
         );
     }
 
     @Test
-    public void testOneSensorFailureShowsWarning() {
+    public void testOneSensorFailureTriggersCriticalFailure() {
 
-        CarState carState = createCarState();
+        CarState carState =
+                createCarState();
 
         DriverInterface driverInterface =
                 new DriverInterface(carState);
@@ -110,25 +173,12 @@ public class FaultHandlerTest {
         FaultHandler handler =
                 new FaultHandler(driverInterface, carState);
 
-        Map<SensorType, Map<SensorId, SensorData>> readings = new HashMap<>();
+        Map<SensorType, Map<SensorId, SensorData>> readings =
+                createAllValidSensors();
 
+        // One sensor unavailable
         readings.put(SensorType.RADAR, new HashMap<>());
 
-        Map<SensorId, SensorData> lidarMap = new HashMap<>();
-
-        lidarMap.put(
-                SensorId.PRIMARY,
-                new LidarData(
-                        SensorId.PRIMARY,
-                        System.currentTimeMillis(),
-                        20,
-                        5,
-                        true
-                )
-        );
-
-        readings.put(SensorType.LIDAR, lidarMap);
-
         ProcessedSensorData data =
                 new ProcessedSensorData(
                         readings,
@@ -136,20 +186,28 @@ public class FaultHandlerTest {
                 );
 
         BrakeDecision decision =
-                new BrakeDecision(false, 0, BrakeResult.NOT_NEEDED, 0);
+                new BrakeDecision(
+                        false,
+                        0,
+                        BrakeResult.NOT_NEEDED,
+                        0
+                );
 
         handler.handle(decision, data);
 
-        assertNotEquals(
-                DrivingMode.FAIL_SAFE,
+        assertTrue(handler.hasCriticalFailure());
+
+        assertEquals(
+                DrivingMode.CRUISING,
                 carState.getDrivingMode()
         );
     }
 
     @Test
-    public void testNoSensorFailureNoAction() {
+    public void testAllSensorsPresentNoCriticalFailure() {
 
-        CarState carState = createCarState();
+        CarState carState =
+                createCarState();
 
         DriverInterface driverInterface =
                 new DriverInterface(carState);
@@ -157,33 +215,23 @@ public class FaultHandlerTest {
         FaultHandler handler =
                 new FaultHandler(driverInterface, carState);
 
-        Map<SensorType, Map<SensorId, SensorData>> readings = new HashMap<>();
-
-        Map<SensorId, SensorData> radarMap = new HashMap<>();
-
-        radarMap.put(
-                SensorId.PRIMARY,
-                new RadarData(
-                        SensorId.PRIMARY,
-                        System.currentTimeMillis(),
-                        10,
-                        5,
-                        true
-                )
-        );
-
-        readings.put(SensorType.RADAR, radarMap);
-
         ProcessedSensorData data =
                 new ProcessedSensorData(
-                        readings,
+                        createAllValidSensors(),
                         System.currentTimeMillis()
                 );
 
         BrakeDecision decision =
-                new BrakeDecision(false, 0, BrakeResult.NOT_NEEDED, 0);
+                new BrakeDecision(
+                        false,
+                        0,
+                        BrakeResult.NOT_NEEDED,
+                        0
+                );
 
         handler.handle(decision, data);
+
+        assertFalse(handler.hasCriticalFailure());
 
         assertEquals(
                 DrivingMode.CRUISING,
