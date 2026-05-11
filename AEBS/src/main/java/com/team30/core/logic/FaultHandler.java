@@ -4,7 +4,6 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.BrakeResult;
-import com.team30.core.datalayer.enums.DrivingMode;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.presentation.DriverInterface;
@@ -50,12 +49,13 @@ public class FaultHandler {
         }
 
         int unavailableCount = 0;
-        SensorType unavailableType = null;
+        // Unused variable
+        // SensorType unavailableType = null;
 
         for (SensorType type : SensorType.values()) {
             if (isSensorTypeUnavailable(data, type)) {
                 unavailableCount++;
-                unavailableType = type;
+                // unavailableType = type;
             }
         }
 
