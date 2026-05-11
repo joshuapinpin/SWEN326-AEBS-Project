@@ -10,14 +10,24 @@ import com.team30.simulation.state.WorldObject;
 
 import java.util.Random;
 
+/**
+ * Simulates a radar sensor that detects objects in front of the car.
+ * It provides distance and relative speed information about the closest object within its range.
+ * The sensor's accuracy is affected by weather conditions, introducing noise into the readings.
+ */
 public class RadarSensor extends Sensor {
 
     private static final double MAX_RANGE = 200.0;
     private static final double MIN_RANGE = 0.5;
-    private static final int    FIRE_EVERY = 10;
+    private static final int FIRE_EVERY = 10;
 
     private final Random random = new Random();
 
+    /**
+     * Constructor for RadarSensor.
+     * @param sensorId Unique identifier for the sensor (e.g., PRIMARY, REDUNDANT).
+     * @param carState The initial state of the car, which the sensor will use to generate readings.
+     */
     public RadarSensor(SensorId sensorId, CarState carState) {
         super(sensorId, carState, FIRE_EVERY);
     }

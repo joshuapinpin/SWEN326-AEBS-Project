@@ -27,6 +27,12 @@ public abstract class Sensor implements SensorSubject {
     int fireEvery;
     List<SensorObserver> observers;
 
+    /**
+     * Constructor for Sensor.
+     * @param sensorId Unique identifier for the sensor (e.g., PRIMARY, REDUNDANT).
+     * @param carState Initial state of the car, which the sensor will use to generate readings.
+     * @param fireEvery Number of ticks between each sensor reading
+     */
     protected Sensor(SensorId sensorId, CarState carState, int fireEvery) {
         this.sensorId = sensorId;
         this.carState = carState;
@@ -36,6 +42,19 @@ public abstract class Sensor implements SensorSubject {
         this.working = true;
         this.observers = new ArrayList<>();
     }
+
+    /**
+     * Generates a sensor data reading based on the current CarState.
+     * @param state The latest CarState to use for generating the sensor reading.
+     * @return A SensorData object containing the reading information.
+     */
+    public abstract SensorData generateReading(CarState state);
+
+    /**
+     * Generates a "garbage" sensor reading when the sensor has failed or is not working.
+     * @return A SensorData object containing invalid or default values to indicate a failed reading.
+     */
+    public abstract SensorData generateGarbageReading();
 
     /**
      * Called every simulation tick with the latest CarState.
@@ -53,6 +72,57 @@ public abstract class Sensor implements SensorSubject {
             tickCount = 0;
         }
     }
+
+    /**
+     * Finds the closest WorldObject within a specified range from the car's current position.
+     * @param state The CarState containing the current position and list of WorldObjects in the environment.
+     * @param minRange Minimum distance from the car to consider (inclusive).
+     * @param maxRange Maximum distance from the car to consider (inclusive).
+     * @return The closest WorldObject within the specified range, or null if no such object exists.
+     */
+    public WorldObject findClosestInRange(CarState state, double minRange, double maxRange) {
+        List<WorldObject> objects = state.getObjectsInWorld();
+        if (objects == null || objects.isEmpty()) return null;
+
+        return objects.stream()
+                .filter(obj -> obj.getPosition() >= minRange && obj.getPosition() <= maxRange)
+                .min(Comparator.comparingDouble(WorldObject::getPosition))
+                .orElse(null);
+    }
+
+    /**
+     * Calculates the probability of successfully detecting an object based on the current weather conditions and distance.
+     * @param w Current weather condition, which affects sensor performance.
+     * @param distance Distance to the object being detected. Detection probability decreases with distance.
+     * @return A value between 0.0 and 1.0 representing the probability of detection (1.0=certain detection, 0.0 = no chance of detection)
+     */
+    public double getDetectionProbability(WeatherCondition w, double distance) {
+        double maxRange = getMaxRange();
+        if (distance > maxRange || distance < 0) return 0.0;
+
+        double distanceFactor = 1.0 - (distance / maxRange);
+
+        double weatherMultiplier = switch (w) {
+            case CLEAR      -> 1.0;
+            case CLOUDY     -> 0.9;
+            case RAIN       -> 0.7;
+            case HEAVY_RAIN -> 0.5;
+            case FOG        -> 0.4;
+            case SNOW       -> 0.6;
+            case HEAVY_SNOW -> 0.3;
+        };
+
+        return Math.max(0.0, Math.min(1.0, distanceFactor * weatherMultiplier));
+    }
+
+    /**
+     * Convenience overload — uses the sensor's internally stored CarState.
+     * Call this from subclasses when you don't need to pass state explicitly.
+     */
+    public WorldObject findClosestInRange(double minRange, double maxRange) {
+        return findClosestInRange(this.carState, minRange, maxRange);
+    }
+
 
     @Override
     public void attachObserver(SensorObserver o) {
@@ -73,58 +143,16 @@ public abstract class Sensor implements SensorSubject {
         }
     }
 
-    public abstract SensorData generateReading(CarState state);
-    public abstract SensorData generateGarbageReading();
-
-    public WorldObject findClosestInRange(CarState state, double minRange, double maxRange) {
-        List<WorldObject> objects = state.getObjectsInWorld();
-        if (objects == null || objects.isEmpty()) return null;
-
-        return objects.stream()
-                .filter(obj -> obj.getPosition() >= minRange && obj.getPosition() <= maxRange)
-                .min(Comparator.comparingDouble(WorldObject::getPosition))
-                .orElse(null);
-    }
-
-    public double getDetectionProbability(WeatherCondition w, double distance) {
-        double maxRange = getMaxRange();
-        if (distance > maxRange || distance < 0) return 0.0;
-
-        double distanceFactor = 1.0 - (distance / maxRange);
-
-        double weatherMultiplier = switch (w) {
-            case CLEAR      -> 1.0;
-            case CLOUDY     -> 0.9;
-            case RAIN       -> 0.7;
-            case HEAVY_RAIN -> 0.5;
-            case FOG        -> 0.4;
-            case SNOW       -> 0.6;
-            case HEAVY_SNOW -> 0.3;
-        };
-
-        return Math.max(0.0, Math.min(1.0, distanceFactor * weatherMultiplier));
-    }
-
-    protected double getMaxRange() {
-        return 100.0;
-    }
-
-    /**
-     * Convenience overload — uses the sensor's internally stored CarState.
-     * Call this from subclasses when you don't need to pass state explicitly.
-     */
-    public WorldObject findClosestInRange(double minRange, double maxRange) {
-        return findClosestInRange(this.carState, minRange, maxRange);
-    }
-
-    public CarState getCarState()                  { return carState; }
-    public void setCarState(CarState carState)      { this.carState = carState; }
-    public SensorId getSensorId()                  { return sensorId; }
-    public boolean isSensorFailed()                { return sensorFailed; }
-    public void setSensorFailed(boolean v)         { this.sensorFailed = v; }
-    public boolean isWorking()                     { return working; }
-    public void setWorking(boolean v)              { this.working = v; }
-    public int getTickCount()                      { return tickCount; }
-    public int getFireEvery()                      { return fireEvery; }
+    /** Getters and setters */
+    protected double getMaxRange() {return 100.0;}
+    public CarState getCarState() { return carState; }
+    public void setCarState(CarState carState) { this.carState = carState; }
+    public SensorId getSensorId() { return sensorId; }
+    public boolean isSensorFailed() { return sensorFailed; }
+    public void setSensorFailed(boolean v) { this.sensorFailed = v; }
+    public boolean isWorking() { return working; }
+    public void setWorking(boolean v) { this.working = v; }
+    public int getTickCount() { return tickCount; }
+    public int getFireEvery() { return fireEvery; }
     public abstract SensorType getSensorType();
 }
