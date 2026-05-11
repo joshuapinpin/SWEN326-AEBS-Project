@@ -5,13 +5,20 @@ import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 
 /**
- *
- * Follows a template method pattern
+ * The AEBSPipeline class defines the structure of the pipeline for processing sensor data, performing redundancy checks,
+ * collision detection, and controlling the braking system in an Autonomous Emergency Braking System (AEBS).
+ * It follows the Template Method design pattern, allowing subclasses to implement specific steps of the pipeline
+ * while maintaining a consistent overall flow.
  */
 public abstract class AEBSPipeline {
+
+    /**
+     * The template method that runs the entire pipeline for processing sensor data, performing redundancy checks,
+     * collision detection, and controlling the braking system.
+     */
     public final void runPipeline(){
         // Step 1: Get the latest snapshot
-        ProcessedSensorData processedData = handleSensorInput();
+        ProcessedSensorData processedData = retrieveLatestSensorSnapshot();
         if(processedData == null) return; // the buffer was empty; nothing to do
 
         // Step 2: Check for redundancy in sensor data and validate it
@@ -30,14 +37,14 @@ public abstract class AEBSPipeline {
 
     /**
      * Gets the latest snapshot of sensor data from the SensorInputHandler buffer.
-     * Todo: change method name to retrieveLatestSnapshot
+     * @return the latest processed sensor data, or null if the buffer is empty
      */
-    protected abstract ProcessedSensorData handleSensorInput();
+    protected abstract ProcessedSensorData retrieveLatestSensorSnapshot();
 
     /**
      * Checks for redundancy in the processed sensor data to ensure reliability and consistency.
      *
-     * @param data
+     * @param data the processed sensor data to be checked for redundancy
      * @return true if redundancy issues are detected, false otherwise
      */
     protected abstract ProcessedSensorData redundancyChecker(ProcessedSensorData data);
@@ -46,7 +53,7 @@ public abstract class AEBSPipeline {
      * Performs collision detection using the processed sensor data
      * to determine if there is an imminent collision threat.
      *
-     * @param data
+     * @param data the processed sensor data to be analyzed for collision detection
      * @return true if a collision threat is detected, false otherwise
      */
     protected abstract CollisionAssessment collisionDetection(ProcessedSensorData data);
@@ -55,7 +62,7 @@ public abstract class AEBSPipeline {
      * Controls the braking system based on the processed sensor assessment
      * and the results of collision detection.
      *
-     * @param assessment
+     * @param assessment the collision assessment containing information about the detected collision threat
      * @return the result of the braking action, indicating success, failure, exhaustion, clearance, or if braking was not needed
      */
     protected abstract BrakeDecision brakingSystemController(CollisionAssessment assessment);
@@ -63,7 +70,8 @@ public abstract class AEBSPipeline {
     /**
      * Handles faults detected during the processing of sensor decision
      * Signals to the driver
-     * @param decision
+     * @param decision the result of the braking action, indicating success, failure, exhaustion, clearance, or if braking was not needed
+     * @param validatedData the processed sensor data that was validated during the redundancy check
      */
     protected abstract void faultHandler(BrakeDecision decision, ProcessedSensorData validatedData);
 }

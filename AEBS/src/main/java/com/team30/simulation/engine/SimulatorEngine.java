@@ -16,6 +16,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SimulatorEngine is the core of the AEBS simulation. It maintains the current state of the car and the world,
+ * processes the scenario's hazard events, updates the physics, and interacts with the AEBS software system.
+ */
 public class SimulatorEngine implements TimeSubject {
 
     private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
@@ -272,20 +276,21 @@ public class SimulatorEngine implements TimeSubject {
     // -----------------------------------------------------------------------
 
     @Override
-    public void addObserver(TimeObserver observer) {
+    public void attachObserver(TimeObserver observer) {
         if (observer != null && !timeObservers.contains(observer)) {
             timeObservers.add(observer);
         }
     }
 
     @Override
-    public void removeObserver(TimeObserver observer) {
+    public void deattachObserver(TimeObserver observer) {
         timeObservers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
         for (TimeObserver observer : timeObservers) {
+            System.out.println("ADGAWJDHAWBDKAWBDKJAW");
             observer.onTick(currentTimeMs);
         }
     }
@@ -293,11 +298,6 @@ public class SimulatorEngine implements TimeSubject {
     // -----------------------------------------------------------------------
     // Accessors
     // -----------------------------------------------------------------------
-
-    public long getCurrentTimeMs()      { return currentTimeMs; }
-    public CarState getCarState()       { return carState; }
-    public Scenario getScenario()       { return scenario; }
-    public List<Sensor> getAllSensors() { return allSensors; }
 
     private void logTickSummary() {
         StringBuilder sb = new StringBuilder();
@@ -334,5 +334,10 @@ public class SimulatorEngine implements TimeSubject {
 
         logger.info(sb.toString());
     }
+
+    public long getCurrentTimeMs() { return currentTimeMs; }
+    public CarState getCarState() { return carState; }
+    public Scenario getScenario() { return scenario; }
+    public List<Sensor> getAllSensors() { return allSensors; }
 
 }

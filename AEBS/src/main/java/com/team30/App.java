@@ -71,7 +71,7 @@ public class App {
                 primaryCamera,   redundantCamera,
                 primaryWheel,    redundantWheel
         );
-        allSensors.forEach(sensor -> sensor.attach(aebs));
+        allSensors.forEach(sensor -> sensor.attachObserver(aebs));
 
         // ===== 6. SIMULATOR ENGINE ====
         Scanner scanner = new Scanner(System.in);
