@@ -1,0 +1,31 @@
+{
+  "scenarioName": "Sensor Toggle Working",
+  "initialCarSpeed": 16.67,
+  "durationMs": 25000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 3000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "CAMERA",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 5000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 40.0,
+      "objectSpeed": 0.0,
+      "objectType": "PEDESTRIAN",
+      "movementDirection": "STATIONARY",
+      "inCurrentLane": true
+    },
+    {
+      "triggerTime": 12000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "PRIMARY"
+    }
+  ],
+  "initialObjects": []
+}
