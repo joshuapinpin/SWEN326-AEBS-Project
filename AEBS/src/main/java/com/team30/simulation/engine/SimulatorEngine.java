@@ -272,20 +272,21 @@ public class SimulatorEngine implements TimeSubject {
     // -----------------------------------------------------------------------
 
     @Override
-    public void addObserver(TimeObserver observer) {
+    public void attachObserver(TimeObserver observer) {
         if (observer != null && !timeObservers.contains(observer)) {
             timeObservers.add(observer);
         }
     }
 
     @Override
-    public void removeObserver(TimeObserver observer) {
+    public void deattachObserver(TimeObserver observer) {
         timeObservers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
         for (TimeObserver observer : timeObservers) {
+            System.out.println("ADGAWJDHAWBDKAWBDKJAW");
             observer.onTick(currentTimeMs);
         }
     }

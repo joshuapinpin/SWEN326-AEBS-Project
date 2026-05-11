@@ -5,6 +5,7 @@ import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.core.datalayer.observers.SensorObserver;
+import com.team30.core.datalayer.observers.SensorSubject;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
 
@@ -12,8 +13,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class Sensor {
-
+/**
+ * Abstract base class for all sensors in the AEBS system.
+ * Implements common functionality for managing observers, generating readings,
+ * and calculating detection probabilities based on weather and distance.
+ */
+public abstract class Sensor implements SensorSubject {
     boolean sensorFailed;
     boolean working;
     SensorId sensorId;
@@ -49,16 +54,19 @@ public abstract class Sensor {
         }
     }
 
-    public void attach(SensorObserver o) {
+    @Override
+    public void attachObserver(SensorObserver o) {
         if (o != null && !observers.contains(o)) {
             observers.add(o);
         }
     }
 
-    public void detach(SensorObserver o) {
+    @Override
+    public void detachObserver(SensorObserver o) {
         observers.remove(o);
     }
 
+    @Override
     public void notifyObservers(SensorData data) {
         for (SensorObserver observer : observers) {
             observer.update(data);

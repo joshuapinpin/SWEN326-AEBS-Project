@@ -1,140 +1,326 @@
-2026-05-10 21:34:08.606 [INFO ] [SimulatorEngine] t=    0ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.609 [INFO ] [SimulatorEngine] t=   10ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.609 [INFO ] [SimulatorEngine] t=   20ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.609 [INFO ] [SimulatorEngine] t=   30ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.610 [INFO ] [SimulatorEngine] t=   40ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.610 [INFO ] [SimulatorEngine] t=   50ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.610 [INFO ] [SimulatorEngine] t=   60ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.610 [INFO ] [SimulatorEngine] t=   70ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.610 [INFO ] [SimulatorEngine] t=   80ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
-2026-05-10 21:34:08.612 [INFO ] [SimulatorEngine] t=   90ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.612 [INFO ] [SimulatorEngine] t=  100ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.612 [INFO ] [SimulatorEngine] t=  110ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  120ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  130ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  140ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  150ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  160ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.613 [INFO ] [SimulatorEngine] t=  170ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  180ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  190ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  200ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  210ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  220ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  230ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  240ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  250ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  260ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.614 [INFO ] [SimulatorEngine] t=  270ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  280ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  290ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  300ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  310ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  320ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.615 [INFO ] [SimulatorEngine] t=  330ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  340ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  350ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  360ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  370ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  380ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.616 [INFO ] [SimulatorEngine] t=  390ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  400ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  410ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  420ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  430ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  440ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  450ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.617 [INFO ] [SimulatorEngine] t=  460ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  470ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  480ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  490ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  500ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  510ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  520ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.618 [INFO ] [SimulatorEngine] t=  530ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  540ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  550ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  560ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  570ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  580ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  590ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  600ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.619 [INFO ] [SimulatorEngine] t=  610ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  620ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  630ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  640ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  650ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  660ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  670ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.620 [INFO ] [SimulatorEngine] t=  680ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  690ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  700ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  710ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  720ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  730ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  740ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  750ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  760ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.621 [INFO ] [SimulatorEngine] t=  770ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  780ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  790ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  800ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  810ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  820ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  830ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  840ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  850ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.622 [INFO ] [SimulatorEngine] t=  860ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  870ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  880ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  890ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  900ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  910ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  920ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  930ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  940ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.623 [INFO ] [SimulatorEngine] t=  950ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.624 [INFO ] [SimulatorEngine] t=  960ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.624 [INFO ] [SimulatorEngine] t=  970ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.624 [INFO ] [SimulatorEngine] t=  980ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.624 [INFO ] [SimulatorEngine] t=  990ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.625 [INFO ] [SimulatorEngine] t= 1000ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.625 [INFO ] [SimulatorEngine] t= 1010ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1020ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1030ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1040ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1050ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1060ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1070ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1080ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1090ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.626 [INFO ] [SimulatorEngine] t= 1100ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1110ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1120ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1130ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1140ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1150ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1160ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1170ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1180ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1190ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1200ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1210ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1220ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1230ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.627 [INFO ] [SimulatorEngine] t= 1240ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1250ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1260ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1270ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1280ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1290ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1300ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1310ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.628 [INFO ] [SimulatorEngine] t= 1320ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1330ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1340ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1350ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1360ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1370ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [INFO ] [SimulatorEngine] t= 1380ms | speed=30.00m/s | mode=CRUISING   | threat=NONE       | result=NOT_NEEDED   | attempts=0
-2026-05-10 21:34:08.629 [ERROR] [DriverInterface] Escalation alert triggered — braking failed
+2026-05-11 20:28:16.196 [INFO ] [SimulatorEngine] t=    0ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.203 [INFO ] [SimulatorEngine] t=   10ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.204 [INFO ] [SimulatorEngine] t=   20ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.204 [INFO ] [SimulatorEngine] t=   30ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.207 [INFO ] [SimulatorEngine] t=   40ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.207 [INFO ] [SimulatorEngine] t=   50ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.208 [INFO ] [SimulatorEngine] t=   60ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.208 [INFO ] [SimulatorEngine] t=   70ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.208 [INFO ] [SimulatorEngine] t=   80ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.209 [INFO ] [SimulatorEngine] t=   90ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.209 [INFO ] [SimulatorEngine] t=  100ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.210 [INFO ] [SimulatorEngine] t=  110ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.210 [INFO ] [SimulatorEngine] t=  120ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.210 [INFO ] [SimulatorEngine] t=  130ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.211 [INFO ] [SimulatorEngine] t=  140ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.211 [INFO ] [SimulatorEngine] t=  150ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.211 [INFO ] [SimulatorEngine] t=  160ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.212 [INFO ] [SimulatorEngine] t=  170ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.212 [INFO ] [SimulatorEngine] t=  180ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.212 [INFO ] [SimulatorEngine] t=  190ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.213 [INFO ] [SimulatorEngine] t=  200ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.213 [INFO ] [SimulatorEngine] t=  210ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.213 [INFO ] [SimulatorEngine] t=  220ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.214 [INFO ] [SimulatorEngine] t=  230ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.214 [INFO ] [SimulatorEngine] t=  240ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.214 [INFO ] [SimulatorEngine] t=  250ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.214 [INFO ] [SimulatorEngine] t=  260ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.214 [INFO ] [SimulatorEngine] t=  270ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.216 [INFO ] [SimulatorEngine] t=  280ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.216 [INFO ] [SimulatorEngine] t=  290ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.216 [INFO ] [SimulatorEngine] t=  300ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.217 [INFO ] [SimulatorEngine] t=  310ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.217 [INFO ] [SimulatorEngine] t=  320ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.217 [INFO ] [SimulatorEngine] t=  330ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.218 [INFO ] [SimulatorEngine] t=  340ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.218 [INFO ] [SimulatorEngine] t=  350ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.218 [INFO ] [SimulatorEngine] t=  360ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.219 [INFO ] [SimulatorEngine] t=  370ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.219 [INFO ] [SimulatorEngine] t=  380ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.219 [INFO ] [SimulatorEngine] t=  390ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.220 [INFO ] [SimulatorEngine] t=  400ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.221 [INFO ] [SimulatorEngine] t=  410ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.221 [INFO ] [SimulatorEngine] t=  420ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.221 [INFO ] [SimulatorEngine] t=  430ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.222 [INFO ] [SimulatorEngine] t=  440ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.222 [INFO ] [SimulatorEngine] t=  450ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.222 [INFO ] [SimulatorEngine] t=  460ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.222 [INFO ] [SimulatorEngine] t=  470ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.223 [INFO ] [SimulatorEngine] t=  480ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.223 [INFO ] [SimulatorEngine] t=  490ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.223 [INFO ] [SimulatorEngine] t=  500ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.224 [INFO ] [SimulatorEngine] t=  510ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.224 [INFO ] [SimulatorEngine] t=  520ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.225 [INFO ] [SimulatorEngine] t=  530ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.225 [INFO ] [SimulatorEngine] t=  540ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.225 [INFO ] [SimulatorEngine] t=  550ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.226 [INFO ] [SimulatorEngine] t=  560ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.226 [INFO ] [SimulatorEngine] t=  570ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.226 [INFO ] [SimulatorEngine] t=  580ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.226 [INFO ] [SimulatorEngine] t=  590ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.227 [INFO ] [SimulatorEngine] t=  600ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.227 [INFO ] [SimulatorEngine] t=  610ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.227 [INFO ] [SimulatorEngine] t=  620ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.228 [INFO ] [SimulatorEngine] t=  630ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.228 [INFO ] [SimulatorEngine] t=  640ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.228 [INFO ] [SimulatorEngine] t=  650ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.229 [INFO ] [SimulatorEngine] t=  660ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.229 [INFO ] [SimulatorEngine] t=  670ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.229 [INFO ] [SimulatorEngine] t=  680ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.229 [INFO ] [SimulatorEngine] t=  690ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.230 [INFO ] [SimulatorEngine] t=  700ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.230 [INFO ] [SimulatorEngine] t=  710ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.230 [INFO ] [SimulatorEngine] t=  720ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.231 [INFO ] [SimulatorEngine] t=  730ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.231 [INFO ] [SimulatorEngine] t=  740ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.231 [INFO ] [SimulatorEngine] t=  750ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.231 [INFO ] [SimulatorEngine] t=  760ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.232 [INFO ] [SimulatorEngine] t=  770ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.232 [INFO ] [SimulatorEngine] t=  780ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.232 [INFO ] [SimulatorEngine] t=  790ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.232 [INFO ] [SimulatorEngine] t=  800ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.233 [INFO ] [SimulatorEngine] t=  810ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.233 [INFO ] [SimulatorEngine] t=  820ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.233 [INFO ] [SimulatorEngine] t=  830ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.234 [INFO ] [SimulatorEngine] t=  840ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.234 [INFO ] [SimulatorEngine] t=  850ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.234 [INFO ] [SimulatorEngine] t=  860ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.235 [INFO ] [SimulatorEngine] t=  870ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.235 [INFO ] [SimulatorEngine] t=  880ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.235 [INFO ] [SimulatorEngine] t=  890ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.236 [INFO ] [SimulatorEngine] t=  900ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.236 [INFO ] [SimulatorEngine] t=  910ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.236 [INFO ] [SimulatorEngine] t=  920ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.236 [INFO ] [SimulatorEngine] t=  930ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.237 [INFO ] [SimulatorEngine] t=  940ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.237 [INFO ] [SimulatorEngine] t=  950ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.237 [INFO ] [SimulatorEngine] t=  960ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.239 [INFO ] [SimulatorEngine] t=  970ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.239 [INFO ] [SimulatorEngine] t=  980ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.239 [INFO ] [SimulatorEngine] t=  990ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.239 [INFO ] [SimulatorEngine] t= 1000ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.240 [INFO ] [SimulatorEngine] t= 1010ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.240 [INFO ] [SimulatorEngine] t= 1020ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.240 [INFO ] [SimulatorEngine] t= 1030ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.240 [INFO ] [SimulatorEngine] t= 1040ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.241 [INFO ] [SimulatorEngine] t= 1050ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.241 [INFO ] [SimulatorEngine] t= 1060ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.241 [INFO ] [SimulatorEngine] t= 1070ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.241 [INFO ] [SimulatorEngine] t= 1080ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.242 [INFO ] [SimulatorEngine] t= 1090ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.242 [INFO ] [SimulatorEngine] t= 1100ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.242 [INFO ] [SimulatorEngine] t= 1110ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.243 [INFO ] [SimulatorEngine] t= 1120ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.243 [INFO ] [SimulatorEngine] t= 1130ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.243 [INFO ] [SimulatorEngine] t= 1140ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.243 [INFO ] [SimulatorEngine] t= 1150ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.244 [INFO ] [SimulatorEngine] t= 1160ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.244 [INFO ] [SimulatorEngine] t= 1170ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.244 [INFO ] [SimulatorEngine] t= 1180ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.244 [INFO ] [SimulatorEngine] t= 1190ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.245 [INFO ] [SimulatorEngine] t= 1200ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.245 [INFO ] [SimulatorEngine] t= 1210ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.245 [INFO ] [SimulatorEngine] t= 1220ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.245 [INFO ] [SimulatorEngine] t= 1230ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.246 [INFO ] [SimulatorEngine] t= 1240ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.247 [INFO ] [SimulatorEngine] t= 1250ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.247 [INFO ] [SimulatorEngine] t= 1260ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.247 [INFO ] [SimulatorEngine] t= 1270ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.248 [INFO ] [SimulatorEngine] t= 1280ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.248 [INFO ] [SimulatorEngine] t= 1290ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.248 [INFO ] [SimulatorEngine] t= 1300ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.248 [INFO ] [SimulatorEngine] t= 1310ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.249 [INFO ] [SimulatorEngine] t= 1320ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.249 [INFO ] [SimulatorEngine] t= 1330ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.249 [INFO ] [SimulatorEngine] t= 1340ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.249 [INFO ] [SimulatorEngine] t= 1350ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.249 [INFO ] [SimulatorEngine] t= 1360ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.250 [INFO ] [SimulatorEngine] t= 1370ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.250 [INFO ] [SimulatorEngine] t= 1380ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.250 [INFO ] [SimulatorEngine] t= 1390ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.251 [INFO ] [SimulatorEngine] t= 1400ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.251 [INFO ] [SimulatorEngine] t= 1410ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.251 [INFO ] [SimulatorEngine] t= 1420ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.251 [INFO ] [SimulatorEngine] t= 1430ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.251 [INFO ] [SimulatorEngine] t= 1440ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.252 [INFO ] [SimulatorEngine] t= 1450ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.252 [INFO ] [SimulatorEngine] t= 1460ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.252 [INFO ] [SimulatorEngine] t= 1470ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.252 [INFO ] [SimulatorEngine] t= 1480ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.253 [INFO ] [SimulatorEngine] t= 1490ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.253 [INFO ] [SimulatorEngine] t= 1500ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.253 [INFO ] [SimulatorEngine] t= 1510ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.253 [INFO ] [SimulatorEngine] t= 1520ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.254 [INFO ] [SimulatorEngine] t= 1530ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.254 [INFO ] [SimulatorEngine] t= 1540ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.254 [INFO ] [SimulatorEngine] t= 1550ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.254 [INFO ] [SimulatorEngine] t= 1560ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.255 [INFO ] [SimulatorEngine] t= 1570ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.255 [INFO ] [SimulatorEngine] t= 1580ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.255 [INFO ] [SimulatorEngine] t= 1590ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.255 [INFO ] [SimulatorEngine] t= 1600ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.255 [INFO ] [SimulatorEngine] t= 1610ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.256 [INFO ] [SimulatorEngine] t= 1620ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.256 [INFO ] [SimulatorEngine] t= 1630ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.257 [INFO ] [SimulatorEngine] t= 1640ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.257 [INFO ] [SimulatorEngine] t= 1650ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.257 [INFO ] [SimulatorEngine] t= 1660ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.257 [INFO ] [SimulatorEngine] t= 1670ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.257 [INFO ] [SimulatorEngine] t= 1680ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.258 [INFO ] [SimulatorEngine] t= 1690ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.258 [INFO ] [SimulatorEngine] t= 1700ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.258 [INFO ] [SimulatorEngine] t= 1710ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.259 [INFO ] [SimulatorEngine] t= 1720ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.259 [INFO ] [SimulatorEngine] t= 1730ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.259 [INFO ] [SimulatorEngine] t= 1740ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.259 [INFO ] [SimulatorEngine] t= 1750ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.260 [INFO ] [SimulatorEngine] t= 1760ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.260 [INFO ] [SimulatorEngine] t= 1770ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.260 [INFO ] [SimulatorEngine] t= 1780ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.260 [INFO ] [SimulatorEngine] t= 1790ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.260 [INFO ] [SimulatorEngine] t= 1800ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.261 [INFO ] [SimulatorEngine] t= 1810ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.261 [INFO ] [SimulatorEngine] t= 1820ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.261 [INFO ] [SimulatorEngine] t= 1830ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.261 [INFO ] [SimulatorEngine] t= 1840ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.262 [INFO ] [SimulatorEngine] t= 1850ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.262 [INFO ] [SimulatorEngine] t= 1860ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.262 [INFO ] [SimulatorEngine] t= 1870ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.262 [INFO ] [SimulatorEngine] t= 1880ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.263 [INFO ] [SimulatorEngine] t= 1890ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.263 [INFO ] [SimulatorEngine] t= 1900ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.263 [INFO ] [SimulatorEngine] t= 1910ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.263 [INFO ] [SimulatorEngine] t= 1920ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.264 [INFO ] [SimulatorEngine] t= 1930ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.264 [INFO ] [SimulatorEngine] t= 1940ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.264 [INFO ] [SimulatorEngine] t= 1950ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.264 [INFO ] [SimulatorEngine] t= 1960ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 1970ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 1980ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 1990ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 2000ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 24.8m
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 2010ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 24.6m
+2026-05-11 20:28:16.265 [INFO ] [SimulatorEngine] t= 2020ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 24.4m
+2026-05-11 20:28:16.266 [INFO ] [SimulatorEngine] t= 2030ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 24.2m
+2026-05-11 20:28:16.273 [INFO ] [SimulatorEngine] t= 2040ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 24.0m
+2026-05-11 20:28:16.274 [INFO ] [SimulatorEngine] t= 2050ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 23.8m
+2026-05-11 20:28:16.274 [INFO ] [SimulatorEngine] t= 2060ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 23.6m
+2026-05-11 20:28:16.274 [INFO ] [SimulatorEngine] t= 2070ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 23.4m
+2026-05-11 20:28:16.274 [INFO ] [SimulatorEngine] t= 2080ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 23.2m
+2026-05-11 20:28:16.278 [INFO ] [SimulatorEngine] t= 2090ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 23.0m
+2026-05-11 20:28:16.278 [INFO ] [SimulatorEngine] t= 2100ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 22.8m
+2026-05-11 20:28:16.278 [INFO ] [SimulatorEngine] t= 2110ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 22.6m
+2026-05-11 20:28:16.279 [INFO ] [SimulatorEngine] t= 2120ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 22.4m
+2026-05-11 20:28:16.279 [INFO ] [SimulatorEngine] t= 2130ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 22.2m
+2026-05-11 20:28:16.279 [INFO ] [SimulatorEngine] t= 2140ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 22.0m
+2026-05-11 20:28:16.280 [INFO ] [SimulatorEngine] t= 2150ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 21.8m
+2026-05-11 20:28:16.280 [INFO ] [SimulatorEngine] t= 2160ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 21.6m
+2026-05-11 20:28:16.280 [INFO ] [SimulatorEngine] t= 2170ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 21.4m
+2026-05-11 20:28:16.281 [INFO ] [SimulatorEngine] t= 2180ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 21.2m
+2026-05-11 20:28:16.281 [INFO ] [SimulatorEngine] t= 2190ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 21.0m
+2026-05-11 20:28:16.281 [INFO ] [SimulatorEngine] t= 2200ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 20.8m
+2026-05-11 20:28:16.281 [INFO ] [SimulatorEngine] t= 2210ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 20.6m
+2026-05-11 20:28:16.282 [INFO ] [SimulatorEngine] t= 2220ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 20.4m
+2026-05-11 20:28:16.282 [INFO ] [SimulatorEngine] t= 2230ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 20.2m
+2026-05-11 20:28:16.282 [INFO ] [SimulatorEngine] t= 2240ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 20.0m
+2026-05-11 20:28:16.282 [INFO ] [SimulatorEngine] t= 2250ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 19.8m
+2026-05-11 20:28:16.283 [INFO ] [SimulatorEngine] t= 2260ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 19.6m
+2026-05-11 20:28:16.283 [INFO ] [SimulatorEngine] t= 2270ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 19.4m
+2026-05-11 20:28:16.283 [INFO ] [SimulatorEngine] t= 2280ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 19.2m
+2026-05-11 20:28:16.283 [INFO ] [SimulatorEngine] t= 2290ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 19.0m
+2026-05-11 20:28:16.284 [INFO ] [SimulatorEngine] t= 2300ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 18.8m
+2026-05-11 20:28:16.284 [INFO ] [SimulatorEngine] t= 2310ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 18.6m
+2026-05-11 20:28:16.284 [INFO ] [SimulatorEngine] t= 2320ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 18.4m
+2026-05-11 20:28:16.285 [INFO ] [SimulatorEngine] t= 2330ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 18.2m
+2026-05-11 20:28:16.285 [INFO ] [SimulatorEngine] t= 2340ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 18.0m
+2026-05-11 20:28:16.285 [INFO ] [SimulatorEngine] t= 2350ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 17.8m
+2026-05-11 20:28:16.285 [INFO ] [SimulatorEngine] t= 2360ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 17.6m
+2026-05-11 20:28:16.286 [INFO ] [SimulatorEngine] t= 2370ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 17.4m
+2026-05-11 20:28:16.286 [INFO ] [SimulatorEngine] t= 2380ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 17.2m
+2026-05-11 20:28:16.286 [INFO ] [SimulatorEngine] t= 2390ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 17.0m
+2026-05-11 20:28:16.287 [INFO ] [SimulatorEngine] t= 2400ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 16.8m
+2026-05-11 20:28:16.287 [INFO ] [SimulatorEngine] t= 2410ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 16.6m
+2026-05-11 20:28:16.287 [INFO ] [SimulatorEngine] t= 2420ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 16.4m
+2026-05-11 20:28:16.287 [INFO ] [SimulatorEngine] t= 2430ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 16.2m
+2026-05-11 20:28:16.288 [INFO ] [SimulatorEngine] t= 2440ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 16.0m
+2026-05-11 20:28:16.288 [INFO ] [SimulatorEngine] t= 2450ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 15.8m
+2026-05-11 20:28:16.288 [INFO ] [SimulatorEngine] t= 2460ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 15.6m
+2026-05-11 20:28:16.288 [INFO ] [SimulatorEngine] t= 2470ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 15.4m
+2026-05-11 20:28:16.289 [INFO ] [SimulatorEngine] t= 2480ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 15.2m
+2026-05-11 20:28:16.289 [INFO ] [SimulatorEngine] t= 2490ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 15.0m
+2026-05-11 20:28:16.289 [INFO ] [SimulatorEngine] t= 2500ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 14.8m
+2026-05-11 20:28:16.290 [INFO ] [SimulatorEngine] t= 2510ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 14.6m
+2026-05-11 20:28:16.290 [INFO ] [SimulatorEngine] t= 2520ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 14.4m
+2026-05-11 20:28:16.290 [INFO ] [SimulatorEngine] t= 2530ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 14.2m
+2026-05-11 20:28:16.290 [INFO ] [SimulatorEngine] t= 2540ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 14.0m
+2026-05-11 20:28:16.291 [INFO ] [SimulatorEngine] t= 2550ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 13.8m
+2026-05-11 20:28:16.291 [INFO ] [SimulatorEngine] t= 2560ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 13.6m
+2026-05-11 20:28:16.291 [INFO ] [SimulatorEngine] t= 2570ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 13.4m
+2026-05-11 20:28:16.292 [INFO ] [SimulatorEngine] t= 2580ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 13.2m
+2026-05-11 20:28:16.292 [INFO ] [SimulatorEngine] t= 2590ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 13.0m
+2026-05-11 20:28:16.292 [INFO ] [SimulatorEngine] t= 2600ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 12.8m
+2026-05-11 20:28:16.292 [INFO ] [SimulatorEngine] t= 2610ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 12.6m
+2026-05-11 20:28:16.293 [INFO ] [SimulatorEngine] t= 2620ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 12.4m
+2026-05-11 20:28:16.293 [INFO ] [SimulatorEngine] t= 2630ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 12.2m
+2026-05-11 20:28:16.293 [INFO ] [SimulatorEngine] t= 2640ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 12.0m
+2026-05-11 20:28:16.293 [INFO ] [SimulatorEngine] t= 2650ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 11.8m
+2026-05-11 20:28:16.294 [INFO ] [SimulatorEngine] t= 2660ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 11.6m
+2026-05-11 20:28:16.294 [INFO ] [SimulatorEngine] t= 2670ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 11.4m
+2026-05-11 20:28:16.294 [INFO ] [SimulatorEngine] t= 2680ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 11.2m
+2026-05-11 20:28:16.294 [INFO ] [SimulatorEngine] t= 2690ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 11.0m
+2026-05-11 20:28:16.295 [INFO ] [SimulatorEngine] t= 2700ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 10.8m
+2026-05-11 20:28:16.295 [INFO ] [SimulatorEngine] t= 2710ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 10.6m
+2026-05-11 20:28:16.295 [INFO ] [SimulatorEngine] t= 2720ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 10.4m
+2026-05-11 20:28:16.295 [INFO ] [SimulatorEngine] t= 2730ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 10.2m
+2026-05-11 20:28:16.296 [INFO ] [SimulatorEngine] t= 2740ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist= 10.0m
+2026-05-11 20:28:16.296 [INFO ] [SimulatorEngine] t= 2750ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  9.8m
+2026-05-11 20:28:16.296 [INFO ] [SimulatorEngine] t= 2760ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  9.6m
+2026-05-11 20:28:16.296 [INFO ] [SimulatorEngine] t= 2770ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  9.4m
+2026-05-11 20:28:16.296 [INFO ] [SimulatorEngine] t= 2780ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  9.2m
+2026-05-11 20:28:16.297 [INFO ] [SimulatorEngine] t= 2790ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  9.0m
+2026-05-11 20:28:16.297 [INFO ] [SimulatorEngine] t= 2800ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  8.8m
+2026-05-11 20:28:16.297 [INFO ] [SimulatorEngine] t= 2810ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  8.6m
+2026-05-11 20:28:16.298 [INFO ] [SimulatorEngine] t= 2820ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  8.4m
+2026-05-11 20:28:16.298 [INFO ] [SimulatorEngine] t= 2830ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  8.2m
+2026-05-11 20:28:16.298 [INFO ] [SimulatorEngine] t= 2840ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  8.0m
+2026-05-11 20:28:16.299 [INFO ] [SimulatorEngine] t= 2850ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  7.8m
+2026-05-11 20:28:16.299 [INFO ] [SimulatorEngine] t= 2860ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  7.6m
+2026-05-11 20:28:16.299 [INFO ] [SimulatorEngine] t= 2870ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  7.4m
+2026-05-11 20:28:16.299 [INFO ] [SimulatorEngine] t= 2880ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  7.2m
+2026-05-11 20:28:16.299 [INFO ] [SimulatorEngine] t= 2890ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  7.0m
+2026-05-11 20:28:16.300 [INFO ] [SimulatorEngine] t= 2900ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  6.8m
+2026-05-11 20:28:16.300 [INFO ] [SimulatorEngine] t= 2910ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  6.6m
+2026-05-11 20:28:16.300 [INFO ] [SimulatorEngine] t= 2920ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  6.4m
+2026-05-11 20:28:16.300 [INFO ] [SimulatorEngine] t= 2930ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  6.2m
+2026-05-11 20:28:16.301 [INFO ] [SimulatorEngine] t= 2940ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  6.0m
+2026-05-11 20:28:16.301 [INFO ] [SimulatorEngine] t= 2950ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  5.8m
+2026-05-11 20:28:16.301 [INFO ] [SimulatorEngine] t= 2960ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  5.6m
+2026-05-11 20:28:16.302 [INFO ] [SimulatorEngine] t= 2970ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  5.4m
+2026-05-11 20:28:16.302 [INFO ] [SimulatorEngine] t= 2980ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  5.2m
+2026-05-11 20:28:16.302 [INFO ] [SimulatorEngine] t= 2990ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  5.0m
+2026-05-11 20:28:16.302 [INFO ] [SimulatorEngine] t= 3000ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  4.8m
+2026-05-11 20:28:16.302 [INFO ] [SimulatorEngine] t= 3010ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  4.6m
+2026-05-11 20:28:16.303 [INFO ] [SimulatorEngine] t= 3020ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  4.4m
+2026-05-11 20:28:16.303 [INFO ] [SimulatorEngine] t= 3030ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  4.2m
+2026-05-11 20:28:16.303 [INFO ] [SimulatorEngine] t= 3040ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  4.0m
+2026-05-11 20:28:16.303 [INFO ] [SimulatorEngine] t= 3050ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  3.8m
+2026-05-11 20:28:16.304 [INFO ] [SimulatorEngine] t= 3060ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  3.6m
+2026-05-11 20:28:16.304 [INFO ] [SimulatorEngine] t= 3070ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  3.4m
+2026-05-11 20:28:16.304 [INFO ] [SimulatorEngine] t= 3080ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  3.2m
+2026-05-11 20:28:16.304 [INFO ] [SimulatorEngine] t= 3090ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  3.0m
+2026-05-11 20:28:16.305 [INFO ] [SimulatorEngine] t= 3100ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  2.8m
+2026-05-11 20:28:16.305 [INFO ] [SimulatorEngine] t= 3110ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  2.6m
+2026-05-11 20:28:16.305 [INFO ] [SimulatorEngine] t= 3120ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  2.4m
+2026-05-11 20:28:16.305 [INFO ] [SimulatorEngine] t= 3130ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  2.2m
+2026-05-11 20:28:16.305 [INFO ] [SimulatorEngine] t= 3140ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  2.0m
+2026-05-11 20:28:16.306 [INFO ] [SimulatorEngine] t= 3150ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  1.8m
+2026-05-11 20:28:16.306 [INFO ] [SimulatorEngine] t= 3160ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  1.6m
+2026-05-11 20:28:16.307 [INFO ] [SimulatorEngine] t= 3170ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  1.4m
+2026-05-11 20:28:16.307 [INFO ] [SimulatorEngine] t= 3180ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  1.2m
+2026-05-11 20:28:16.307 [INFO ] [SimulatorEngine] t= 3190ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  1.0m
+2026-05-11 20:28:16.307 [INFO ] [SimulatorEngine] t= 3200ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  0.8m
+2026-05-11 20:28:16.308 [INFO ] [SimulatorEngine] t= 3210ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  0.6m
+2026-05-11 20:28:16.308 [INFO ] [SimulatorEngine] t= 3220ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  0.4m
+2026-05-11 20:28:16.308 [INFO ] [SimulatorEngine] t= 3230ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  0.2m
+2026-05-11 20:28:16.308 [INFO ] [SimulatorEngine] t= 3240ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0 | PEDESTRIAN dist=  0.0m
+2026-05-11 20:28:16.308 [INFO ] [SimulatorEngine] t= 3250ms | speed=20.00m/s | mode=CRUISING   | threat=NONE       | result=null         | attempts=0
