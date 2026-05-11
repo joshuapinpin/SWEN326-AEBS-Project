@@ -1,0 +1,19 @@
+{
+  "scenarioName": "Clear Road Sudden Vehicle",
+  "initialCarSpeed": 16.67,
+  "durationMs": 30000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 3000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 40.0,
+      "objectSpeed": 0.0,
+      "objectType": "VEHICLE",
+      "movementDirection": "STATIONARY",
+      "inCurrentLane": true
+    }
+  ],
+  "initialObjects": []
+}

@@ -1,0 +1,34 @@
+{
+  "scenarioName": "Both Sensors Fail",
+  "initialCarSpeed": 16.67,
+  "durationMs": 20000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 2000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 2000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "REDUNDANT"
+    },
+    {
+      "triggerTime": 3000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "LIDAR",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 3000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "LIDAR",
+      "sensorId": "REDUNDANT"
+    }
+  ],
+  "initialObjects": []
+}
