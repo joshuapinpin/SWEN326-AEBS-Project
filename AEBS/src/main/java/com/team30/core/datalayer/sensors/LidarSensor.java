@@ -10,6 +10,11 @@ import com.team30.simulation.state.WorldObject;
 
 import java.util.Random;
 
+/**
+ * Simulates a lidar sensor that detects objects in front of the car.
+ * It provides distance and relative speed information about the closest object within its range.
+ * The sensor's accuracy is affected by weather conditions, introducing noise into the readings.
+ */
 public class LidarSensor extends Sensor {
 
     private static final double MAX_RANGE  = 200.0;
@@ -18,6 +23,11 @@ public class LidarSensor extends Sensor {
 
     private final Random random = new Random();
 
+    /**
+     * Constructor for LidarSensor.
+     * @param sensorId Unique identifier for the sensor (e.g., PRIMARY, REDUNDANT).
+     * @param carState The initial state of the car, which the sensor will use to generate readings.
+     */
     public LidarSensor(SensorId sensorId, CarState carState) {
         super(sensorId, carState, FIRE_EVERY);
     }
@@ -50,6 +60,11 @@ public class LidarSensor extends Sensor {
         return SensorType.LIDAR;
     }
 
+    /**
+     * Calculates the noise to be added to the distance reading based on the current weather condition.
+     * @param w The current weather condition, which affects the accuracy of the lidar sensor.
+     * @return A noise value that will be added to the true distance reading, simulating the effect of weather on sensor accuracy.
+     */
     private double getPositionNoise(WeatherCondition w) {
         double noiseRange = switch (w) {
             case CLEAR      -> 0.5;
