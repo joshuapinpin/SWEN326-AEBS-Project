@@ -10,16 +10,30 @@ import com.team30.core.datalayer.enums.ThreatLevel;
 import com.team30.core.datalayer.observers.SensorObserver;
 import com.team30.core.presentation.DriverInterface;
 
+/**
+ * The AEBSSoftwareSystem class implements the logical flow of the Autonomous Emergency Braking System (AEBS)
+ * by extending the AEBSPipeline and implementing the SensorObserver interface.
+ */
 public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
-    private SensorInputHandler sensorInputHandler;
-    private RedundancyChecker redundancyChecker;
-    private CollisionDetector collisionDetector;
-    private BrakeSystemController brakeSystemController;
-    private FaultHandler faultHandler;
-    private DriverInterface driverInterface;
+    private final SensorInputHandler sensorInputHandler;
+    private final RedundancyChecker redundancyChecker;
+    private final CollisionDetector collisionDetector;
+    private final BrakeSystemController brakeSystemController;
+    private final FaultHandler faultHandler;
+    private final DriverInterface driverInterface;
 
     private ThreatLevel previousThreat = ThreatLevel.NONE;
+    private BrakeDecision latestBrakeDecision;
 
+    /**
+     * Constructor for the AEBSSoftwareSystem class, initializing all components of the system.
+     * @param sensorInputHandler the handler responsible for managing sensor data input and buffering
+     * @param redundancyChecker the component responsible for checking redundancy in sensor data to ensure reliability
+     * @param collisionDetector the component responsible for performing collision detection based on processed sensor data
+     * @param brakeSystemController the component responsible for controlling the braking system based on collision assessments
+     * @param faultHandler the component responsible for handling faults detected during the pipeline execution
+     * @param driverInterface the interface responsible for communicating with the driver, providing alerts and feedback based on system status
+     */
     public AEBSSoftwareSystem(SensorInputHandler sensorInputHandler,
                               RedundancyChecker redundancyChecker,
                               CollisionDetector collisionDetector,
@@ -34,14 +48,13 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         this.driverInterface = driverInterface;
     }
 
-
     @Override
     public void update(SensorData data) {
-        sensorInputHandler.update(data);
+        sensorInputHandler.addToBuffer(data);
     }
 
     @Override
-    protected ProcessedSensorData handleSensorInput() {
+    protected ProcessedSensorData retrieveLatestSensorSnapshot() {
         return sensorInputHandler.getLatest();
     }
 
@@ -50,34 +63,26 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         return redundancyChecker.validate(data);
     }
 
-
-
-    private BrakeDecision latestBrakeDecision;
-
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
-        CollisionAssessment assessment =
-                collisionDetector.assess(data);
+        CollisionAssessment assessment = collisionDetector.assess(data);
         if (assessment == null) {
             return null;
         }
         ThreatLevel current = assessment.getThreatLevel();
 
-// Keep BRAKE latched while braking
-        if (previousThreat == ThreatLevel.BRAKE
-                && current != ThreatLevel.BRAKE) {
+        // Keep BRAKE latched while braking
+        if (previousThreat == ThreatLevel.BRAKE && current != ThreatLevel.BRAKE) {
             current = ThreatLevel.BRAKE;
         }
 
-// Only react when threat level changes
+        // Only react when threat level changes
         if (current != previousThreat) {
-
             switch (current) {
                 case WARNING -> {
                     driverInterface.emitAuditoryAlert();
                     driverInterface.showVisualAlert();
                 }
-
                 case BRAKE -> {
                     if (previousThreat == ThreatLevel.NONE) {
                         driverInterface.emitAuditoryAlert();
@@ -85,18 +90,12 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
                     }
                     driverInterface.showBrakingActivated();
                 }
-
                 case NONE -> {
                 }
             }
-
             previousThreat = current;
         }
         return assessment;
-    }
-
-    public BrakeDecision getLatestBrakeDecision() {
-        return latestBrakeDecision;
     }
 
     @Override
@@ -115,6 +114,11 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         faultHandler.handle(decision, validatedData);
     }
 
+    /** Getters and Setters */
+
+    public BrakeDecision getLatestBrakeDecision() {
+        return latestBrakeDecision;
+    }
     public ThreatLevel getPreviousThreat() {
         return previousThreat;
     }
@@ -126,7 +130,6 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
     public boolean hasCriticalFailure() {
         return faultHandler.hasCriticalFailure();
     }
-
     public void showMaintenanceWarning(SensorType type) {
         driverInterface.showMaintenanceWarning(type);
     }
