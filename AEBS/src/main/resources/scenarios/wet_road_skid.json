@@ -1,7 +1,7 @@
 {
   "scenarioName": "Wet Road Skid",
   "initialCarSpeed": 19.44,
-  "durationMs": 30000,
+  "durationMs": 50000,
   "initialWeather": "HEAVY_RAIN",
   "initialLight": "DAY",
   "hazardEvents": [

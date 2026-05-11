@@ -1,7 +1,7 @@
 {
   "scenarioName": "Weather Change Mid Journey",
   "initialCarSpeed": 16.67,
-  "durationMs": 35000,
+  "durationMs": 50000,
   "initialWeather": "CLEAR",
   "initialLight": "DAY",
   "hazardEvents": [

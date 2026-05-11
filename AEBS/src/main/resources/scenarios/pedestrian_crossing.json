@@ -1,7 +1,7 @@
 {
   "scenarioName": "Pedestrian Crossing",
   "initialCarSpeed": 13.89,
-  "durationMs": 30000,
+  "durationMs": 50000,
   "initialWeather": "CLEAR",
   "initialLight": "DAY",
   "hazardEvents": [

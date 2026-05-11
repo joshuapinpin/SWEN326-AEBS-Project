@@ -1,7 +1,7 @@
 {
   "scenarioName": "Night Fog Pedestrian",
   "initialCarSpeed": 11.11,
-  "durationMs": 25000,
+  "durationMs": 50000,
   "initialWeather": "FOG",
   "initialLight": "NIGHT",
   "hazardEvents": [
