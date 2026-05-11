@@ -8,14 +8,23 @@ import com.team30.simulation.state.CarState;
 
 import java.util.Random;
 
+/**
+ * Simulate a vehicle wheel speed sensor for the AEBS system.
+ * This sensor provides readings of the wheel speeds based on the car's current state.
+ */
 public class WheelSpeedSensor extends Sensor {
 
-    private static final int    FIRE_EVERY          = 1;
+    private static final int FIRE_EVERY = 1;
     private static final double WHEEL_CIRCUMFERENCE = 2.0;
-    private static final double NOISE_RANGE         = 5.0;
+    private static final double NOISE_RANGE = 5.0;
 
     private final Random random = new Random();
 
+    /**
+     * Constructor for WheelSpeedSensor.
+     * @param sensorId Unique identifier for the sensor (e.g., PRIMARY, REDUNDANT).
+     * @param carState Initial state of the car, which the sensor will use to generate readings.
+     */
     public WheelSpeedSensor(SensorId sensorId, CarState carState) {
         super(sensorId, carState, FIRE_EVERY);
     }

@@ -12,11 +12,22 @@ import com.team30.simulation.state.CarState;
 
 import java.util.Map;
 
+/**
+ * FaultHandler is responsible for monitoring the health of the braking system
+ * and sensor availability. It reacts to critical conditions by escalating alerts
+ * to the driver and setting a critical failure state that can be checked by
+ * other components.
+ *
+ * Fault conditions include:
+ * - EXHAUSTED brake decision result from BrakeSystemController
+ * - Unavailability of sensor types (both PRIMARY and REDUNDANT stripped)
+ *
+ * The class ensures that escalation alerts are shown only once per critical failure event.
+ */
 public class FaultHandler {
 
     private final DriverInterface driverInterface;
     private boolean escalationAlertShown = false;
-
     private boolean criticalFailure = false;
 
     public FaultHandler(DriverInterface driverInterface, CarState carState) {

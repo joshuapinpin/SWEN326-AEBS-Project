@@ -6,6 +6,11 @@ import com.team30.core.datalayer.enums.*;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
 
+/**
+ * CameraSensor simulates a camera-based sensor for the AEBS system.
+ * It detects objects in front of the car and classifies them based on their type and lane position.
+ * The sensor's confidence in its readings is affected by weather and light conditions.
+ */
 public class CameraSensor extends Sensor {
 
     private static final int    FIRE_EVERY           = 5;
@@ -45,6 +50,17 @@ public class CameraSensor extends Sensor {
         return SensorType.CAMERA;
     }
 
+    @Override
+    protected double getMaxRange() {
+        return MAX_RANGE;
+    }
+
+    /**
+     * Calculates the confidence level of the sensor reading based on current weather and light conditions.
+     * @param w Weather condition affecting the sensor's performance.
+     * @param l Light condition affecting the sensor's performance.
+     * @return A confidence value between 0.0 and 1.0, where higher values indicate more reliable readings.
+     */
     private double calculateConfidence(WeatherCondition w, LightCondition l) {
         double weatherFactor = switch (w) {
             case CLEAR      -> 1.0;
@@ -65,8 +81,4 @@ public class CameraSensor extends Sensor {
         return Math.min(1.0, weatherFactor * lightFactor);
     }
 
-    @Override
-    protected double getMaxRange() {
-        return MAX_RANGE;
-    }
 }

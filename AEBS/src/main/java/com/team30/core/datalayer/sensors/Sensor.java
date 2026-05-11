@@ -5,6 +5,7 @@ import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.datalayer.enums.WeatherCondition;
 import com.team30.core.datalayer.observers.SensorObserver;
+import com.team30.core.datalayer.observers.SensorSubject;
 import com.team30.simulation.state.CarState;
 import com.team30.simulation.state.WorldObject;
 
@@ -12,8 +13,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class Sensor {
-
+/**
+ * Abstract base class for all sensors in the AEBS system.
+ * Implements common functionality for managing observers, generating readings,
+ * and calculating detection probabilities based on weather and distance.
+ */
+public abstract class Sensor implements SensorSubject {
     boolean sensorFailed;
     boolean working;
     SensorId sensorId;
@@ -22,6 +27,12 @@ public abstract class Sensor {
     int fireEvery;
     List<SensorObserver> observers;
 
+    /**
+     * Constructor for Sensor.
+     * @param sensorId Unique identifier for the sensor (e.g., PRIMARY, REDUNDANT).
+     * @param carState Initial state of the car, which the sensor will use to generate readings.
+     * @param fireEvery Number of ticks between each sensor reading
+     */
     protected Sensor(SensorId sensorId, CarState carState, int fireEvery) {
         this.sensorId = sensorId;
         this.carState = carState;
@@ -31,6 +42,19 @@ public abstract class Sensor {
         this.working = true;
         this.observers = new ArrayList<>();
     }
+
+    /**
+     * Generates a sensor data reading based on the current CarState.
+     * @param state The latest CarState to use for generating the sensor reading.
+     * @return A SensorData object containing the reading information.
+     */
+    public abstract SensorData generateReading(CarState state);
+
+    /**
+     * Generates a "garbage" sensor reading when the sensor has failed or is not working.
+     * @return A SensorData object containing invalid or default values to indicate a failed reading.
+     */
+    public abstract SensorData generateGarbageReading();
 
     /**
      * Called every simulation tick with the latest CarState.
@@ -49,25 +73,13 @@ public abstract class Sensor {
         }
     }
 
-    public void attach(SensorObserver o) {
-        if (o != null && !observers.contains(o)) {
-            observers.add(o);
-        }
-    }
-
-    public void detach(SensorObserver o) {
-        observers.remove(o);
-    }
-
-    public void notifyObservers(SensorData data) {
-        for (SensorObserver observer : observers) {
-            observer.update(data);
-        }
-    }
-
-    public abstract SensorData generateReading(CarState state);
-    public abstract SensorData generateGarbageReading();
-
+    /**
+     * Finds the closest WorldObject within a specified range from the car's current position.
+     * @param state The CarState containing the current position and list of WorldObjects in the environment.
+     * @param minRange Minimum distance from the car to consider (inclusive).
+     * @param maxRange Maximum distance from the car to consider (inclusive).
+     * @return The closest WorldObject within the specified range, or null if no such object exists.
+     */
     public WorldObject findClosestInRange(CarState state, double minRange, double maxRange) {
         List<WorldObject> objects = state.getObjectsInWorld();
         if (objects == null || objects.isEmpty()) return null;
@@ -78,6 +90,12 @@ public abstract class Sensor {
                 .orElse(null);
     }
 
+    /**
+     * Calculates the probability of successfully detecting an object based on the current weather conditions and distance.
+     * @param w Current weather condition, which affects sensor performance.
+     * @param distance Distance to the object being detected. Detection probability decreases with distance.
+     * @return A value between 0.0 and 1.0 representing the probability of detection (1.0=certain detection, 0.0 = no chance of detection)
+     */
     public double getDetectionProbability(WeatherCondition w, double distance) {
         double maxRange = getMaxRange();
         if (distance > maxRange || distance < 0) return 0.0;
@@ -97,10 +115,6 @@ public abstract class Sensor {
         return Math.max(0.0, Math.min(1.0, distanceFactor * weatherMultiplier));
     }
 
-    protected double getMaxRange() {
-        return 100.0;
-    }
-
     /**
      * Convenience overload — uses the sensor's internally stored CarState.
      * Call this from subclasses when you don't need to pass state explicitly.
@@ -109,14 +123,36 @@ public abstract class Sensor {
         return findClosestInRange(this.carState, minRange, maxRange);
     }
 
-    public CarState getCarState()                  { return carState; }
-    public void setCarState(CarState carState)      { this.carState = carState; }
-    public SensorId getSensorId()                  { return sensorId; }
-    public boolean isSensorFailed()                { return sensorFailed; }
-    public void setSensorFailed(boolean v)         { this.sensorFailed = v; }
-    public boolean isWorking()                     { return working; }
-    public void setWorking(boolean v)              { this.working = v; }
-    public int getTickCount()                      { return tickCount; }
-    public int getFireEvery()                      { return fireEvery; }
+
+    @Override
+    public void attachObserver(SensorObserver o) {
+        if (o != null && !observers.contains(o)) {
+            observers.add(o);
+        }
+    }
+
+    @Override
+    public void detachObserver(SensorObserver o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers(SensorData data) {
+        for (SensorObserver observer : observers) {
+            observer.update(data);
+        }
+    }
+
+    /** Getters and setters */
+    protected double getMaxRange() {return 100.0;}
+    public CarState getCarState() { return carState; }
+    public void setCarState(CarState carState) { this.carState = carState; }
+    public SensorId getSensorId() { return sensorId; }
+    public boolean isSensorFailed() { return sensorFailed; }
+    public void setSensorFailed(boolean v) { this.sensorFailed = v; }
+    public boolean isWorking() { return working; }
+    public void setWorking(boolean v) { this.working = v; }
+    public int getTickCount() { return tickCount; }
+    public int getFireEvery() { return fireEvery; }
     public abstract SensorType getSensorType();
 }
