@@ -57,37 +57,49 @@
         </configuration>
       </plugin>
 
-      <!-- Configure SpotBugs plugin for static code analysis -->
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.9.3</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+          <!-- PMD static analysis -->
+              <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pmd</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>pmd</goal>
+                  <goal>cpd</goal>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <!-- Fail the build on rule violations -->
+              <failOnViolation>true</failOnViolation>
+              <!-- Use the bundled ruleset; teams can add a custom ruleset file under src/main/resources/pmd-rules.xml -->
+            </configuration>
+          </plugin>
 
-      <!-- Configure PMD plugin for static code analysis -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.21.2</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <failOnViolation>true</failOnViolation>
-          <printFailingErrors>true</printFailingErrors>
-        </configuration>
-      </plugin>
+          <!-- SpotBugs static analysis -->
+              <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+            <configuration>
+              <effort>Max</effort>
+              <threshold>Low</threshold>
+              <!-- Fail the build when bugs of priority High are found by the check goal -->
+              <failOnError>true</failOnError>
+            </configuration>
+            <executions>
+              <execution>
+                <id>spotbugs</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>spotbugs</goal>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
 
     </plugins>
   </build>
