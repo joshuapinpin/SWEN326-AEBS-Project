@@ -86,7 +86,7 @@
             <configuration>
 <!--              <effort>Max</effort>-->
 <!--              <threshold>Low</threshold>-->
-              <minPriority>High</minPriority>
+              <threshold>High</threshold>
               <!-- Fail the build when bugs of priority High are found by the check goal -->
               <failOnError>true</failOnError>
             </configuration>
