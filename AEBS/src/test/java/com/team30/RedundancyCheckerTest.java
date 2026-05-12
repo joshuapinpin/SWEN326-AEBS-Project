@@ -1,8 +1,9 @@
-package com.team30.core.logic;
+package com.team30;
 
 import com.team30.core.datalayer.data.*;
 import com.team30.core.datalayer.enums.*;
 
+import com.team30.core.logic.RedundancyChecker;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
