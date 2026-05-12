@@ -58,49 +58,51 @@
       </plugin>
 
           <!-- PMD static analysis -->
-              <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>pmd</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>pmd</goal>
-                  <goal>cpd</goal>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <!-- Fail the build on rule violations -->
-              <failOnViolation>true</failOnViolation>
-              <!-- Use the bundled ruleset; teams can add a custom ruleset file under src/main/resources/pmd-rules.xml -->
-            </configuration>
-          </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>pmd</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>pmd</goal>
+              <goal>cpd</goal>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- Fail the build on rule violations -->
+          <failOnViolation>true</failOnViolation>
+          <!-- Use the bundled ruleset; teams can add a custom ruleset file under src/main/resources/pmd-rules.xml -->
+        </configuration>
+      </plugin>
 
-          <!-- SpotBugs static analysis -->
-              <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-            <configuration>
-<!--              <effort>Max</effort>-->
-<!--              <threshold>Low</threshold>-->
-              <threshold>High</threshold>
+      <!-- SpotBugs static analysis -->
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+
+          <effort>Max</effort>
+          <!-- Change threshold to low when you want to address the bugs lower than high priority -->
+<!--          <threshold>Low</threshold>-->
+          <threshold>High</threshold>
               <!-- Fail the build when bugs of priority High are found by the check goal -->
               <failOnError>true</failOnError>
-            </configuration>
-            <executions>
-              <execution>
-                <id>spotbugs</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>spotbugs</goal>
-                  <goal>check</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
+        </configuration>
+        <executions>
+          <execution>
+            <id>spotbugs</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>spotbugs</goal>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
     </plugins>
   </build>
