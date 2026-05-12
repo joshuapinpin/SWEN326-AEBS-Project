@@ -97,10 +97,9 @@ public class CollisionDetector {
         }
 
         ObjectType objectType = ObjectType.UNKNOWN;
-        boolean objectInLane = false;
+        boolean objectInLane = true;
 
-        CameraData camera =
-                getBestReading(data, SensorType.CAMERA, CameraData.class);
+        CameraData camera = getBestReading(data, SensorType.CAMERA, CameraData.class);
 
         if (camera != null) {
             objectType = camera.getClassification();
@@ -141,15 +140,22 @@ public class CollisionDetector {
 
         double deceleration = 8.0;
 
-        // Physics stopping distance:
-        // d = v² / 2a
-        double stoppingDistance = relativeSpeed * relativeSpeed / (2.0 * deceleration);
+        // Driver/system reaction time
+        double reactionTime = 0.5;
+
+        // Distance travelled before braking starts
+        double reactionDistance =
+                relativeSpeed * reactionTime;
+
+        // Physics braking distance
+        double stoppingDistance =
+                (relativeSpeed * relativeSpeed)
+                        / (2.0 * deceleration);
 
         // Extra safety margin
-        double safetyBuffer = 5.0;
+        double safetyBuffer = 10.0;
 
-        double requiredBrakeDistance =
-                stoppingDistance + safetyBuffer;
+        double requiredBrakeDistance = reactionDistance + stoppingDistance + safetyBuffer;
 
         ThreatLevel threat;
 

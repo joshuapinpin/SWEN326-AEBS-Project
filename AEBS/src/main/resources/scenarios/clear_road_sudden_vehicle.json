@@ -1,7 +1,7 @@
 {
   "scenarioName": "Clear Road Sudden Vehicle",
   "initialCarSpeed": 16.67,
-  "durationMs": 30000,
+  "durationMs": 10000,
   "initialWeather": "CLEAR",
   "initialLight": "DAY",
   "hazardEvents": [

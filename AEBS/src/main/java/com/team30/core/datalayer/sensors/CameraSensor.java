@@ -29,9 +29,12 @@ public class CameraSensor extends Sensor {
         ObjectType classification;
         boolean inLane;
 
-        if (closest == null || confidence < CONFIDENCE_THRESHOLD) {
+        if (closest == null) {
             classification = ObjectType.UNKNOWN;
             inLane = false;
+        } else if (confidence < CONFIDENCE_THRESHOLD) {
+            classification = ObjectType.UNKNOWN;
+            inLane = closest.isInCurrentLane();
         } else {
             classification = closest.getType();
             inLane = closest.isInCurrentLane();
