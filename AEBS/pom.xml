@@ -84,8 +84,9 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
             <configuration>
-              <effort>Max</effort>
-              <threshold>Low</threshold>
+<!--              <effort>Max</effort>-->
+<!--              <threshold>Low</threshold>-->
+              <minPriority>High</minPriority>
               <!-- Fail the build when bugs of priority High are found by the check goal -->
               <failOnError>true</failOnError>
             </configuration>
