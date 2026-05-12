@@ -26,15 +26,15 @@ public class CameraSensor extends Sensor {
         double confidence = calculateConfidence(state.getWeather(), state.getLight());
         WorldObject closest = findClosestInRange(state, 0.0, getMaxRange());
 
-        ObjectType classification;
-        boolean inLane;
+        ObjectType classification = ObjectType.UNKNOWN;
+        boolean inLane = false;
 
-        if (closest == null || confidence < CONFIDENCE_THRESHOLD) {
-            classification = ObjectType.UNKNOWN;
-            inLane = false;
-        } else {
-            classification = closest.getType();
+        if (closest != null) {
             inLane = closest.isInCurrentLane();
+
+            if (confidence >= CONFIDENCE_THRESHOLD) {
+                classification = closest.getType();
+            }
         }
 
         return new CameraData(sensorId, state.getCurrentTimeMs(), classification, inLane, confidence);

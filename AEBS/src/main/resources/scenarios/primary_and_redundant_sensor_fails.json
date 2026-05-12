@@ -1,0 +1,22 @@
+{
+  "scenarioName": "Primary and redundant fails for a sensor",
+  "initialCarSpeed": 50,
+  "durationMs": 20000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 2000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "WHEEL_SPEED",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 2100,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "WHEEL_SPEED",
+      "sensorId": "REDUNDANT"
+    }
+  ],
+  "initialObjects": []
+}

@@ -1,5 +1,8 @@
-package com.team30.core.datalayer.data;
+package com.team30;
 
+import com.team30.core.datalayer.data.ProcessedSensorData;
+import com.team30.core.datalayer.data.RadarData;
+import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import org.junit.jupiter.api.Test;

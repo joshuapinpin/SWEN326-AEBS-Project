@@ -1,5 +1,5 @@
 {
-  "scenarioName": "Both Sensors Fail",
+  "scenarioName": "All sensors (radar and lidar) fail",
   "initialCarSpeed": 16.67,
   "durationMs": 20000,
   "initialWeather": "CLEAR",

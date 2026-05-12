@@ -1,31 +1,27 @@
 {
-  "scenarioName": "Brake Retry Exhausted",
-  "initialCarSpeed": 16.67,
-  "durationMs": 20000,
+  "scenarioName": "Full Brake Failure Exhaustion",
+  "initialCarSpeed": 20.0,
+  "durationMs": 15000,
   "initialWeather": "CLEAR",
   "initialLight": "DAY",
+
   "hazardEvents": [
     {
       "triggerTime": 1000,
-      "type": "SENSOR_FAILURE",
-      "sensorType": "CAMERA",
-      "sensorId": "PRIMARY"
+      "type": "BRAKE_FAILURE",
+      "failureCount": 3
     },
-    {
-      "triggerTime": 1000,
-      "type": "SENSOR_FAILURE",
-      "sensorType": "CAMERA",
-      "sensorId": "REDUNDANT"
-    },
+
     {
       "triggerTime": 2000,
       "type": "OBJECT_ENTERS_ROAD",
       "worldPosition": 25.0,
       "objectSpeed": 0.0,
-      "objectType": "VEHICLE",
+      "objectType": "PEDESTRIAN",
       "movementDirection": "STATIONARY",
       "inCurrentLane": true
     }
   ],
+
   "initialObjects": []
 }
