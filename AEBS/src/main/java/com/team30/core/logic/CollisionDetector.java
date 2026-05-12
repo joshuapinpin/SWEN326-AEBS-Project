@@ -149,7 +149,7 @@ public class CollisionDetector {
 
         // Physics braking distance
         double stoppingDistance =
-                (relativeSpeed * relativeSpeed)
+                relativeSpeed * relativeSpeed
                         / (2.0 * deceleration);
 
         // Extra safety margin
