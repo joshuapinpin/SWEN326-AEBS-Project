@@ -1,5 +1,4 @@
 package com.team30.simulation.engine;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team30.simulation.scenario.Scenario;
 

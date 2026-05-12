@@ -8,6 +8,8 @@ import com.team30.simulation.engine.ScenarioLoader;
 import com.team30.simulation.engine.SimulatorEngine;
 import com.team30.simulation.scenario.Scenario;
 import com.team30.simulation.state.CarState;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import java.util.List;
@@ -74,7 +76,7 @@ public class App {
         allSensors.forEach(sensor -> sensor.attachObserver(aebs));
 
         // ===== 6. SIMULATOR ENGINE ====
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
         System.out.println("\n[APP] AEBS is currently ACTIVE by default.");
         System.out.print("[APP] Do you want to deactivate AEBS before starting? (y/n): ");

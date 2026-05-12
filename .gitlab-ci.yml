@@ -28,7 +28,7 @@ test:
   tags: [docker]
   script:
     - cd AEBS
-    - mvn $MAVEN_CLI_OPTS test
+    - mvn $MAVEN_CLI_OPTS verify
   artifacts:
     when: always
     reports:

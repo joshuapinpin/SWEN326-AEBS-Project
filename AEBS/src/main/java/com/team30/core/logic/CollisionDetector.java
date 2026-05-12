@@ -143,9 +143,7 @@ public class CollisionDetector {
 
         // Physics stopping distance:
         // d = v² / 2a
-        double stoppingDistance =
-                (relativeSpeed * relativeSpeed)
-                        / (2.0 * deceleration);
+        double stoppingDistance = relativeSpeed * relativeSpeed / (2.0 * deceleration);
 
         // Extra safety margin
         double safetyBuffer = 5.0;
