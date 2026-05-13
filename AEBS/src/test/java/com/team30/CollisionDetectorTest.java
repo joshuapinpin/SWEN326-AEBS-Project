@@ -3,6 +3,8 @@ package com.team30.core.logic;
 import com.team30.core.datalayer.data.*;
 import com.team30.core.datalayer.enums.*;
 import org.junit.jupiter.api.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CollisionDetectorTest {
 
+    private static final Logger log =
+            LogManager.getLogger(CollisionDetectorTest.class);
+
     @Test
     public void testNoRadarOrLidarReturnsLastAssessment() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testNoRadarOrLidarReturnsLastAssessment");
+
+        CollisionDetector detector = new CollisionDetector();
 
         ProcessedSensorData emptyData =
                 new ProcessedSensorData(
@@ -23,17 +29,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(emptyData);
+        log.debug("Calling assess() with empty sensor data");
+
+        CollisionAssessment result = detector.assess(emptyData);
 
         assertNull(result);
+
+        log.info("ENDING: testNoRadarOrLidarReturnsLastAssessment");
     }
 
     @Test
     public void testNoObjectDetected() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testNoObjectDetected");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -44,14 +54,11 @@ public class CollisionDetectorTest {
                         false
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
 
         ProcessedSensorData data =
@@ -60,20 +67,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() with radar showing no object detected");
 
-        assertEquals(
-                ThreatLevel.NONE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.NONE, result.getThreatLevel());
+
+        log.info("ENDING: testNoObjectDetected");
     }
 
     @Test
     public void testObjectOutsideLaneReturnsNone() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testObjectOutsideLaneReturnsNone");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -93,19 +101,14 @@ public class CollisionDetectorTest {
                         0.9
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -115,20 +118,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() with camera showing object outside lane");
 
-        assertEquals(
-                ThreatLevel.NONE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.NONE, result.getThreatLevel());
+
+        log.info("ENDING: testObjectOutsideLaneReturnsNone");
     }
 
     @Test
     public void testNegativeRelativeSpeedReturnsNone() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testNegativeRelativeSpeedReturnsNone");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -148,19 +152,14 @@ public class CollisionDetectorTest {
                         0.9
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -170,20 +169,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() with negative relative speed");
 
-        assertEquals(
-                ThreatLevel.NONE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.NONE, result.getThreatLevel());
+
+        log.info("ENDING: testNegativeRelativeSpeedReturnsNone");
     }
 
     @Test
     public void testBrakeThreatTriggered() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testBrakeThreatTriggered");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -203,19 +203,14 @@ public class CollisionDetectorTest {
                         0.95
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -225,20 +220,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() expecting BRAKE threat");
 
-        assertEquals(
-                ThreatLevel.BRAKE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.BRAKE, result.getThreatLevel());
+
+        log.info("ENDING: testBrakeThreatTriggered");
     }
 
     @Test
     public void testWarningThreatTriggered() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testWarningThreatTriggered");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -258,19 +254,14 @@ public class CollisionDetectorTest {
                         0.95
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -280,20 +271,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() expecting WARNING threat");
 
-        assertEquals(
-                ThreatLevel.WARNING,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.WARNING, result.getThreatLevel());
+
+        log.info("ENDING: testWarningThreatTriggered");
     }
 
     @Test
     public void testNoThreatTriggered() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testNoThreatTriggered");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -313,19 +305,14 @@ public class CollisionDetectorTest {
                         0.95
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -335,20 +322,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() expecting NO threat");
 
-        assertEquals(
-                ThreatLevel.NONE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.NONE, result.getThreatLevel());
+
+        log.info("ENDING: testNoThreatTriggered");
     }
 
     @Test
     public void testMinimumDetectionDistanceIgnored() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testMinimumDetectionDistanceIgnored");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -359,14 +347,11 @@ public class CollisionDetectorTest {
                         true
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
 
         ProcessedSensorData data =
@@ -375,20 +360,21 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() with distance below minimum threshold");
 
-        assertEquals(
-                ThreatLevel.NONE,
-                result.getThreatLevel()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(ThreatLevel.NONE, result.getThreatLevel());
+
+        log.info("ENDING: testMinimumDetectionDistanceIgnored");
     }
 
     @Test
     public void testTimeToCollisionCalculated() {
 
-        CollisionDetector detector =
-                new CollisionDetector();
+        log.info("STARTING: testTimeToCollisionCalculated");
+
+        CollisionDetector detector = new CollisionDetector();
 
         RadarData radar =
                 new RadarData(
@@ -408,19 +394,14 @@ public class CollisionDetectorTest {
                         0.9
                 );
 
-        Map<SensorId, SensorData> radarMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> radarMap = new HashMap<>();
         radarMap.put(SensorId.PRIMARY, radar);
 
-        Map<SensorId, SensorData> cameraMap =
-                new HashMap<>();
-
+        Map<SensorId, SensorData> cameraMap = new HashMap<>();
         cameraMap.put(SensorId.PRIMARY, camera);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
-
         readings.put(SensorType.RADAR, radarMap);
         readings.put(SensorType.CAMERA, cameraMap);
 
@@ -430,12 +411,12 @@ public class CollisionDetectorTest {
                         System.currentTimeMillis()
                 );
 
-        CollisionAssessment result =
-                detector.assess(data);
+        log.debug("Executing assess() expecting TTC calculation");
 
-        assertEquals(
-                2.0,
-                result.getTimeToCollision()
-        );
+        CollisionAssessment result = detector.assess(data);
+
+        assertEquals(2.0, result.getTimeToCollision());
+
+        log.info("ENDING: testTimeToCollisionCalculated");
     }
 }
