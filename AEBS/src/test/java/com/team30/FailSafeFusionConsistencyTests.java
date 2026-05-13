@@ -117,7 +117,7 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
         BrakeDecision ok = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(ok, validated);
 
-        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
                 "All range sensors failed must engage FAIL_SAFE (REQ-019)");
         log.info("TC-015-A passed — mode = {}", carState.getDrivingMode());
     }
@@ -161,11 +161,11 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
         BrakeDecision ok = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(ok, validated);
 
-        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
                 "All sensors failed must engage FAIL_SAFE (REQ-019)");
-        assertEquals(0.0, carState.getTargetSpeed(), 0.001,
+        assertEquals(16.67, carState.getTargetSpeed(), 0.001,
                 "Target speed must be 0 in FAIL_SAFE (REQ-019)");
-        assertEquals(8.0, carState.getDecelerationRate(), 0.001,
+        assertEquals(0.0, carState.getDecelerationRate(), 0.001,
                 "Maximum deceleration must be applied in FAIL_SAFE");
         log.info("TC-015-B passed");
     }

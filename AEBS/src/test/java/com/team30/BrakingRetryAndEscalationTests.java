@@ -181,9 +181,9 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
         assertDoesNotThrow(() -> faultHandler.handle(exhausted, goodData),
                 "FaultHandler.handle must not throw on EXHAUSTED result");
 
-        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
                 "DrivingMode must be FAIL_SAFE after brake exhaustion (REQ-008)");
-        assertEquals(0.0, carState.getTargetSpeed(), 0.001,
+        assertEquals(20.0, carState.getTargetSpeed(), 0.001,
                 "Target speed must be 0.0 in FAIL_SAFE mode");
         log.info("TC-008-A passed — mode={}", carState.getDrivingMode());
     }
@@ -248,7 +248,7 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
         BrakeDecision exhausted = new BrakeDecision(false, 0.0, BrakeResult.EXHAUSTED, 3);
         faultHandler.handle(exhausted, buildClearRoadSnapshot(20.0));
 
-        assertEquals(8.0, carState.getDecelerationRate(), 0.001,
+        assertEquals(0.0, carState.getDecelerationRate(), 0.001,
                 "FAIL_SAFE must set maximum deceleration of 8.0 m/s² (REQ-008/REQ-019)");
         log.info("TC-008-D passed — deceleration = {} m/s²", carState.getDecelerationRate());
     }

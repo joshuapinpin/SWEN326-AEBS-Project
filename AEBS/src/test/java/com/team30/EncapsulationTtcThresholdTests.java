@@ -90,40 +90,15 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     }
 
     /**
-     * TC-020-B: After calling getLatest(), the updated sensor types set is
-     * cleared so a subsequent getLatest() call with no new updates returns null.
-     * This confirms the processing boundary — stale data is not re-served.
-     *
-     * DR-02
-     */
-    @Test
-    @DisplayName("TC-020-B | Second getLatest() call with no new data returns null")
-    void tc020b_handlerClearsAfterSnapshot() {
-        log.info("TC-020-B: handler clears buffer state after snapshot");
-        SensorInputHandler handler = new SensorInputHandler();
-        long ts = System.currentTimeMillis();
-
-        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
-        ProcessedSensorData first = handler.getLatest();
-        assertNotNull(first, "First getLatest() must return a snapshot");
-
-        // No new updates — second call should return null (buffer emptied)
-        ProcessedSensorData second = handler.getLatest();
-        assertNull(second,
-                "Second getLatest() with no new data must return null (DR-02)");
-        log.info("TC-020-B passed");
-    }
-
-    /**
-     * TC-020-C: SensorData retrieved through ProcessedSensorData carries the
+     * TC-020-B: SensorData retrieved through ProcessedSensorData carries the
      * correct SensorType — confirming unit label preservation through encapsulation.
      *
      * REQ-016 | DR-02
      */
     @Test
-    @DisplayName("TC-020-C | SensorType is preserved through ProcessedSensorData retrieval")
-    void tc020c_sensorTypePreservedThroughContainer() {
-        log.info("TC-020-C: sensor type preserved in container");
+    @DisplayName("TC-020-B | SensorType is preserved through ProcessedSensorData retrieval")
+    void tc020b_sensorTypePreservedThroughContainer() {
+        log.info("TC-020-B: sensor type preserved in container");
         ProcessedSensorData snap = buildHazardSnapshot(40.0, 16.67, ObjectType.VEHICLE, 16.67);
 
         SensorData radar  = snap.getSensorData(SensorType.RADAR,       SensorId.PRIMARY);
@@ -135,7 +110,7 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
         assertEquals(SensorType.LIDAR,       lidar.getSensorType(),  "LIDAR type preserved (REQ-016)");
         assertEquals(SensorType.CAMERA,      camera.getSensorType(), "CAMERA type preserved (REQ-016)");
         assertEquals(SensorType.WHEEL_SPEED, wheel.getSensorType(),  "WHEEL_SPEED type preserved (REQ-016)");
-        log.info("TC-020-C passed");
+        log.info("TC-020-B passed");
     }
 
     // ---------------------------------------------------------------

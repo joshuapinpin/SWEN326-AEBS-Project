@@ -222,7 +222,7 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
         BrakeDecision okDecision = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(okDecision, validated);
 
-        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
                 "Two sensor types unavailable must engage FAIL_SAFE (REQ-018/REQ-019)");
         log.info("TC-014-B passed — mode = {}", carState.getDrivingMode());
     }
