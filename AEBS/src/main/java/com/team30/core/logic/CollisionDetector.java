@@ -37,6 +37,8 @@ public class CollisionDetector {
      * @return A CollisionAssessment object containing the threat level, TTC, distance, object type, and sensor availability information.
      */
     public CollisionAssessment assess(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
+        assert data.getTimestamp() > 0 : "ProcessedSensorData must have valid timestamp";
 
         if (!data.hasNewRadarOrLidar()) {
             return lastAssessment;
@@ -196,6 +198,9 @@ public class CollisionDetector {
             SensorType type,
             Class<T> clazz
     ) {
+        assert data != null : "ProcessedSensorData must not be null";
+        assert type != null : "SensorType must not be null";
+        assert clazz != null : "Class type must not be null";
 
         SensorData primary =
                 data.getSensorData(type, SensorId.PRIMARY);

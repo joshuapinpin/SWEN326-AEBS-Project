@@ -33,6 +33,8 @@ public class SensorInputHandler{
      */
     public void addToBuffer(SensorData data) {
         if (data == null) return;
+        assert data.getSensorType() != null : "SensorType must not be null";
+        assert data.getSensorId() != null : "SensorId must not be null";
         buffer.get(data.getSensorType()).put(data.getSensorId(), data);
         updatedSensorTypes.add(data.getSensorType());
     }
@@ -42,8 +44,10 @@ public class SensorInputHandler{
      * @return a ProcessedSensorData object containing the latest sensor data, or null if the buffer is empty
      */
     public ProcessedSensorData getLatest() {
+        assert buffer != null : "Buffer must be initialized";
         if (isBufferEmpty()) return null;
         ProcessedSensorData processed = buildProcessedData();
+        assert processed != null : "ProcessedSensorData must be successfully created";
         updatedSensorTypes.clear();
         return processed;
     }
@@ -72,7 +76,9 @@ public class SensorInputHandler{
      * @return a ProcessedSensorData object with the latest sensor data and a timestamp
      */
     private ProcessedSensorData buildProcessedData() {
+        assert System.currentTimeMillis() > 0 : "System timestamp must be valid";
         Map<SensorType, Map<SensorId, SensorData>> snapshot = new HashMap<>();
+        assert snapshot != null : "Snapshot map must be created";
         for (SensorType type : SensorType.values()) {
             snapshot.put(type, new HashMap<>(buffer.get(type)));
         }

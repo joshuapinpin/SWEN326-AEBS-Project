@@ -35,6 +35,8 @@ public class RedundancyChecker {
      * @return cleaned ProcessedSensorData with only trustworthy readings
      */
     public ProcessedSensorData validate(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
+        assert data.getTimestamp() > 0 : "ProcessedSensorData must have valid timestamp";
         Map<SensorType, Map<SensorId, SensorData>> cleanedReadings = new HashMap<>();
 
         cleanedReadings.put(SensorType.RADAR, validateRadar(data));
@@ -52,7 +54,9 @@ public class RedundancyChecker {
      * @return map of trustworthy radar readings, empty if both failed
      */
     private Map<SensorId, SensorData> validateRadar(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
         RadarData primary = (RadarData) data.getSensorData(SensorType.RADAR, SensorId.PRIMARY);
+        assert RADAR_DISTANCE_THRESHOLD > 0 : "RADAR_DISTANCE_THRESHOLD must be positive";
         RadarData redundant = (RadarData) data.getSensorData(SensorType.RADAR, SensorId.REDUNDANT);
 
         return resolveDistanceSensor(primary, redundant, RADAR_DISTANCE_THRESHOLD);
@@ -65,7 +69,9 @@ public class RedundancyChecker {
      * @return map of trustworthy lidar readings, empty if both failed
      */
     private Map<SensorId, SensorData> validateLidar(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
         LidarData primary = (LidarData) data.getSensorData(SensorType.LIDAR, SensorId.PRIMARY);
+        assert LIDAR_DISTANCE_THRESHOLD > 0 : "LIDAR_DISTANCE_THRESHOLD must be positive";
         LidarData redundant = (LidarData) data.getSensorData(SensorType.LIDAR, SensorId.REDUNDANT);
 
         return resolveDistanceSensor(primary, redundant, LIDAR_DISTANCE_THRESHOLD);
@@ -78,7 +84,9 @@ public class RedundancyChecker {
      * @return map of trustworthy camera readings, empty if both failed
      */
     private Map<SensorId, SensorData> validateCamera(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
         CameraData primary = (CameraData) data.getSensorData(SensorType.CAMERA, SensorId.PRIMARY);
+        assert CAMERA_CONFIDENCE_THRESHOLD >= 0 : "CAMERA_CONFIDENCE_THRESHOLD must be non-negative";
         CameraData redundant = (CameraData) data.getSensorData(SensorType.CAMERA, SensorId.REDUNDANT);
 
         Map<SensorId, SensorData> result = new HashMap<>();
@@ -115,7 +123,9 @@ public class RedundancyChecker {
      * @return map of trustworthy wheel speed readings, empty if both failed
      */
     private Map<SensorId, SensorData> validateWheelSpeed(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData must not be null";
         WheelSpeedData primary = (WheelSpeedData) data.getSensorData(SensorType.WHEEL_SPEED, SensorId.PRIMARY);
+        assert WHEEL_SPEED_THRESHOLD > 0 : "WHEEL_SPEED_THRESHOLD must be positive";
         WheelSpeedData redundant = (WheelSpeedData) data.getSensorData(SensorType.WHEEL_SPEED, SensorId.REDUNDANT);
 
         Map<SensorId, SensorData> result = new HashMap<>();
@@ -156,6 +166,8 @@ public class RedundancyChecker {
      * @return map of trustworthy readings
      */
     private Map<SensorId, SensorData> resolveDistanceSensor(SensorData primary, SensorData redundant, double threshold) {
+        assert threshold > 0 : "Threshold must be positive";
+        assert threshold <= 1000 : "Threshold must be reasonable (≤ 1000m)";
         Map<SensorId, SensorData> result = new HashMap<>();
 
         if (primary == null && redundant == null) {return result;}
