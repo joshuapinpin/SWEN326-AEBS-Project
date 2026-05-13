@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -68,7 +67,6 @@ public final class SimulationFrame extends JFrame {
     private SwingWorker<Void, Void> worker;
 
     private long lastKnownSimTimeMs = 0L;
-    private int totalBrakeActivations = 0;
 
     public SimulationFrame() {
         super("AEBS Simulation Monitor");
@@ -77,7 +75,7 @@ public final class SimulationFrame extends JFrame {
         setStatusEmpty();
         setSize(1100, 720);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -269,7 +267,6 @@ public final class SimulationFrame extends JFrame {
             threatValue.setText(threat);
         }
         if (attempts != null) {
-            totalBrakeActivations = attempts;
             attemptsValue.setText(String.valueOf(attempts));
         }
     }
