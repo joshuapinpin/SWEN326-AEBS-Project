@@ -6,17 +6,21 @@ import com.team30.core.datalayer.enums.*;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * CollisionDetector is responsible for analyzing processed sensor data to assess potential collision threats.
+ * It evaluates the distance, relative speed, and object classification to determine if braking or warning is necessary.
+ */
 public class CollisionDetector {
-
-    private CollisionAssessment lastAssessment;
-
     private static final double MIN_DETECTION_DISTANCE = 0.5;
-
-    // Object visible + warning starts here
-    private static final double WARNING_DISTANCE = 200.0;
+    private static final double WARNING_DISTANCE = 200.0; // Object visible + warning starts here
 
     private final Map<ObjectType, Double> brakeThresholds;
+    private CollisionAssessment lastAssessment;
 
+    /**
+     * Initializes the CollisionDetector with predefined braking thresholds for different object types.
+     * These thresholds represent the minimum Time-to-Collision (TTC) required to trigger braking for each object type.
+     */
     public CollisionDetector() {
         brakeThresholds = new EnumMap<>(ObjectType.class);
 
@@ -25,6 +29,13 @@ public class CollisionDetector {
         brakeThresholds.put(ObjectType.UNKNOWN, 2.0);
     }
 
+    /**
+     * Assesses the collision threat level based on the latest processed sensor data.
+     * It considers the availability of radar, lidar, and camera data, and calculates the Time-to-Collision (TTC)
+     * to determine if braking or warning is necessary.
+     * @param data The processed sensor data containing the latest readings from radar, lidar, and camera sensors.
+     * @return A CollisionAssessment object containing the threat level, TTC, distance, object type, and sensor availability information.
+     */
     public CollisionAssessment assess(ProcessedSensorData data) {
 
         if (!data.hasNewRadarOrLidar()) {
@@ -86,10 +97,9 @@ public class CollisionDetector {
         }
 
         ObjectType objectType = ObjectType.UNKNOWN;
-        boolean objectInLane = false;
+        boolean objectInLane = true;
 
-        CameraData camera =
-                getBestReading(data, SensorType.CAMERA, CameraData.class);
+        CameraData camera = getBestReading(data, SensorType.CAMERA, CameraData.class);
 
         if (camera != null) {
             objectType = camera.getClassification();
@@ -130,33 +140,38 @@ public class CollisionDetector {
 
         double deceleration = 8.0;
 
-// Physics stopping distance:
-// d = v² / 2a
+        // Driver/system reaction time
+        double reactionTime = 0.5;
+
+        // Distance travelled before braking starts
+        double reactionDistance =
+                relativeSpeed * reactionTime;
+
+        // Physics braking distance
         double stoppingDistance =
-                (relativeSpeed * relativeSpeed)
+                relativeSpeed * relativeSpeed
                         / (2.0 * deceleration);
 
-// Extra safety margin
-        double safetyBuffer = 5.0;
+        // Extra safety margin
+        double safetyBuffer = 10.0;
 
-        double requiredBrakeDistance =
-                stoppingDistance + safetyBuffer;
+        double requiredBrakeDistance = reactionDistance + stoppingDistance + safetyBuffer;
 
         ThreatLevel threat;
 
-// Brake dynamically based on speed
+        // Brake dynamically based on speed
         if (distance <= requiredBrakeDistance) {
 
             threat = ThreatLevel.BRAKE;
 
         }
-// Warning zone
+        // Warning zone
         else if (distance <= WARNING_DISTANCE) {
 
             threat = ThreatLevel.WARNING;
 
         }
-// Too far away
+        // Too far away
         else {
 
             threat = ThreatLevel.NONE;

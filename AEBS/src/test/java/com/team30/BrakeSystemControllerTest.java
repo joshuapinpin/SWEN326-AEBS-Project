@@ -1,8 +1,9 @@
-package com.team30.core.logic;
+package com.team30;
 
 import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.CollisionAssessment;
 import com.team30.core.datalayer.enums.*;
+import com.team30.core.logic.BrakeSystemController;
 import com.team30.simulation.state.CarState;
 
 import org.junit.jupiter.api.Test;

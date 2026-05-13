@@ -16,6 +16,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SimulatorEngine is the core of the AEBS simulation. It maintains the current state of the car and the world,
+ * processes the scenario's hazard events, updates the physics, and interacts with the AEBS software system.
+ */
 public class SimulatorEngine implements TimeSubject {
 
     private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
@@ -23,7 +27,7 @@ public class SimulatorEngine implements TimeSubject {
     private static final double LANE_WIDTH             = 3.5;
     private static final long   TICK_DURATION_MS       = 10;
     private static final double TICK_DURATION_S        = TICK_DURATION_MS / 1000.0;
-    private static final double MIN_SPEED_MS           = 0.01;
+    // private static final double MIN_SPEED_MS           = 0.01; unused variable
     private static final double WHEEL_CIRCUMFERENCE    = 2.0;
     private static final double LOCKUP_DECEL_THRESHOLD = 7.85;
 
@@ -178,7 +182,7 @@ public class SimulatorEngine implements TimeSubject {
             }
             case RESUMING -> {
                 carState.setDecelerationRate(0.0);
-                double delta = (carState.getAccelerationRate() / 2.0) * TICK_DURATION_S;
+                double delta = carState.getAccelerationRate() / 2.0 * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
             }
             case FAIL_SAFE -> {
@@ -233,7 +237,7 @@ public class SimulatorEngine implements TimeSubject {
 
     private void updateWheelRPM(double decelApplied) {
         double speed     = carState.getCarSpeed();
-        double normalRPM = (speed * 60.0) / WHEEL_CIRCUMFERENCE;
+        double normalRPM = speed * 60.0 / WHEEL_CIRCUMFERENCE;
         boolean rearLockup = decelApplied >= LOCKUP_DECEL_THRESHOLD;
 
 
@@ -272,20 +276,21 @@ public class SimulatorEngine implements TimeSubject {
     // -----------------------------------------------------------------------
 
     @Override
-    public void addObserver(TimeObserver observer) {
+    public void attachObserver(TimeObserver observer) {
         if (observer != null && !timeObservers.contains(observer)) {
             timeObservers.add(observer);
         }
     }
 
     @Override
-    public void removeObserver(TimeObserver observer) {
+    public void deattachObserver(TimeObserver observer) {
         timeObservers.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
         for (TimeObserver observer : timeObservers) {
+            System.out.println("ADGAWJDHAWBDKAWBDKJAW");
             observer.onTick(currentTimeMs);
         }
     }
@@ -293,11 +298,6 @@ public class SimulatorEngine implements TimeSubject {
     // -----------------------------------------------------------------------
     // Accessors
     // -----------------------------------------------------------------------
-
-    public long getCurrentTimeMs()      { return currentTimeMs; }
-    public CarState getCarState()       { return carState; }
-    public Scenario getScenario()       { return scenario; }
-    public List<Sensor> getAllSensors() { return allSensors; }
 
     private void logTickSummary() {
         StringBuilder sb = new StringBuilder();
@@ -334,5 +334,10 @@ public class SimulatorEngine implements TimeSubject {
 
         logger.info(sb.toString());
     }
+
+    public long getCurrentTimeMs() { return currentTimeMs; }
+    public CarState getCarState() { return carState; }
+    public Scenario getScenario() { return scenario; }
+    public List<Sensor> getAllSensors() { return allSensors; }
 
 }

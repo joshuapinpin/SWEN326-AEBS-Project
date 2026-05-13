@@ -1,0 +1,31 @@
+{
+  "scenarioName": "Garbage Sensor Values",
+  "initialCarSpeed": 16.67,
+  "durationMs": 25000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 1000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "RADAR",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 1000,
+      "type": "SENSOR_FAILURE",
+      "sensorType": "CAMERA",
+      "sensorId": "PRIMARY"
+    },
+    {
+      "triggerTime": 4000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 120.0,
+      "objectSpeed": 0.0,
+      "objectType": "VEHICLE",
+      "movementDirection": "STATIONARY",
+      "inCurrentLane": true
+    }
+  ],
+  "initialObjects": []
+}

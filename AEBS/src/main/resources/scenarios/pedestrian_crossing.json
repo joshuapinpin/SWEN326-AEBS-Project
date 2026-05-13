@@ -1,0 +1,19 @@
+{
+  "scenarioName": "Pedestrian Crossing",
+  "initialCarSpeed": 13.89,
+  "durationMs": 50000,
+  "initialWeather": "CLEAR",
+  "initialLight": "DAY",
+  "hazardEvents": [
+    {
+      "triggerTime": 2000,
+      "type": "OBJECT_ENTERS_ROAD",
+      "worldPosition": 50.0,
+      "objectSpeed": 1.5,
+      "objectType": "PEDESTRIAN",
+      "movementDirection": "CROSSING",
+      "inCurrentLane": false
+    }
+  ],
+  "initialObjects": []
+}

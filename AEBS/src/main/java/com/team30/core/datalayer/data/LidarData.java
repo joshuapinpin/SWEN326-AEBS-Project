@@ -3,11 +3,24 @@ package com.team30.core.datalayer.data;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 
+/**
+ * Represents a single reading from a LIDAR sensor, including distance to the
+ * nearest object ahead, relative speed of that object, and whether an object
+ * was detected at all.
+ */
 public class LidarData extends SensorData {
     private final double distance;       // metres ahead, -1 if nothing detected
     private final double relativeSpeed;  // m/s, positive = closing
     private final boolean objectDetected;
 
+    /**
+     * Constructs a LidarData instance with the given parameters.
+     * @param sensorId the ID of the LIDAR sensor (PRIMARY or REDUNDANT)
+     * @param timestampMs the timestamp of the reading in milliseconds since epoch
+     * @param distance the distance to the nearest object ahead in meters, or -1 if no object detected
+     * @param relativeSpeed the relative speed of the object in m/s (positive means closing), or -1 if no object detected
+     * @param objectDetected true if an object is detected, false if no object detected
+     */
     public LidarData(SensorId sensorId, long timestampMs,
                      double distance, double relativeSpeed, boolean objectDetected) {
         super(sensorId, timestampMs, false);
@@ -24,10 +37,11 @@ public class LidarData extends SensorData {
         this.objectDetected = false;
     }
 
-    public double getDistance()       { return distance; }
-    public double getRelativeSpeed()  { return relativeSpeed; }
-    public boolean isObjectDetected() { return objectDetected; }
+    /** Getters for LIDAR-specific fields. */
+    public double getDistance(){ return distance; }
+    public double getRelativeSpeed(){ return relativeSpeed; }
+    public boolean isObjectDetected(){ return objectDetected; }
 
     @Override
-    public SensorType getSensorType() { return SensorType.LIDAR; }
+    public SensorType getSensorType(){ return SensorType.LIDAR; }
 }

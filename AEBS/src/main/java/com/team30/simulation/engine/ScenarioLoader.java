@@ -1,5 +1,4 @@
 package com.team30.simulation.engine;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team30.simulation.scenario.Scenario;
 
@@ -7,10 +6,16 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * ScenarioLoader is responsible for loading a scenario from a JSON file.
+ * It uses a JFileChooser to allow the user to select a scenario file and then
+ * deserializes it into a Scenario object using Jackson's ObjectMapper.
+ */
 public class ScenarioLoader {
     private final ObjectMapper mapper;
     private File file;
     private static final ScenarioLoader loader = new ScenarioLoader();
+
     /**
      * Private constructor to enforce Singleton pattern.
      * Initializes the replay state with default values.
@@ -18,6 +23,7 @@ public class ScenarioLoader {
     private ScenarioLoader(){
         mapper = new ObjectMapper();
     }
+
     /**
      * Returns the singleton instance of ScenarioLoader
      *
@@ -26,6 +32,7 @@ public class ScenarioLoader {
     public static ScenarioLoader of() {
         return loader;
     }
+
     /**
      * Prompts the user to select a JSON file to read.
      * Opens a file chooser dialog filtered for JSON files.

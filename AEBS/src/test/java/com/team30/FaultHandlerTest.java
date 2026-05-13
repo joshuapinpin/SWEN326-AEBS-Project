@@ -1,7 +1,8 @@
-package com.team30.core.logic;
+package com.team30;
 
 import com.team30.core.datalayer.data.*;
 import com.team30.core.datalayer.enums.*;
+import com.team30.core.logic.FaultHandler;
 import com.team30.core.presentation.DriverInterface;
 import com.team30.simulation.state.CarState;
 

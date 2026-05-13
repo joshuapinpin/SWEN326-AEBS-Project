@@ -4,7 +4,6 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.BrakeResult;
-import com.team30.core.datalayer.enums.DrivingMode;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.presentation.DriverInterface;
@@ -12,11 +11,22 @@ import com.team30.simulation.state.CarState;
 
 import java.util.Map;
 
+/**
+ * FaultHandler is responsible for monitoring the health of the braking system
+ * and sensor availability. It reacts to critical conditions by escalating alerts
+ * to the driver and setting a critical failure state that can be checked by
+ * other components.
+ *
+ * Fault conditions include:
+ * - EXHAUSTED brake decision result from BrakeSystemController
+ * - Unavailability of sensor types (both PRIMARY and REDUNDANT stripped)
+ *
+ * The class ensures that escalation alerts are shown only once per critical failure event.
+ */
 public class FaultHandler {
 
     private final DriverInterface driverInterface;
     private boolean escalationAlertShown = false;
-
     private boolean criticalFailure = false;
 
     public FaultHandler(DriverInterface driverInterface, CarState carState) {
@@ -39,12 +49,13 @@ public class FaultHandler {
         }
 
         int unavailableCount = 0;
-        SensorType unavailableType = null;
+        // Unused variable
+        // SensorType unavailableType = null;
 
         for (SensorType type : SensorType.values()) {
             if (isSensorTypeUnavailable(data, type)) {
                 unavailableCount++;
-                unavailableType = type;
+                // unavailableType = type;
             }
         }
 
