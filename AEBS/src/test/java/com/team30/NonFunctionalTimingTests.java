@@ -130,9 +130,9 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
         long ts = System.currentTimeMillis();
 
         // Simulate three consecutive radar firings at distances 100, 80, 60 m
-        handler.update(new RadarData(SensorId.PRIMARY, ts,     100.0, 5.0, true));
-        handler.update(new RadarData(SensorId.PRIMARY, ts + 50,  80.0, 5.0, true));
-        handler.update(new RadarData(SensorId.PRIMARY, ts + 100, 60.0, 5.0, true));
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts,     100.0, 5.0, true));
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts + 50,  80.0, 5.0, true));
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts + 100, 60.0, 5.0, true));
 
         ProcessedSensorData latest = handler.getLatest();
         assertNotNull(latest, "getLatest() must return a snapshot after updates");

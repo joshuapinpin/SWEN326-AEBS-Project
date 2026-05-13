@@ -330,12 +330,12 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
                 new com.team30.core.logic.SensorInputHandler();
         long ts = System.currentTimeMillis();
 
-        handler.update(new RadarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
-        handler.update(new LidarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
-        handler.update(new CameraData(SensorId.PRIMARY, ts, ObjectType.VEHICLE, true, 0.95));
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
+        handler.addToBuffer(new LidarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
+        handler.addToBuffer(new CameraData(SensorId.PRIMARY, ts, ObjectType.VEHICLE, true, 0.95));
         double[] rpm = {500, 500, 500, 500};
         double[] spd = {16.67, 16.67, 16.67, 16.67};
-        handler.update(new WheelSpeedData(SensorId.PRIMARY, ts, rpm, spd));
+        handler.addToBuffer(new WheelSpeedData(SensorId.PRIMARY, ts, rpm, spd));
 
         ProcessedSensorData snapshot = handler.getLatest();
         assertNotNull(snapshot, "Snapshot must not be null after updates (DR-02)");
