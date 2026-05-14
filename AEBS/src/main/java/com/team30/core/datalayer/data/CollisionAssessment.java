@@ -77,27 +77,6 @@ public class CollisionAssessment {
     public boolean isObjectInLane() { return objectInLane; }
 
     /**
-     * Returns true if radar data was available during this assessment.
-     * Used by FaultHandler to determine sensor availability.
-     * @return true if radar was available
-     */
-    public boolean isRadarAvailable() { return radarAvailable; }
-
-    /**
-     * Returns true if lidar data was available during this assessment.
-     * Used by FaultHandler to determine sensor availability.
-     * @return true if lidar was available
-     */
-    public boolean isLidarAvailable() { return lidarAvailable; }
-
-    /**
-     * Returns true if camera data was available during this assessment.
-     * Used by FaultHandler to determine sensor availability.
-     * @return true if camera was available
-     */
-    public boolean isCameraAvailable() { return cameraAvailable; }
-
-    /**
      * Returns a string representation of this assessment for debugging.
      * @return string representation of all assessment fields
      */

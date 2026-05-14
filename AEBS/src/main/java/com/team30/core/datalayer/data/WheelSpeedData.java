@@ -40,11 +40,6 @@ public class WheelSpeedData extends SensorData {
     public double getRearLeftRpm() { return rpm[2]; }
     public double getRearRightRpm() { return rpm[3]; }
 
-    public double getFrontLeftSpeed() { return wheelSpeeds[0]; }
-    public double getFrontRightSpeed() { return wheelSpeeds[1]; }
-    public double getRearLeftSpeed() { return wheelSpeeds[2]; }
-    public double getRearRightSpeed() { return wheelSpeeds[3]; }
-
     @Override
     public SensorType getSensorType() { return SensorType.WHEEL_SPEED; }
 }
