@@ -90,40 +90,6 @@ public abstract class Sensor implements SensorSubject {
                 .orElse(null);
     }
 
-    /**
-     * Calculates the probability of successfully detecting an object based on the current weather conditions and distance.
-     * @param w Current weather condition, which affects sensor performance.
-     * @param distance Distance to the object being detected. Detection probability decreases with distance.
-     * @return A value between 0.0 and 1.0 representing the probability of detection (1.0=certain detection, 0.0 = no chance of detection)
-     */
-    public double getDetectionProbability(WeatherCondition w, double distance) {
-        double maxRange = getMaxRange();
-        if (distance > maxRange || distance < 0) return 0.0;
-
-        double distanceFactor = 1.0 - (distance / maxRange);
-
-        double weatherMultiplier = switch (w) {
-            case CLEAR      -> 1.0;
-            case CLOUDY     -> 0.9;
-            case RAIN       -> 0.7;
-            case HEAVY_RAIN -> 0.5;
-            case FOG        -> 0.4;
-            case SNOW       -> 0.6;
-            case HEAVY_SNOW -> 0.3;
-        };
-
-        return Math.max(0.0, Math.min(1.0, distanceFactor * weatherMultiplier));
-    }
-
-    /**
-     * Convenience overload — uses the sensor's internally stored CarState.
-     * Call this from subclasses when you don't need to pass state explicitly.
-     */
-    public WorldObject findClosestInRange(double minRange, double maxRange) {
-        return findClosestInRange(this.carState, minRange, maxRange);
-    }
-
-
     @Override
     public void attachObserver(SensorObserver o) {
         if (o != null && !observers.contains(o)) {
@@ -148,11 +114,6 @@ public abstract class Sensor implements SensorSubject {
     public CarState getCarState() { return carState; }
     public void setCarState(CarState carState) { this.carState = carState; }
     public SensorId getSensorId() { return sensorId; }
-    public boolean isSensorFailed() { return sensorFailed; }
-    public void setSensorFailed(boolean v) { this.sensorFailed = v; }
-    public boolean isWorking() { return working; }
     public void setWorking(boolean v) { this.working = v; }
-    public int getTickCount() { return tickCount; }
-    public int getFireEvery() { return fireEvery; }
     public abstract SensorType getSensorType();
 }
