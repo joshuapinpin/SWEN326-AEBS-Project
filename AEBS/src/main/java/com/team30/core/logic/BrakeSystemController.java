@@ -44,6 +44,14 @@ public class BrakeSystemController {
 
         if (carState.getDrivingMode() == DrivingMode.BRAKING) {
 
+            if (threat == ThreatLevel.NONE && (assessment.getDistance() < 0 || !assessment.isObjectInLane())) {
+                carState.setDrivingMode(DrivingMode.RESUMING);
+                carState.setDecelerationRate(0.0);
+                currentAttempts = 0;
+
+                return new BrakeDecision(false, 0.0, BrakeResult.CLEARED, currentAttempts);
+            }
+
             if (remainingBrakeFailures > 0) {
                 currentAttempts++;
                 remainingBrakeFailures--;
@@ -52,7 +60,6 @@ public class BrakeSystemController {
                 if (currentAttempts >= 3) {
                     return new BrakeDecision(true, 0.0, BrakeResult.EXHAUSTED, currentAttempts);
                 }
-
                 return new BrakeDecision(true, 0.0, BrakeResult.FAILED, currentAttempts);
             }
 

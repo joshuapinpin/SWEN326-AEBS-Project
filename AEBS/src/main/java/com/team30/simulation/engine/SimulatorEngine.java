@@ -161,7 +161,8 @@ public class SimulatorEngine {
     // -----------------------------------------------------------------------
 
     private void updatePhysics() {
-        double speed        = carState.getCarSpeed();
+        double speed = carState.getCarSpeed();
+        double previousSpeed = speed;
         double decelApplied = 0.0;
 
         switch (carState.getDrivingMode()) {
@@ -182,7 +183,11 @@ public class SimulatorEngine {
             }
         }
 
+        double actualDecel = (previousSpeed - speed) / TICK_DURATION_S;
+
+        carState.setActualDeceleration(actualDecel);
         carState.setCarSpeed(speed);
+
         updateObjectPositions();
         updateWheelRPM(decelApplied);
     }

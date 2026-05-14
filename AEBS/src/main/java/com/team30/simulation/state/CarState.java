@@ -26,6 +26,7 @@ public class CarState {
     boolean primaryWheelFailed;
     boolean redundantWheelFailed;
     long currentTimeMs;
+    private double actualDeceleration;
 
     public CarState(double carSpeed, double targetSpeed, double[] wheelRPM,
                     DrivingMode drivingMode, double decelerationRate, double accelerationRate,
@@ -81,4 +82,7 @@ public class CarState {
 
     public List<WorldObject> getObjectsInWorld()           { return objectsInWorld; }
     public void setObjectsInWorld(List<WorldObject> list)  { this.objectsInWorld = list; }
+
+    public double getActualDeceleration() { return actualDeceleration;}
+    public void setActualDeceleration(double actualDeceleration) { this.actualDeceleration = actualDeceleration; }
 }
