@@ -2,8 +2,6 @@ package com.team30.simulation.engine;
 
 import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.enums.*;
-import com.team30.core.datalayer.observers.TimeObserver;
-import com.team30.core.datalayer.observers.TimeSubject;
 import com.team30.core.datalayer.sensors.Sensor;
 import com.team30.core.logic.AEBSSoftwareSystem;
 import com.team30.simulation.scenario.HazardEvent;
@@ -20,14 +18,13 @@ import java.util.List;
  * SimulatorEngine is the core of the AEBS simulation. It maintains the current state of the car and the world,
  * processes the scenario's hazard events, updates the physics, and interacts with the AEBS software system.
  */
-public class SimulatorEngine implements TimeSubject {
+public class SimulatorEngine {
 
     private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
 
     private static final double LANE_WIDTH             = 3.5;
     private static final long   TICK_DURATION_MS       = 10;
     private static final double TICK_DURATION_S        = TICK_DURATION_MS / 1000.0;
-    // private static final double MIN_SPEED_MS           = 0.01; unused variable
     private static final double WHEEL_CIRCUMFERENCE    = 2.0;
     private static final double LOCKUP_DECEL_THRESHOLD = 7.85;
 
@@ -35,7 +32,6 @@ public class SimulatorEngine implements TimeSubject {
     private final Scenario           scenario;
     private final List<Sensor>       allSensors;
     private final AEBSSoftwareSystem aebs;
-    private final List<TimeObserver> timeObservers = new ArrayList<>();
     private long currentTimeMs;
     private boolean deactivated;
 
@@ -65,7 +61,6 @@ public class SimulatorEngine implements TimeSubject {
         while (currentTimeMs <= scenario.getDurationMs()) {
             carState.setCurrentTimeMs(currentTimeMs);
 
-            notifyObservers();   // notify time observers
             applyHazardEvents(); // mutate CarState / spawn objects
             fireSensors();       // sensors push into SensorInputHandler via observers
             if(isDeactivated()){
@@ -175,7 +170,7 @@ public class SimulatorEngine implements TimeSubject {
                 double delta = carState.getAccelerationRate() * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
             }
-            case BRAKING -> {
+            case BRAKING, FAIL_SAFE -> {
                 double rate  = getDecelerationRate(carState.getWeather());
                 decelApplied = rate;
                 carState.setDecelerationRate(rate);
@@ -185,12 +180,6 @@ public class SimulatorEngine implements TimeSubject {
                 carState.setDecelerationRate(0.0);
                 double delta = carState.getAccelerationRate() / 2.0 * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
-            }
-            case FAIL_SAFE -> {
-                double rate  = getDecelerationRate(carState.getWeather());
-                decelApplied = rate;
-                carState.setDecelerationRate(rate);
-                speed = Math.max(speed - rate * TICK_DURATION_S, 0.0);
             }
         }
 
@@ -277,30 +266,6 @@ public class SimulatorEngine implements TimeSubject {
     }
 
     // -----------------------------------------------------------------------
-    // TimeSubject
-    // -----------------------------------------------------------------------
-
-    @Override
-    public void attachObserver(TimeObserver observer) {
-        if (observer != null && !timeObservers.contains(observer)) {
-            timeObservers.add(observer);
-        }
-    }
-
-    @Override
-    public void deattachObserver(TimeObserver observer) {
-        timeObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (TimeObserver observer : timeObservers) {
-            System.out.println("ADGAWJDHAWBDKAWBDKJAW");
-            observer.onTick(currentTimeMs);
-        }
-    }
-
-    // -----------------------------------------------------------------------
     // Accessors
     // -----------------------------------------------------------------------
 
@@ -340,9 +305,6 @@ public class SimulatorEngine implements TimeSubject {
         logger.info(sb.toString());
     }
 
-    public long getCurrentTimeMs() { return currentTimeMs; }
     public CarState getCarState() { return carState; }
     public Scenario getScenario() { return scenario; }
-    public List<Sensor> getAllSensors() { return allSensors; }
-
 }

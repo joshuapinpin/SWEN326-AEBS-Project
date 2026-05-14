@@ -43,16 +43,6 @@ public class CarState {
         this.currentTimeMs = System.currentTimeMillis();
     }
 
-    // --- Sensor failure flags ---
-    public boolean isPrimaryRadarFailed()    { return primaryRadarFailed; }
-    public boolean isRedundantRadarFailed()  { return redundantRadarFailed; }
-    public boolean isPrimaryLidarFailed()    { return primaryLidarFailed; }
-    public boolean isRedundantLidarFailed()  { return redundantLidarFailed; }
-    public boolean isPrimaryCameraFailed()    { return primaryCameraFailed; }
-    public boolean isRedundantCameraFailed() { return redundantCameraFailed; }
-    public boolean isPrimaryWheelFailed()    { return primaryWheelFailed; }
-    public boolean isRedundantWheelFailed()  { return redundantWheelFailed; }
-
     public void setPrimaryRadarFailed(boolean v)    { this.primaryRadarFailed = v; }
     public void setRedundantRadarFailed(boolean v)  { this.redundantRadarFailed = v; }
     public void setPrimaryLidarFailed(boolean v)    { this.primaryLidarFailed = v; }
