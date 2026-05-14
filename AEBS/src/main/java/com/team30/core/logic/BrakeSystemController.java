@@ -107,9 +107,6 @@ public class BrakeSystemController {
     public int getCurrentAttempts() {
         return currentAttempts;
     }
-    public long getBrakeCommandTimeMs() {
-        return 0;
-    }
     public void setBrakeFailures(int count) {
         remainingBrakeFailures = count;
     }

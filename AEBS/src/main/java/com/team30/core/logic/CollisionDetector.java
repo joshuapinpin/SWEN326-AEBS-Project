@@ -14,20 +14,9 @@ public class CollisionDetector {
     private static final double MIN_DETECTION_DISTANCE = 0.5;
     private static final double WARNING_DISTANCE = 200.0; // Object visible + warning starts here
 
-    private final Map<ObjectType, Double> brakeThresholds;
     private CollisionAssessment lastAssessment;
 
-    /**
-     * Initializes the CollisionDetector with predefined braking thresholds for different object types.
-     * These thresholds represent the minimum Time-to-Collision (TTC) required to trigger braking for each object type.
-     */
-    public CollisionDetector() {
-        brakeThresholds = new EnumMap<>(ObjectType.class);
-
-        brakeThresholds.put(ObjectType.VEHICLE, 1.5);
-        brakeThresholds.put(ObjectType.PEDESTRIAN, 2.5);
-        brakeThresholds.put(ObjectType.UNKNOWN, 2.0);
-    }
+    public CollisionDetector() {}
 
     /**
      * Assesses the collision threat level based on the latest processed sensor data.
@@ -223,9 +212,5 @@ public class CollisionDetector {
         }
 
         return null;
-    }
-
-    public CollisionAssessment getLastAssessment() {
-        return lastAssessment;
     }
 }

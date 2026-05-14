@@ -53,14 +53,6 @@ public class SensorInputHandler{
     }
 
     /**
-     * Returns true if radar or lidar data arrived since the last getLatest() call.
-     * @return true if new radar or lidar data is available, false otherwise
-     */
-    public boolean hasNewRadarOrLidar() {
-        return updatedSensorTypes.contains(SensorType.RADAR) || updatedSensorTypes.contains(SensorType.LIDAR);
-    }
-
-    /**
      * Checks if the buffer is empty, meaning no sensor data has been received since the last snapshot was taken.
      * @return true if the buffer is empty, false otherwise
      */
