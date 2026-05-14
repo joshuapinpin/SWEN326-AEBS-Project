@@ -43,6 +43,8 @@ public class FaultHandler {
      * @param data     the validated ProcessedSensorData from RedundancyChecker
      */
     public void handle(BrakeDecision decision, ProcessedSensorData data) {
+        assert decision != null : "BrakeDecision must not be null";
+        assert data != null : "ProcessedSensorData must not be null";
         if (decision.getResult() == BrakeResult.EXHAUSTED) {
             escalateCriticalFailure();
             return;
@@ -72,9 +74,11 @@ public class FaultHandler {
     }
 
     private void escalateCriticalFailure() {
+        assert !criticalFailure : "Critical failure should only be set once per escalation event";
         criticalFailure = true;
 
         if (!escalationAlertShown) {
+            assert driverInterface != null : "DriverInterface must not be null";
             driverInterface.showEscalationAlert();
             escalationAlertShown = true;
         }

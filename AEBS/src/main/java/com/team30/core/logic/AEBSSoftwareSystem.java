@@ -65,10 +65,12 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
     @Override
     protected CollisionAssessment collisionDetection(ProcessedSensorData data) {
+        assert data != null : "ProcessedSensorData should not be null";
+
         CollisionAssessment assessment = collisionDetector.assess(data);
-        if (assessment == null) {
-            return null;
-        }
+        assert assessment == null || assessment.getThreatLevel() != null : "CollisionAssessment must have a valid threat level";
+        if (assessment == null) return null;
+
         ThreatLevel current = assessment.getThreatLevel();
 
         // Keep BRAKE latched while braking
@@ -100,7 +102,10 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
 
     @Override
     protected BrakeDecision brakingSystemController(CollisionAssessment assessment) {
+        assert assessment != null : "CollisionAssessment should not be null";
+
         latestBrakeDecision = brakeSystemController.execute(assessment);
+        assert latestBrakeDecision != null : "BrakeDecision must not be null after execution";
 
         if (latestBrakeDecision.getResult() == BrakeResult.FAILED) {
             driverInterface.showBrakingActivated();

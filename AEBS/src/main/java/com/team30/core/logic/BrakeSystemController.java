@@ -34,6 +34,8 @@ public class BrakeSystemController {
      * @return a BrakeDecision object containing the decision to brake, the deceleration rate, the result of the braking attempt, and the number of attempts made
      */
     public BrakeDecision execute(CollisionAssessment assessment) {
+        assert assessment != null : "CollisionAssessment must not be null";
+        assert assessment.getThreatLevel() != null : "ThreatLevel must be defined in CollisionAssessment";
         ThreatLevel threat = assessment.getThreatLevel();
 
         if (carState.getDrivingMode() == DrivingMode.FAIL_SAFE) {
@@ -84,7 +86,9 @@ public class BrakeSystemController {
      * @return
      */
     private BrakeDecision commandBrake() {
+        assert currentAttempts >= 0 : "currentAttempts must be non-negative";
         currentAttempts++;
+        assert currentAttempts > 0 : "currentAttempts must be positive after increment";
 
         if (remainingBrakeFailures > 0) {
             remainingBrakeFailures--;
@@ -102,9 +106,6 @@ public class BrakeSystemController {
     /** Getters and Setters */
     public int getCurrentAttempts() {
         return currentAttempts;
-    }
-    public long getBrakeCommandTimeMs() {
-        return 0;
     }
     public void setBrakeFailures(int count) {
         remainingBrakeFailures = count;

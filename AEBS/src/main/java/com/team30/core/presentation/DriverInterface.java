@@ -89,18 +89,6 @@ public class DriverInterface {
     }
 
     /**
-     * Displays a maintenance warning to the driver when a sensor fault
-     * has been detected. System is operating on redundant sensor.
-     * Matches existing FaultHandler usage signature.
-     */
-    public void showMaintenanceWarning() {
-        logger.warn("Maintenance warning triggered — sensor fault detected");
-        System.out.println("\n[MAINTENANCE WARNING] Sensor fault detected.");
-        System.out.println("[MAINTENANCE WARNING] Operating on redundant sensor.");
-        printCarState();
-    }
-
-    /**
      * Displays a maintenance warning with specific sensor type information.
      * Overloaded version of showMaintenanceWarning() for when sensor
      * type is known.
@@ -111,21 +99,6 @@ public class DriverInterface {
         System.out.println("[MAINTENANCE WARNING] Operating on redundant "
                 + type + " sensor.");
         System.out.println("[MAINTENANCE WARNING] Please seek maintenance.");
-        printCarState();
-    }
-
-    /**
-     * Displays a critical sensor failure alert when both primary and
-     * redundant sensors of a type have failed.
-     * System is entering fail-safe mode.
-     * @param type the SensorType that has completely failed
-     */
-    public void showCriticalSensorFailure(SensorType type) {
-        System.out.println("\n[CRITICAL ALERT] *** SENSOR FAILURE ***");
-        System.out.println("[CRITICAL ALERT] Both primary and redundant "
-                + type + " sensors have failed.");
-        System.out.println("[CRITICAL ALERT] AEBS entering fail-safe mode.");
-        System.out.println("[CRITICAL ALERT] TAKE MANUAL CONTROL IMMEDIATELY.");
         printCarState();
     }
 
