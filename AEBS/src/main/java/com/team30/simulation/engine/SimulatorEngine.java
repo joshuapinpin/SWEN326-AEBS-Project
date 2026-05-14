@@ -2,8 +2,6 @@ package com.team30.simulation.engine;
 
 import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.enums.*;
-import com.team30.core.datalayer.observers.TimeObserver;
-import com.team30.core.datalayer.observers.TimeSubject;
 import com.team30.core.datalayer.sensors.Sensor;
 import com.team30.core.logic.AEBSSoftwareSystem;
 import com.team30.simulation.scenario.HazardEvent;
@@ -20,7 +18,7 @@ import java.util.List;
  * SimulatorEngine is the core of the AEBS simulation. It maintains the current state of the car and the world,
  * processes the scenario's hazard events, updates the physics, and interacts with the AEBS software system.
  */
-public class SimulatorEngine implements TimeSubject {
+public class SimulatorEngine {
 
     private static final Logger logger = LogManager.getLogger(SimulatorEngine.class);
 
@@ -35,7 +33,6 @@ public class SimulatorEngine implements TimeSubject {
     private final Scenario           scenario;
     private final List<Sensor>       allSensors;
     private final AEBSSoftwareSystem aebs;
-    private final List<TimeObserver> timeObservers = new ArrayList<>();
     private long currentTimeMs;
     private boolean deactivated;
 
@@ -65,7 +62,6 @@ public class SimulatorEngine implements TimeSubject {
         while (currentTimeMs <= scenario.getDurationMs()) {
             carState.setCurrentTimeMs(currentTimeMs);
 
-            notifyObservers();   // notify time observers
             applyHazardEvents(); // mutate CarState / spawn objects
             fireSensors();       // sensors push into SensorInputHandler via observers
             if(isDeactivated()){
@@ -268,30 +264,6 @@ public class SimulatorEngine implements TimeSubject {
     private void fireSensors() {
         for (Sensor sensor : allSensors) {
             sensor.onTick(currentTimeMs, carState);
-        }
-    }
-
-    // -----------------------------------------------------------------------
-    // TimeSubject
-    // -----------------------------------------------------------------------
-
-    @Override
-    public void attachObserver(TimeObserver observer) {
-        if (observer != null && !timeObservers.contains(observer)) {
-            timeObservers.add(observer);
-        }
-    }
-
-    @Override
-    public void deattachObserver(TimeObserver observer) {
-        timeObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (TimeObserver observer : timeObservers) {
-            System.out.println("ADGAWJDHAWBDKAWBDKJAW");
-            observer.onTick(currentTimeMs);
         }
     }
 
