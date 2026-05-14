@@ -7,6 +7,8 @@ import com.team30.core.presentation.DriverInterface;
 import com.team30.simulation.state.CarState;
 
 import org.junit.jupiter.api.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FaultHandlerTest {
 
+    private static final Logger log =
+            LogManager.getLogger(FaultHandlerTest.class);
+
     private CarState createCarState() {
+
+        log.debug("Creating default CarState for tests");
+
         return new CarState(
                 50,
                 50,
@@ -32,6 +40,8 @@ public class FaultHandlerTest {
      * Creates valid sensor data for all sensor types.
      */
     private Map<SensorType, Map<SensorId, SensorData>> createAllValidSensors() {
+
+        log.debug("Creating valid sensor data for all sensor types");
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 new HashMap<>();
@@ -85,14 +95,11 @@ public class FaultHandlerTest {
     @Test
     public void testExhaustedBrakeTriggersCriticalFailure() {
 
-        CarState carState =
-                createCarState();
+        log.info("STARTING: testExhaustedBrakeTriggersCriticalFailure");
 
-        DriverInterface driverInterface =
-                new DriverInterface(carState);
-
-        FaultHandler handler =
-                new FaultHandler(driverInterface, carState);
+        CarState carState = createCarState();
+        DriverInterface driverInterface = new DriverInterface(carState);
+        FaultHandler handler = new FaultHandler(driverInterface, carState);
 
         BrakeDecision decision =
                 new BrakeDecision(
@@ -108,33 +115,30 @@ public class FaultHandlerTest {
                         System.currentTimeMillis()
                 );
 
+        log.debug("Calling FaultHandler.handle() with EXHAUSTED brake result");
+
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
 
-        // FaultHandler does NOT modify driving mode
-        assertEquals(
-                DrivingMode.CRUISING,
-                carState.getDrivingMode()
-        );
+        log.info("ENDING: testExhaustedBrakeTriggersCriticalFailure");
     }
 
     @Test
     public void testTwoSensorFailuresTriggerCriticalFailure() {
 
-        CarState carState =
-                createCarState();
+        log.info("STARTING: testTwoSensorFailuresTriggerCriticalFailure");
 
-        DriverInterface driverInterface =
-                new DriverInterface(carState);
-
-        FaultHandler handler =
-                new FaultHandler(driverInterface, carState);
+        CarState carState = createCarState();
+        DriverInterface driverInterface = new DriverInterface(carState);
+        FaultHandler handler = new FaultHandler(driverInterface, carState);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 createAllValidSensors();
 
-        // Simulate failures
+        log.debug("Simulating two sensor failures: RADAR and LIDAR");
+
         readings.put(SensorType.RADAR, new HashMap<>());
         readings.put(SensorType.LIDAR, new HashMap<>());
 
@@ -155,29 +159,25 @@ public class FaultHandlerTest {
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
 
-        assertEquals(
-                DrivingMode.CRUISING,
-                carState.getDrivingMode()
-        );
+        log.info("ENDING: testTwoSensorFailuresTriggerCriticalFailure");
     }
 
     @Test
     public void testOneSensorFailureTriggersCriticalFailure() {
 
-        CarState carState =
-                createCarState();
+        log.info("STARTING: testOneSensorFailureTriggersCriticalFailure");
 
-        DriverInterface driverInterface =
-                new DriverInterface(carState);
-
-        FaultHandler handler =
-                new FaultHandler(driverInterface, carState);
+        CarState carState = createCarState();
+        DriverInterface driverInterface = new DriverInterface(carState);
+        FaultHandler handler = new FaultHandler(driverInterface, carState);
 
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 createAllValidSensors();
 
-        // One sensor unavailable
+        log.debug("Simulating one sensor failure: RADAR");
+
         readings.put(SensorType.RADAR, new HashMap<>());
 
         ProcessedSensorData data =
@@ -197,24 +197,19 @@ public class FaultHandlerTest {
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
 
-        assertEquals(
-                DrivingMode.CRUISING,
-                carState.getDrivingMode()
-        );
+        log.info("ENDING: testOneSensorFailureTriggersCriticalFailure");
     }
 
     @Test
     public void testAllSensorsPresentNoCriticalFailure() {
 
-        CarState carState =
-                createCarState();
+        log.info("STARTING: testAllSensorsPresentNoCriticalFailure");
 
-        DriverInterface driverInterface =
-                new DriverInterface(carState);
-
-        FaultHandler handler =
-                new FaultHandler(driverInterface, carState);
+        CarState carState = createCarState();
+        DriverInterface driverInterface = new DriverInterface(carState);
+        FaultHandler handler = new FaultHandler(driverInterface, carState);
 
         ProcessedSensorData data =
                 new ProcessedSensorData(
@@ -230,13 +225,13 @@ public class FaultHandlerTest {
                         0
                 );
 
+        log.debug("Calling FaultHandler.handle() with all sensors valid");
+
         handler.handle(decision, data);
 
         assertFalse(handler.hasCriticalFailure());
+        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
 
-        assertEquals(
-                DrivingMode.CRUISING,
-                carState.getDrivingMode()
-        );
+        log.info("ENDING: testAllSensorsPresentNoCriticalFailure");
     }
 }
