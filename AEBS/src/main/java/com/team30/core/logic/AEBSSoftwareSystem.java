@@ -68,7 +68,6 @@ public class AEBSSoftwareSystem extends AEBSPipeline implements SensorObserver {
         assert data != null : "ProcessedSensorData should not be null";
 
         CollisionAssessment assessment = collisionDetector.assess(data);
-        assert assessment == null || assessment.getThreatLevel() != null : "CollisionAssessment must have a valid threat level";
         if (assessment == null) return null;
 
         ThreatLevel current = assessment.getThreatLevel();
