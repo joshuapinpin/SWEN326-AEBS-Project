@@ -3,9 +3,6 @@ package com.team30.core.logic;
 import com.team30.core.datalayer.data.*;
 import com.team30.core.datalayer.enums.*;
 
-import java.util.EnumMap;
-import java.util.Map;
-
 /**
  * CollisionDetector is responsible for analyzing processed sensor data to assess potential collision threats.
  * It evaluates the distance, relative speed, and object classification to determine if braking or warning is necessary.

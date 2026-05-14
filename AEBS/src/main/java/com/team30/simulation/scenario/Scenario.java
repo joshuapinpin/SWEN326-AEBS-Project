@@ -10,13 +10,13 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Scenario {
-    public String scenarioName;
-    public double initialCarSpeed;
-    public long durationMs;
-    public WeatherCondition initialWeather;
-    public LightCondition initialLight;
-    public List<HazardEvent> hazardEvents = new ArrayList<>();
-    public List<WorldObject> initialObjects = new ArrayList<>();
+    private String scenarioName;
+    private double initialCarSpeed;
+    private long durationMs;
+    private WeatherCondition initialWeather;
+    private LightCondition initialLight;
+    private List<HazardEvent> hazardEvents = new ArrayList<>();
+    private List<WorldObject> initialObjects = new ArrayList<>();
 
     // Default constructor required by Jackson
     public Scenario() {}
@@ -28,4 +28,13 @@ public class Scenario {
     public LightCondition getInitialLight()     { return initialLight; }
     public List<HazardEvent> getHazardEvents()  { return hazardEvents; }
     public List<WorldObject> getInitialObjects(){ return initialObjects; }
+
+    public void setScenarioName(String scenarioName) { this.scenarioName = scenarioName; }
+    public void setInitialCarSpeed(double initialCarSpeed) { this.initialCarSpeed = initialCarSpeed; }
+    public void setDurationMs(long durationMs) { this.durationMs = durationMs; }
+    public void setInitialWeather(WeatherCondition initialWeather) { this.initialWeather = initialWeather; }
+    public void setInitialLight(LightCondition initialLight) { this.initialLight = initialLight; }
+    public void setHazardEvents(List<HazardEvent> hazardEvents) { this.hazardEvents = hazardEvents; }
+    public void setInitialObjects(List<WorldObject> initialObjects) { this.initialObjects = initialObjects; }
+
 }

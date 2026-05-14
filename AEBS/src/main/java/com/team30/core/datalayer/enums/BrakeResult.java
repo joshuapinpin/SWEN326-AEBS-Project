@@ -10,6 +10,5 @@ public enum BrakeResult {
     SUCCESS,
     FAILED,
     EXHAUSTED,
-    CLEARED,
     NOT_NEEDED
 }

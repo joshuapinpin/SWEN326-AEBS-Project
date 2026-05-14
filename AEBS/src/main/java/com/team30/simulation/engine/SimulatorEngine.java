@@ -25,7 +25,6 @@ public class SimulatorEngine {
     private static final double LANE_WIDTH             = 3.5;
     private static final long   TICK_DURATION_MS       = 10;
     private static final double TICK_DURATION_S        = TICK_DURATION_MS / 1000.0;
-    // private static final double MIN_SPEED_MS           = 0.01; unused variable
     private static final double WHEEL_CIRCUMFERENCE    = 2.0;
     private static final double LOCKUP_DECEL_THRESHOLD = 7.85;
 
@@ -170,7 +169,7 @@ public class SimulatorEngine {
                 double delta = carState.getAccelerationRate() * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
             }
-            case BRAKING -> {
+            case BRAKING, FAIL_SAFE -> {
                 double rate  = getDecelerationRate(carState.getWeather());
                 decelApplied = rate;
                 carState.setDecelerationRate(rate);
@@ -180,12 +179,6 @@ public class SimulatorEngine {
                 carState.setDecelerationRate(0.0);
                 double delta = carState.getAccelerationRate() / 2.0 * TICK_DURATION_S;
                 speed = Math.min(speed + delta, carState.getTargetSpeed());
-            }
-            case FAIL_SAFE -> {
-                double rate  = getDecelerationRate(carState.getWeather());
-                decelApplied = rate;
-                carState.setDecelerationRate(rate);
-                speed = Math.max(speed - rate * TICK_DURATION_S, 0.0);
             }
         }
 
@@ -307,9 +300,6 @@ public class SimulatorEngine {
         logger.info(sb.toString());
     }
 
-    public long getCurrentTimeMs() { return currentTimeMs; }
     public CarState getCarState() { return carState; }
     public Scenario getScenario() { return scenario; }
-    public List<Sensor> getAllSensors() { return allSensors; }
-
 }
