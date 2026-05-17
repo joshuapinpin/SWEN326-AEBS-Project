@@ -76,7 +76,8 @@ public class SimulatorEngine {
 
             if (currentTimeMs > 0
                     && scenario.getHazardEvents().stream().allMatch(HazardEvent::isTriggered)
-                    && carState.getObjectsInWorld().isEmpty()) {
+                    && carState.getObjectsInWorld().isEmpty()
+                    && currentTimeMs >= scenario.getDurationMs()) {
                 break;
             }
         }
