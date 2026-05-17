@@ -17,17 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * TC-026, TC-027, TC-028 — Resuming after threat clears, alert deduplication,
  * and braking verification using wheel speed feedback.
- *
- * Requirements covered:
- *   REQ-001  Auditory alert — deduplication confirmation
- *   REQ-002  Visual alert — deduplication confirmation
- *   REQ-006  Wheel speed sensor — braking verification
- *   REQ-013  Braking control signal — links to resume state
- *   REQ-014  Sensor feedback within 50 ms
- *   REQ-015  Deceleration accuracy ±5%
- *   DR-09    Transition to resuming state after braking no longer required
- *   DR-10    Prevent redundant driver alerts while threat level unchanged
- *   DR-11    Braking controller uses wheel speed feedback for verification
  */
 @DisplayName("TC-026..028 | Resume State, Alert Deduplication, Braking Verification")
 class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
@@ -51,15 +40,13 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-026  REQ-013 / DR-09 — Resume state after threat clears
+    // TC-026
     // ---------------------------------------------------------------
 
     /**
      * TC-026-A: After the system has been braking (BRAKING mode) and the threat
      * is gone (NONE), BrakeSystemController must eventually stop commanding
      * brakes when the vehicle speed reaches zero (or near zero).
-     *
-     * REQ-013 | DR-09
      */
     @Test
     @DisplayName("TC-026-A | Braking stops when vehicle speed reaches zero")
@@ -95,8 +82,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * After a BRAKE event, if the next assessment is NONE (object cleared),
      * BrakeSystemController in CRUISING mode must return NOT_NEEDED —
      * confirming the system transitions back to normal.
-     *
-     * DR-09 | REQ-013
      */
     @Test
     @DisplayName("TC-026-B | NONE assessment in CRUISING mode returns NOT_NEEDED (threat cleared)")
@@ -122,8 +107,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
     /**
      * TC-026-C: Car at speed 0.0 in BRAKING mode — BrakeSystemController must
      * set deceleration to 0.0 (no longer decelerating) and return shouldBrake=false.
-     *
-     * DR-09
      */
     @Test
     @DisplayName("TC-026-C | Car stopped in BRAKING mode — deceleration reset to 0")
@@ -147,7 +130,7 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-027  REQ-001 / REQ-002 / DR-10 — Alert deduplication
+    // TC-027
     // ---------------------------------------------------------------
 
     /**
@@ -155,8 +138,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * same speed) on repeated assess() calls must be identical. This means a
      * system that only fires alerts on threat level CHANGE will correctly
      * deduplicate — same output = same level = no new alert.
-     *
-     * DR-10 | REQ-001 | REQ-002
      */
     @Test
     @DisplayName("TC-027-A | Repeated assess() for same object produces same threat level (no change = no new alert)")
@@ -183,8 +164,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * multiple times — the system must be safe to call repeatedly if needed.
      * (In production, the pipeline tracks prior threat level and only calls
      * alert methods on change; here we confirm the methods are idempotent.)
-     *
-     * DR-10 | REQ-001 | REQ-002
      */
     @Test
     @DisplayName("TC-027-B | Driver alert methods are safe to call repeatedly (idempotent)")
@@ -205,8 +184,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * TC-027-C: A change in threat level (WARNING → BRAKE) must produce a
      * different ThreatLevel in the assessment — confirming the detector responds
      * to input change, allowing the caller to fire a new alert.
-     *
-     * DR-10
      */
     @Test
     @DisplayName("TC-027-C | Threat level changes when object closes (enables alert on change logic)")
@@ -228,15 +205,13 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-028  REQ-006 / REQ-014 / REQ-015 / DR-11 — Braking verification
+    // TC-028
     // ---------------------------------------------------------------
 
     /**
      * TC-028-A: BrakeDecision returned by BrakeSystemController on a BRAKE threat
      * must carry shouldBrake=true and targetDeceleration=8.0 m/s².
      * The wheel-speed-based execution check uses these values.
-     *
-     * REQ-014 | REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-028-A | BrakeDecision carries correct deceleration for wheel-speed verification")
@@ -261,8 +236,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * TC-028-B: After a brake command, CarState.decelerationRate must reflect
      * the commanded deceleration — confirming the controller applies it.
      * The simulator uses this field to update vehicle speed.
-     *
-     * REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-028-B | CarState.decelerationRate set to 8.0 m/s² after brake command")
@@ -287,8 +260,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * Scenario: car at 16.67 m/s, brake applied for 50 ms.
      * Expected speed after: 16.27 m/s. Actual (simulated): 16.28 m/s.
      * Derived decel: (16.67 - 16.28) / 0.05 = 7.8 m/s² → within ±5% of 8.0.
-     *
-     * REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-028-C | Wheel-derived deceleration within ±5% of commanded 8.0 m/s²")
@@ -317,8 +288,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * TC-028-D: BrakeDecision must record the correct number of attempts made.
      * Initial command = 1 attempt. Confirms the counter is available for
      * the retry/escalation logic upstream.
-     *
-     * REQ-007 | DR-11
      */
     @Test
     @DisplayName("TC-028-D | BrakeDecision attempt count is 1 after first command")
@@ -341,8 +310,6 @@ class ResumeAlertBrakingVerificationTests extends com.team30.AEBSTestBase {
      * scenario (only 2.0 m/s² actual vs 8.0 m/s² commanded) must flag as
      * outside ±5% tolerance. This confirms the execution check logic would
      * correctly detect a failure.
-     *
-     * REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-028-E | Under-braking 2.0 m/s² vs 8.0 m/s² target correctly exceeds ±5%")

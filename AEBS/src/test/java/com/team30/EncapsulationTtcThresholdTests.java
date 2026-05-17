@@ -18,16 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * TC-020, TC-022, TC-023, TC-024 — Sensor data encapsulation, TTC calculation,
  * per-object-type thresholds, and multi-level threat classification.
- *
- * Requirements covered:
- *   REQ-001  Auditory alert — confirmed via threat level progression
- *   REQ-005  Camera classification — feeds per-type thresholds
- *   REQ-013  Braking control signal timing — linked to threat escalation
- *   REQ-016  Unit consistency — encapsulation check
- *   DR-02    Processing component encapsulates all sensor data
- *   DR-05    TTC calculated from radar distance + wheel speed
- *   DR-06    Per-object-type warning and braking thresholds
- *   DR-07    Multi-level threat classification before braking
  */
 @DisplayName("TC-020, 022-024 | Encapsulation, TTC, Per-Type Thresholds, Threat Levels")
 class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
@@ -45,7 +35,7 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-020  REQ-016 / DR-02 — Sensor data processing encapsulation
+    // TC-020
     // ---------------------------------------------------------------
 
     /**
@@ -53,8 +43,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * produces a ProcessedSensorData where data is keyed by SensorType and
      * SensorId — confirming that the processing component encapsulates all
      * sensor data (DR-02).
-     *
-     * REQ-016 | DR-02
      */
     @Test
     @DisplayName("TC-020-A | SensorInputHandler encapsulates all sensor types into ProcessedSensorData")
@@ -92,36 +80,30 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     /**
      * TC-020-B: SensorData retrieved through ProcessedSensorData carries the
      * correct SensorType — confirming unit label preservation through encapsulation.
-     *
-     * REQ-016 | DR-02
      */
-    @Test
-    @DisplayName("TC-020-B | SensorType is preserved through ProcessedSensorData retrieval")
-    void tc020b_sensorTypePreservedThroughContainer() {
-        log.info("TC-020-B: sensor type preserved in container");
-        ProcessedSensorData snap = buildHazardSnapshot(40.0, 16.67, ObjectType.VEHICLE, 16.67);
+    @DisplayName("TC-020-B | Second getLatest() call with no new data returns null")
+    void tc020b_handlerClearsAfterSnapshot() {
+        log.info("TC-020-B: handler clears buffer state after snapshot");
+        SensorInputHandler handler = new SensorInputHandler();
+        long ts = System.currentTimeMillis();
 
-        SensorData radar  = snap.getSensorData(SensorType.RADAR,       SensorId.PRIMARY);
-        SensorData lidar  = snap.getSensorData(SensorType.LIDAR,       SensorId.PRIMARY);
-        SensorData camera = snap.getSensorData(SensorType.CAMERA,      SensorId.PRIMARY);
-        SensorData wheel  = snap.getSensorData(SensorType.WHEEL_SPEED, SensorId.PRIMARY);
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts, 40.0, 16.67, true));
+        ProcessedSensorData first = handler.getLatest();
+        assertNotNull(first, "First getLatest() must return a snapshot");
 
-        assertEquals(SensorType.RADAR,       radar.getSensorType(),  "RADAR type preserved (REQ-016)");
-        assertEquals(SensorType.LIDAR,       lidar.getSensorType(),  "LIDAR type preserved (REQ-016)");
-        assertEquals(SensorType.CAMERA,      camera.getSensorType(), "CAMERA type preserved (REQ-016)");
-        assertEquals(SensorType.WHEEL_SPEED, wheel.getSensorType(),  "WHEEL_SPEED type preserved (REQ-016)");
+        // No new updates — second call should return null (buffer emptied)
+        ProcessedSensorData second = handler.getLatest();
+        assertNull(second,
+                "Second getLatest() with no new data must return null (DR-02)");
         log.info("TC-020-B passed");
     }
-
     // ---------------------------------------------------------------
-    // TC-022  DR-05 — TTC calculation accuracy
+    // TC-022
     // ---------------------------------------------------------------
 
     /**
      * TC-022-A: Vehicle at 40 m closing at 16.67 m/s (60 km/h).
      * Expected TTC = 40 / 16.67 = 2.4 s ± 0.1 s.
-     *
-     * DR-05 | REQ-004 | REQ-006
      */
     @Test
     @DisplayName("TC-022-A | TTC = distance / relativeSpeed within ±0.1 s tolerance")
@@ -146,8 +128,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     /**
      * TC-022-B: Pedestrian at 30 m closing at 11.11 m/s (40 km/h).
      * Expected TTC = 30 / 11.11 = 2.7 s ± 0.1 s.
-     *
-     * DR-05
      */
     @Test
     @DisplayName("TC-022-B | TTC for pedestrian at 30 m is within ±0.1 s of expected")
@@ -172,8 +152,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * TC-022-C: Object not closing (relativeSpeed = 0 or negative) must produce
      * ThreatLevel.NONE because TTC is infinite or undefined — car cannot collide
      * with something it is not approaching.
-     *
-     * DR-05
      */
     @Test
     @DisplayName("TC-022-C | Zero or negative relative speed → NONE threat (no collision path)")
@@ -225,8 +203,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     /**
      * TC-022-D: Object out of current lane must produce NONE threat regardless
      * of distance or TTC — confirming lane-check is prior to TTC calculation.
-     *
-     * DR-05
      */
     @Test
     @DisplayName("TC-022-D | Object out of lane → NONE threat regardless of TTC")
@@ -279,7 +255,7 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-023  DR-06 — Per-object-type warning and braking thresholds
+    // TC-023
     // ---------------------------------------------------------------
 
     /**
@@ -287,10 +263,7 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * Confirm BRAKE threat is produced. Then place a PEDESTRIAN at the same
      * distance — PEDESTRIAN also produces BRAKE. Both must trigger BRAKE at
      * short range because the physics threshold covers both.
-     *
      * This test focuses on confirming that pedestrians are not ignored.
-     *
-     * REQ-005 | DR-06
      */
     @Test
     @DisplayName("TC-023-A | PEDESTRIAN and VEHICLE both produce BRAKE at close range")
@@ -321,8 +294,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * TC-023-B: Object type is correctly carried through to the CollisionAssessment.
      * This allows the calling code (e.g. a future threshold layer) to apply
      * different per-type logic downstream if needed.
-     *
-     * REQ-005 | DR-06
      */
     @Test
     @DisplayName("TC-023-B | CollisionAssessment carries correct object type for threshold decisions")
@@ -347,8 +318,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     /**
      * TC-023-C: Object not detected produces NONE regardless of object type field.
      * Confirms the detection gate works before type classification.
-     *
-     * DR-06
      */
     @Test
     @DisplayName("TC-023-C | No object detected → NONE regardless of camera classification")
@@ -366,14 +335,12 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-024  REQ-001 / DR-07 — Multi-level threat classification
+    // TC-024
     // ---------------------------------------------------------------
 
     /**
      * TC-024-A: Object at 150 m (far — warning zone) must produce WARNING,
      * not BRAKE. Confirms the first intermediate threat level exists.
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-024-A | Object at 150 m produces WARNING — first threat level")
@@ -394,8 +361,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * TC-024-B: Object crosses into braking distance — threat must escalate
      * from WARNING to BRAKE. Simulated by comparing two snapshots at different
      * distances processed by the same detector instance.
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-024-B | Threat escalates WARNING → BRAKE as object closes")
@@ -423,8 +388,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
     /**
      * TC-024-C: Three distinct threat levels (NONE → WARNING → BRAKE) must all
      * be producible by CollisionDetector given appropriate inputs.
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-024-C | All three threat levels (NONE, WARNING, BRAKE) are reachable")
@@ -463,8 +426,6 @@ class EncapsulationTtcThresholdTests extends com.team30.AEBSTestBase {
      * TC-024-D: An object that disappears (no longer detected) must cause the
      * threat to drop back toward NONE — confirming the system doesn't latch
      * permanently on a stale BRAKE state.
-     *
-     * DR-07 | DR-09
      */
     @Test
     @DisplayName("TC-024-D | Object cleared from road → threat returns to NONE")

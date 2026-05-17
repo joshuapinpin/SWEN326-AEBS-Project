@@ -20,14 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * TC-015, TC-019, TC-025 — Fail-safe behaviour, sensor data fusion, and
  * sensor consistency check before collision assessment.
- *
- * Requirements covered:
- *   REQ-019  Fail-safe mechanisms when reliable sensor data is unavailable
- *   REQ-004  Collect radar/lidar data — fusion product
- *   REQ-005  Camera classification — part of fused object
- *   DR-01    Sensor fusion from radar + lidar + camera
- *   DR-02    Processing component encapsulates all sensor data
- *   DR-08    Sensor consistency check before collision assessment
  */
 @DisplayName("TC-015, 019, 025 | Fail-Safe, Sensor Fusion, and Consistency Check")
 class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
@@ -51,7 +43,7 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-015  REQ-019 — Fail-safe when ALL range sensors unavailable
+    // TC-015
     // ---------------------------------------------------------------
 
     /**
@@ -59,10 +51,7 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
      * redundant) all fail, the validated snapshot has no range sensor data.
      * FaultHandler must engage FAIL_SAFE because two sensor types are
      * unavailable (radar + lidar).
-     *
      * Scenario mirrors JSON: "All sensors (radar and lidar) fail".
-     *
-     * REQ-019 | DR-08
      */
     @Test
     @DisplayName("TC-015-A | All radar + lidar fail → FAIL_SAFE engaged")
@@ -117,7 +106,7 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
         BrakeDecision ok = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(ok, validated);
 
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
                 "All range sensors failed must engage FAIL_SAFE (REQ-019)");
         log.info("TC-015-A passed — mode = {}", carState.getDrivingMode());
     }
@@ -125,8 +114,6 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     /**
      * TC-015-B: When ALL four sensor types fail simultaneously, the system
      * must enter FAIL_SAFE, set target speed to 0, and apply max deceleration.
-     *
-     * REQ-019
      */
     @Test
     @DisplayName("TC-015-B | All four sensor types fail → FAIL_SAFE with max deceleration")
@@ -161,9 +148,9 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
         BrakeDecision ok = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(ok, validated);
 
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
                 "All sensors failed must engage FAIL_SAFE (REQ-019)");
-        assertEquals(16.67, carState.getTargetSpeed(), 0.001,
+        assertEquals(0.0, carState.getTargetSpeed(), 0.001,
                 "Target speed must be 0 in FAIL_SAFE (REQ-019)");
         assertEquals(0.0, carState.getDecelerationRate(), 0.001,
                 "Maximum deceleration must be applied in FAIL_SAFE");
@@ -173,9 +160,7 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     /**
      * TC-015-C: CollisionDetector receiving a snapshot with no radar or lidar
      * (hasNewRadarOrLidar() = false) must return the last cached assessment
-     * rather than crashing. This prevents null-pointer propagation.
-     *
-     * REQ-019
+     * rather than crashing. This prevents null-pointer propagation
      */
     @Test
     @DisplayName("TC-015-C | CollisionDetector returns cached assessment when no range data present")
@@ -205,14 +190,12 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-019  REQ-004 / REQ-005 / DR-01 / DR-02 — Sensor data fusion
+    // TC-019
     // ---------------------------------------------------------------
 
     /**
      * TC-019-A: ProcessedSensorData must hold radar, lidar, camera, and
      * wheel speed simultaneously — confirming the fusion container works.
-     *
-     * REQ-004 | REQ-005 | DR-01 | DR-02
      */
     @Test
     @DisplayName("TC-019-A | ProcessedSensorData holds all four sensor types simultaneously")
@@ -236,8 +219,6 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
      * TC-019-B: CollisionDetector must produce an assessment that combines
      * radar distance with camera classification — the fused object representation.
      * Object type comes from camera; distance comes from radar.
-     *
-     * REQ-004 | REQ-005 | DR-01
      */
     @Test
     @DisplayName("TC-019-B | CollisionDetector fuses radar distance + camera classification")
@@ -263,8 +244,6 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
      * (Garbage Sensor Values scenario), CollisionDetector must still detect
      * the object using distance from lidar/radar, defaulting type to UNKNOWN
      * if no camera is available.
-     *
-     * REQ-004 | DR-01
      */
     @Test
     @DisplayName("TC-019-C | Object detected from lidar alone when camera primary fails")
@@ -319,8 +298,6 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     /**
      * TC-019-D: SensorInputHandler.update() correctly populates a snapshot
      * that ProcessedSensorData can retrieve — confirming DR-02 encapsulation.
-     *
-     * DR-02
      */
     @Test
     @DisplayName("TC-019-D | SensorInputHandler encapsulates all sensor data correctly (DR-02)")
@@ -347,15 +324,13 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-025  DR-08 — Sensor consistency check before collision assessment
+    // TC-025
     // ---------------------------------------------------------------
 
     /**
      * TC-025-A: RedundancyChecker must strip garbage sensors BEFORE
      * CollisionDetector runs. After validation, no garbage SensorData must
      * appear in the validated snapshot.
-     *
-     * DR-08 | REQ-009 | REQ-018
      */
     @Test
     @DisplayName("TC-025-A | Validated snapshot contains no garbage SensorData")
@@ -401,8 +376,6 @@ class FailSafeFusionConsistencyTests extends com.team30.AEBSTestBase {
      * TC-025-B: CollisionDetector.assess() must not produce a non-NONE assessment
      * based solely on garbage radar data that RedundancyChecker should have stripped.
      * This confirms the pipeline order: validate → then assess.
-     *
-     * DR-08
      */
     @Test
     @DisplayName("TC-025-B | CollisionDetector ignores garbage radar after RedundancyChecker strips it")
