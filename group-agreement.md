@@ -19,9 +19,4 @@
 - Agreement on the use of AI tools to support development.
 
 ## If you agree, type your name:
-Divya Mylavarpu
-Fyfa Main
-Hayley Far
-Emily Ung
-Arushi Bhatnagar-Stewart
-Joshua Adrian Vicente Pinpin
+Divya Mylavarpu, Fyfa Main, Hayley Far, Emily Ung, Arushi Bhatnagar-Stewart, Joshua Adrian Vicente Pinpin
