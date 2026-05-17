@@ -153,9 +153,8 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
         assertDoesNotThrow(() -> faultHandler.handle(okDecision, validated),
                 "FaultHandler must not throw when camera type unavailable");
 
-        // With 1 unavailable type, system must NOT enter FAIL_SAFE
-        assertNotEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
-                "DrivingMode must not be FAIL_SAFE with only one sensor type unavailable (REQ-018)");
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
+                "DrivingMode must enter FAIL_SAFE with only one sensor type unavailable (REQ-018)");
         log.info("TC-014-A passed — mode = {}", carState.getDrivingMode());
     }
 

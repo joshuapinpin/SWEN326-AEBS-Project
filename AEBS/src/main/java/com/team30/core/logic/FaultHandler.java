@@ -4,6 +4,7 @@ import com.team30.core.datalayer.data.BrakeDecision;
 import com.team30.core.datalayer.data.ProcessedSensorData;
 import com.team30.core.datalayer.data.SensorData;
 import com.team30.core.datalayer.enums.BrakeResult;
+import com.team30.core.datalayer.enums.DrivingMode;
 import com.team30.core.datalayer.enums.SensorId;
 import com.team30.core.datalayer.enums.SensorType;
 import com.team30.core.presentation.DriverInterface;
@@ -28,8 +29,10 @@ public class FaultHandler {
     private final DriverInterface driverInterface;
     private boolean escalationAlertShown = false;
     private boolean criticalFailure = false;
+    private final CarState carState;
 
     public FaultHandler(DriverInterface driverInterface, CarState carState) {
+        this.carState = carState;
         this.driverInterface = driverInterface;
     }
 
@@ -50,20 +53,24 @@ public class FaultHandler {
             return;
         }
 
-        int unavailableCount = 0;
-        // Unused variable
-        // SensorType unavailableType = null;
+        boolean radarUnavailable = false;
+        boolean lidarUnavailable = false;
+        boolean criticalUnavailable = false;
 
         for (SensorType type : SensorType.values()) {
             if (isSensorTypeUnavailable(data, type)) {
-                unavailableCount++;
-                // unavailableType = type;
+                if (type == SensorType.RADAR) {
+                    radarUnavailable = true;
+                } else if (type == SensorType.LIDAR) {
+                    lidarUnavailable = true;
+                } else {
+                    criticalUnavailable = true;
+                }
             }
         }
 
-        if (unavailableCount >= 1) {
+        if (criticalUnavailable || (radarUnavailable && lidarUnavailable)) {
             escalateCriticalFailure();
-
         } else {
             escalationAlertShown = false;
         }
@@ -76,6 +83,7 @@ public class FaultHandler {
     private void escalateCriticalFailure() {
         assert !criticalFailure : "Critical failure should only be set once per escalation event";
         criticalFailure = true;
+        carState.setDrivingMode(DrivingMode.FAIL_SAFE);
 
         if (!escalationAlertShown) {
             assert driverInterface != null : "DriverInterface must not be null";

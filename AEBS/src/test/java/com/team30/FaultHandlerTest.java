@@ -120,7 +120,7 @@ public class FaultHandlerTest {
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode());
 
         log.info("ENDING: testExhaustedBrakeTriggersCriticalFailure");
     }
@@ -159,7 +159,7 @@ public class FaultHandlerTest {
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode());
 
         log.info("ENDING: testTwoSensorFailuresTriggerCriticalFailure");
     }
@@ -176,9 +176,9 @@ public class FaultHandlerTest {
         Map<SensorType, Map<SensorId, SensorData>> readings =
                 createAllValidSensors();
 
-        log.debug("Simulating one sensor failure: RADAR");
+        log.debug("Simulating one sensor failure: WheelSpeedSensor");
 
-        readings.put(SensorType.RADAR, new HashMap<>());
+        readings.put(SensorType.WHEEL_SPEED, new HashMap<>());
 
         ProcessedSensorData data =
                 new ProcessedSensorData(
@@ -197,7 +197,7 @@ public class FaultHandlerTest {
         handler.handle(decision, data);
 
         assertTrue(handler.hasCriticalFailure());
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode());
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode());
 
         log.info("ENDING: testOneSensorFailureTriggersCriticalFailure");
     }
