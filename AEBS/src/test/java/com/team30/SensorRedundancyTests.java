@@ -20,12 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * TC-009, TC-014, TC-021 — Sensor redundancy, fault tolerance, and
  * disagreement threshold tests.
- *
- * Requirements covered:
- *   REQ-009  Redundant sensors for each sensor type
- *   REQ-018  Fault tolerance — continued operation after single sensor failure
- *   DR-04    Tolerance threshold for sensor disagreement
- *   DR-08    Sensor consistency check before collision assessment
  */
 @DisplayName("TC-009, 014, 021 | Sensor Redundancy and Fault Tolerance")
 class SensorRedundancyTests extends com.team30.AEBSTestBase {
@@ -49,14 +43,12 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-009  REQ-009 / REQ-018 — Primary sensor failure; redundant takes over
+    // TC-009
     // ------------------------------------------------------------------
 
     /**
      * TC-009-A: When primary RADAR is garbage, RedundancyChecker must promote
      * the redundant radar reading to PRIMARY slot.
-     *
-     * REQ-009 | REQ-018 | DR-08
      */
     @Test
     @DisplayName("TC-009-A | Redundant RADAR promoted when primary is garbage")
@@ -79,8 +71,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-009-B: When primary LIDAR is garbage, redundant lidar must be promoted.
-     *
-     * REQ-009 | REQ-018
      */
     @Test
     @DisplayName("TC-009-B | Redundant LIDAR promoted when primary is garbage")
@@ -101,8 +91,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     /**
      * TC-009-C: When primary CAMERA is garbage, redundant camera must be promoted
      * so CollisionDetector can still classify the object type.
-     *
-     * REQ-009 | REQ-018
      */
     @Test
     @DisplayName("TC-009-C | Redundant CAMERA promoted when primary is garbage")
@@ -123,8 +111,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     /**
      * TC-009-D: CollisionDetector must still detect a vehicle at 10 m after
      * primary radar fails (redundant takes over via RedundancyChecker).
-     *
-     * REQ-009 | REQ-018 | DR-08
      */
     @Test
     @DisplayName("TC-009-D | Hazard detected using redundant radar after primary fails")
@@ -144,7 +130,7 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-014  REQ-018 — Continued operation; single failure never kills system
+    // TC-014
     // ------------------------------------------------------------------
 
     /**
@@ -152,8 +138,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
      * FaultHandler must show a maintenance warning (single unavailable type).
      * The system must NOT enter FAIL_SAFE with only one sensor type down
      * (camera failure while radar and lidar are healthy).
-     *
-     * REQ-018 | DR-04
      */
     @Test
     @DisplayName("TC-014-A | Single sensor type fully down → maintenance warning, no fail-safe")
@@ -178,8 +162,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     /**
      * TC-014-B: With two sensor types fully failed (e.g. RADAR + CAMERA),
      * FaultHandler must engage FAIL_SAFE and escalate alert.
-     *
-     * REQ-018 | REQ-019 | DR-04
      */
     @Test
     @DisplayName("TC-014-B | Two sensor types fully failed → FAIL_SAFE engaged")
@@ -222,20 +204,18 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
         BrakeDecision okDecision = new BrakeDecision(false, 0.0, BrakeResult.NOT_NEEDED, 0);
         faultHandler.handle(okDecision, validated);
 
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
                 "Two sensor types unavailable must engage FAIL_SAFE (REQ-018/REQ-019)");
         log.info("TC-014-B passed — mode = {}", carState.getDrivingMode());
     }
 
     // ------------------------------------------------------------------
-    // TC-021  DR-04 — Sensor disagreement threshold detection
+    // TC-021
     // ------------------------------------------------------------------
 
     /**
      * TC-021-A: Two RADAR readings that agree within 5 m threshold must both
      * be retained by RedundancyChecker (1oo2 check passes).
-     *
-     * DR-04 | REQ-009
      */
     @Test
     @DisplayName("TC-021-A | Radar readings within 5 m threshold both retained")
@@ -268,8 +248,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
      * TC-021-B: Two RADAR readings that differ by more than 5 m (disagreement)
      * — RedundancyChecker must keep only PRIMARY (drops redundant).
      * This is the 1oo2 architecture: primary wins on disagreement.
-     *
-     * DR-04 | REQ-009
      */
     @Test
     @DisplayName("TC-021-B | Radar readings exceeding 5 m threshold — redundant dropped")
@@ -301,8 +279,6 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
     /**
      * TC-021-C: Both wheel speed sensors failing must result in an empty wheel
      * speed map after validation — system detects total wheel speed loss.
-     *
-     * DR-04 | REQ-009 | REQ-018
      */
     @Test
     @DisplayName("TC-021-C | Both wheel speed sensors garbage → empty map after validation")
@@ -325,9 +301,7 @@ class SensorRedundancyTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-021-D: Camera confidence disagreement above 0.2 threshold — redundant dropped.
-     * Primary confidence = 0.95, redundant = 0.70 → diff = 0.25 > 0.2 → redundant dropped.
-     *
-     * DR-04
+     * Primary confidence = 0.95, redundant = 0.70 → diff = 0.25 > 0.2 → redundant dropped
      */
     @Test
     @DisplayName("TC-021-D | Camera confidence disagreement > 0.2 → redundant dropped")

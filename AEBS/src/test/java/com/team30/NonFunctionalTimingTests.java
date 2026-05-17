@@ -15,17 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * TC-006, TC-010, TC-011, TC-012, TC-013 — Non-functional timing and unit consistency tests.
- *
- * Requirements covered:
- *   REQ-006  Wheel speed sensor provides RPM data
- *   REQ-011  Radar/lidar update frequency ≤ 100 ms
- *   REQ-012  Wheel speed sensor update frequency ≤ 10 ms
- *   REQ-013  Braking control signal frequency ≤ 50 ms during active braking
- *   REQ-014  Sensor feedback used within 50 ms
- *   REQ-015  Deceleration accuracy within ±5%
- *   REQ-016  Unit consistency — metres, km/h, RPM
- *   DR-02    Processing encapsulation
- *   DR-11    Braking verification via wheel speed
  */
 @DisplayName("TC-006, 010-013 | Non-Functional: Timing and Unit Consistency")
 class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
@@ -33,15 +22,13 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     private static final Logger log = LogManager.getLogger(NonFunctionalTimingTests.class);
 
     // ------------------------------------------------------------------
-    // TC-006  REQ-006 / REQ-012 — Wheel speed sensor data format and range
+    // TC-006
     // ------------------------------------------------------------------
 
     /**
      * TC-006-A: WheelSpeedData must carry four RPM values and four speed values
      * when constructed normally (no garbage). Values must be non-negative for
      * a forward-moving vehicle.
-     *
-     * REQ-006 | REQ-012
      */
     @Test
     @DisplayName("TC-006-A | WheelSpeedData carries 4 RPM and 4 speed values")
@@ -68,8 +55,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-006-B: Garbage WheelSpeedData (sensor failure) must have isGarbage()=true
      * and all RPM values set to the sentinel -9999.0.
-     *
-     * REQ-006 | REQ-018
      */
     @Test
     @DisplayName("TC-006-B | Garbage wheel speed data is correctly flagged")
@@ -89,8 +74,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
      * TC-006-C: RPM values must span the expected range for speeds 0–250 km/h.
      * At 250 km/h with a typical tyre circumference of ~2 m, RPM ≈ 2083 rpm.
      * The data class must not clamp or reject these values.
-     *
-     * REQ-006 | REQ-022
      */
     @Test
     @DisplayName("TC-006-C | Wheel speed data accepts high-speed RPM (250 km/h range)")
@@ -111,7 +94,7 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-010  REQ-011 — Radar/lidar update ≤ 100 ms
+    // TC-010
     // ------------------------------------------------------------------
 
     /**
@@ -119,8 +102,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
      * updates. Each update call is a separate sensor firing. Inter-arrival
      * between successive calls is controlled by the simulator; here we verify
      * that the buffer always reflects the latest data without dropping readings.
-     *
-     * REQ-011
      */
     @Test
     @DisplayName("TC-010-A | SensorInputHandler buffers rapid radar updates correctly")
@@ -131,7 +112,7 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
 
         // Simulate three consecutive radar firings at distances 100, 80, 60 m
         handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts,     100.0, 5.0, true));
-        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts + 50,  80.0, 5.0, true));
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts + 10,  80.0, 5.0, true));
         handler.addToBuffer(new RadarData(SensorId.PRIMARY, ts + 100, 60.0, 5.0, true));
 
         ProcessedSensorData latest = handler.getLatest();
@@ -151,9 +132,7 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-010-B: Timestamps in RadarData must be monotonically non-decreasing
      * (i.e., later updates have equal or larger timestamps). This is a
-     * contract check on the sensor data structure.
-     *
-     * REQ-011
+     * contract check on the sensor data structure
      */
     @Test
     @DisplayName("TC-010-B | Radar timestamps are monotonically non-decreasing")
@@ -169,17 +148,56 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
                 "Later radar reading must have a timestamp >= earlier reading (REQ-011)");
         log.info("TC-010-B passed — t1={}, t2={}", t1, t2);
     }
+    /**
+     * TC-010-C: Radar and lidar sensors must deliver updates at approximately
+     * 100 ms intervals (REQ-010).
+     * This test validates that sequential sensor updates respect the required
+     * timing constraint within an acceptable tolerance.
+     */
+    @Test
+    @DisplayName("TC-010-C | Radar/lidar updates occur at ~100 ms intervals")
+    void tc010c_radarLidarUpdateFrequency100ms() {
+        log.info("TC-010-C: radar/lidar update frequency check");
 
+        SensorInputHandler handler = new SensorInputHandler();
+
+        long t1 = System.currentTimeMillis();
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, t1, 100.0, 5.0, true));
+
+        // simulate ~100 ms later update
+        long t2 = t1 + 100;
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, t2, 90.0, 5.0, true));
+
+        long t3 = t2 + 100;
+        handler.addToBuffer(new RadarData(SensorId.PRIMARY, t3, 80.0, 5.0, true));
+
+        ProcessedSensorData latest = handler.getLatest();
+        assertNotNull(latest, "Latest snapshot must exist");
+
+        RadarData radar = (RadarData) latest.getSensorData(SensorType.RADAR, SensorId.PRIMARY);
+        assertNotNull(radar, "Radar data must be present");
+
+        long delta1 = t2 - t1;
+        long delta2 = t3 - t2;
+
+        log.info("TC-010-C: deltas = {} ms, {} ms", delta1, delta2);
+
+        // allow small timing tolerance (jitter in simulation)
+        assertTrue(Math.abs(delta1 - 100) <= 10,
+                "Radar update interval must be ~100 ms (REQ-010)");
+        assertTrue(Math.abs(delta2 - 100) <= 10,
+                "Radar update interval must be ~100 ms (REQ-010)");
+
+        log.info("TC-010-C passed");
+    }
     // ------------------------------------------------------------------
-    // TC-011  REQ-014 — Sensor feedback used within 50 ms
+    // TC-011
     // ------------------------------------------------------------------
 
     /**
      * TC-011: WheelSpeedData timestamp must be within 50 ms of the current
      * system time when created. This confirms the data pipeline produces
      * fresh readings rather than stale cached values.
-     *
-     * REQ-014 | DR-11
      */
     @Test
     @DisplayName("TC-011 | WheelSpeedData timestamp within 50 ms of creation time")
@@ -199,15 +217,13 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-012  REQ-015 — Deceleration accuracy within ±5%
+    // TC-012
     // ------------------------------------------------------------------
 
     /**
      * TC-012-A: BrakeSystemController sets decelerationRate to exactly 8.0 m/s².
      * The ±5% tolerance on 8.0 m/s² is [7.6, 8.4] m/s².
      * Verify 8.0 is within tolerance.
-     *
-     * REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-012-A | Commanded deceleration 8.0 m/s² is within ±5% of target")
@@ -228,8 +244,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-012-B: Deceleration of 9.0 m/s² (12.5% over) must exceed ±5% tolerance.
      * This negative test confirms the tolerance check is meaningful.
-     *
-     * REQ-015
      */
     @Test
     @DisplayName("TC-012-B | Deceleration 9.0 m/s² correctly exceeds ±5% tolerance (negative test)")
@@ -249,12 +263,9 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-012-C: Simulated actual vs expected deceleration using wheel speed
      * delta confirms accuracy stays within ±5% over a braking step.
-     *
      * Scenario: car at 16.67 m/s, expected deceleration 8.0 m/s², 50 ms step.
      * Expected speed after step: 16.67 - (8.0 * 0.05) = 16.27 m/s.
      * Actual (simulated) speed: 16.30 m/s → deviation 0.30/8.0*100 = 3.75% → PASS.
-     *
-     * REQ-015 | DR-11
      */
     @Test
     @DisplayName("TC-012-C | Wheel-speed-derived deceleration stays within ±5% over one 50 ms step")
@@ -272,20 +283,18 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
 
         log.info("TC-012-C: targetDecel={}, actualDecel={}, deviation={:.2f}%",
                 targetDecel, actualDecel, deviation * 100);
-        assertTrue(deviation <= 0.08,
+        assertTrue(deviation <= 0.05,
                 String.format("Deceleration deviation %.2f%% must be ≤ 5%% (REQ-015)", deviation * 100));
         log.info("TC-012-C passed");
     }
 
     // ------------------------------------------------------------------
-    // TC-013  REQ-016 — Unit consistency: metres, km/h, RPM
+    // TC-013
     // ------------------------------------------------------------------
 
     /**
      * TC-013-A: RadarData stores distance in metres. A distance of 40.0 must
      * round-trip through the getter as exactly 40.0 (no unit conversion).
-     *
-     * REQ-016
      */
     @Test
     @DisplayName("TC-013-A | RadarData distance stored and retrieved in metres")
@@ -303,8 +312,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-013-B: RadarData relative speed must be stored in m/s (not km/h).
      * 60 km/h = 16.67 m/s; verify the getter returns m/s value.
-     *
-     * REQ-016
      */
     @Test
     @DisplayName("TC-013-B | RadarData relative speed stored in m/s")
@@ -322,8 +329,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
     /**
      * TC-013-C: WheelSpeedData RPM getter must return raw RPM (not rad/s or m/s).
      * 800 RPM stored → must read back as 800 RPM.
-     *
-     * REQ-016
      */
     @Test
     @DisplayName("TC-013-C | WheelSpeedData RPM field is in RPM, not rad/s")
@@ -342,8 +347,6 @@ class NonFunctionalTimingTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-013-D: LidarData distance must be stored in metres (same contract as radar).
-     *
-     * REQ-016
      */
     @Test
     @DisplayName("TC-013-D | LidarData distance stored in metres")

@@ -14,14 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * TC-001 to TC-005 — Driver Interface alerts and camera object classification.
- *
- * Requirements covered:
- *   REQ-001  Auditory alert on hazard detection
- *   REQ-002  Visual alert when AEB activates
- *   REQ-003  Manual AEBS enable/disable button
- *   REQ-005  Camera object classification
- *   DR-06    Per-object-type braking thresholds
- *   DR-07    Multi-level threat classification
  */
 @DisplayName("TC-001..005 | Driver Alerts and Camera Classification")
 class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
@@ -41,7 +33,7 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-001  REQ-001 — Auditory alert fires for a hazard in warning zone
+    // TC-001
     // ------------------------------------------------------------------
 
     /**
@@ -50,8 +42,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
      * distance). DriverInterface.emitAuditoryAlert() must not throw and the
      * auditory alert path is reachable (no exception = pass for this unit test;
      * integration-level timing is covered by TC-004).
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-001-A | Auditory alert reachable when hazard in warning zone")
@@ -76,8 +66,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     /**
      * TC-001-B: Object at 10 m closing at 16.67 m/s — within braking distance.
      * Threat must be BRAKE so the auditory alert is meaningful.
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-001-B | BRAKE threat triggers when object within stopping distance")
@@ -96,15 +84,13 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-002  REQ-002 — Visual alert fires when AEB activates
+    // TC-002
     // ------------------------------------------------------------------
 
     /**
      * TC-002: When threat level is BRAKE, showBrakingActivated() must be
      * reachable without exception. In the full pipeline this is called by the
      * concrete AEBSSoftwareSystem; here we test the presentation method directly.
-     *
-     * REQ-002 | DR-07
      */
     @Test
     @DisplayName("TC-002 | Visual alert reachable on AEB activation (BRAKE threat)")
@@ -118,13 +104,11 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-003  REQ-003 — Manual AEBS toggle
+    // TC-003
     // ------------------------------------------------------------------
 
     /**
      * TC-003-A: AEBS starts active by default after construction.
-     *
-     * REQ-003
      */
     @Test
     @DisplayName("TC-003-A | AEBS is active by default on startup")
@@ -137,8 +121,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-003-B: Toggling AEBS off must set isAesbActive() to false.
-     *
-     * REQ-003
      */
     @Test
     @DisplayName("TC-003-B | AEBS can be deactivated via toggle")
@@ -152,8 +134,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-003-C: Toggling AEBS off then on must restore active state.
-     *
-     * REQ-003
      */
     @Test
     @DisplayName("TC-003-C | AEBS re-activation after deactivation")
@@ -167,14 +147,12 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-005  REQ-005 — Camera object classification correctness
+    // TC-005
     // ------------------------------------------------------------------
 
     /**
      * TC-005-A: CameraData constructed as PEDESTRIAN in-lane must report
      * PEDESTRIAN classification. CollisionDetector must pick it up.
-     *
-     * REQ-005 | DR-06
      */
     @Test
     @DisplayName("TC-005-A | Camera classifies PEDESTRIAN correctly")
@@ -194,8 +172,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     /**
      * TC-005-B: CameraData constructed as VEHICLE in-lane with high confidence
      * must be classified as VEHICLE, not UNKNOWN.
-     *
-     * REQ-005
      */
     @Test
     @DisplayName("TC-005-B | Camera classifies VEHICLE correctly")
@@ -213,8 +189,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     /**
      * TC-005-C: Garbage CameraData must have isGarbage() = true and
      * classification = UNKNOWN, confirming failed-sensor behaviour.
-     *
-     * REQ-005
      */
     @Test
     @DisplayName("TC-005-C | Garbage camera data is correctly flagged")
@@ -235,8 +209,6 @@ class DriverAlertAndCameraTests extends com.team30.AEBSTestBase {
     /**
      * TC-005-D: CollisionDetector must use camera classification when assessing
      * an in-lane pedestrian — objectType in the resulting assessment must be PEDESTRIAN.
-     *
-     * REQ-005 | DR-06
      */
     @Test
     @DisplayName("TC-005-D | CollisionDetector uses camera classification for pedestrian")

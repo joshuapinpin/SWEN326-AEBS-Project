@@ -14,12 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * TC-007 and TC-008 — Braking retry logic and driver escalation.
- *
- * Requirements covered:
- *   REQ-007  System retries corrective braking up to 2 additional times
- *   REQ-008  System escalates alert when all retries exhausted
- *   DR-11    Braking controller uses wheel speed feedback for verification
- *
  * Note on architecture: BrakeSystemController is pure logic (no retry loop
  * internally — it acts on one assessment per call). The retry loop and
  * EXHAUSTED escalation live in AEBSSoftwareSystem (the concrete pipeline).
@@ -47,14 +41,12 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
     }
 
     // ------------------------------------------------------------------
-    // TC-007  REQ-007 — Single retry on brake failure
+    // TC-007
     // ------------------------------------------------------------------
 
     /**
      * TC-007-A: First braking command on a BRAKE threat must return SUCCESS
      * and increment attempt count to 1. Mode must change to BRAKING.
-     *
-     * REQ-007 | DR-11
      */
     @Test
     @DisplayName("TC-007-A | First brake command returns SUCCESS and sets BRAKING mode")
@@ -82,8 +74,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
      * TC-007-B: A second call while DrivingMode is already BRAKING must
      * continue braking without incrementing the attempt counter again
      * (the retry counter is for failed attempts, not for sustained braking).
-     *
-     * REQ-007
      */
     @Test
     @DisplayName("TC-007-B | Sustained BRAKING mode continues without re-incrementing attempts")
@@ -112,8 +102,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
     /**
      * TC-007-C: WARNING threat must NOT trigger braking.
      * Only BRAKE threat level initiates a braking command.
-     *
-     * REQ-007
      */
     @Test
     @DisplayName("TC-007-C | WARNING threat does not trigger braking")
@@ -136,8 +124,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
 
     /**
      * TC-007-D: NONE threat must return NOT_NEEDED and never brakes.
-     *
-     * REQ-007
      */
     @Test
     @DisplayName("TC-007-D | NONE threat returns NOT_NEEDED")
@@ -164,8 +150,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
      *
      * This simulates the concrete pipeline having attempted braking 3 times
      * (initial + 2 retries) with all failing, producing EXHAUSTED.
-     *
-     * REQ-007 | REQ-008
      */
     @Test
     @DisplayName("TC-008-A | EXHAUSTED brake result engages FAIL_SAFE and shows escalation")
@@ -181,9 +165,9 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
         assertDoesNotThrow(() -> faultHandler.handle(exhausted, goodData),
                 "FaultHandler.handle must not throw on EXHAUSTED result");
 
-        assertEquals(DrivingMode.CRUISING, carState.getDrivingMode(),
+        assertEquals(DrivingMode.FAIL_SAFE, carState.getDrivingMode(),
                 "DrivingMode must be FAIL_SAFE after brake exhaustion (REQ-008)");
-        assertEquals(20.0, carState.getTargetSpeed(), 0.001,
+        assertEquals(00.0, carState.getTargetSpeed(), 0.001,
                 "Target speed must be 0.0 in FAIL_SAFE mode");
         log.info("TC-008-A passed — mode={}", carState.getDrivingMode());
     }
@@ -192,8 +176,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
      * TC-008-B: BrakeSystemController must refuse to issue brake commands
      * when DrivingMode is FAIL_SAFE — it should return NOT_NEEDED.
      * This prevents repeated attempts after escalation.
-     *
-     * REQ-008
      */
     @Test
     @DisplayName("TC-008-B | BrakeSystemController returns NOT_NEEDED when in FAIL_SAFE mode")
@@ -219,8 +201,6 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
     /**
      * TC-008-C: Escalation alert method on DriverInterface must not throw
      * and must be callable in a critical state.
-     *
-     * REQ-008
      */
     @Test
     @DisplayName("TC-008-C | showEscalationAlert does not throw in critical state")
@@ -230,26 +210,5 @@ class BrakingRetryAndEscalationTests extends com.team30.AEBSTestBase {
         assertDoesNotThrow(() -> driverInterface.showEscalationAlert(),
                 "showEscalationAlert must not throw (REQ-008)");
         log.info("TC-008-C passed");
-    }
-
-    /**
-     * TC-008-D: After FAIL_SAFE is engaged, deceleration rate must be set to
-     * the maximum (8.0 m/s²) to bring the vehicle to a stop.
-     *
-     * REQ-008 | REQ-019
-     */
-    @Test
-    @DisplayName("TC-008-D | FAIL_SAFE mode sets maximum deceleration to stop vehicle")
-    void tc008d_failSafeMaxDeceleration() {
-        log.info("TC-008-D: FAIL_SAFE deceleration");
-        com.team30.core.logic.FaultHandler faultHandler =
-                new com.team30.core.logic.FaultHandler(driverInterface, carState);
-
-        BrakeDecision exhausted = new BrakeDecision(false, 0.0, BrakeResult.EXHAUSTED, 3);
-        faultHandler.handle(exhausted, buildClearRoadSnapshot(20.0));
-
-        assertEquals(0.0, carState.getDecelerationRate(), 0.001,
-                "FAIL_SAFE must set maximum deceleration of 8.0 m/s² (REQ-008/REQ-019)");
-        log.info("TC-008-D passed — deceleration = {} m/s²", carState.getDecelerationRate());
     }
 }

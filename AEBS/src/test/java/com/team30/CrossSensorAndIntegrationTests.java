@@ -21,17 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * TC-029, TC-030, TC-031 — Cross-sensor type compensation (lidar covers radar,
  * radar covers lidar) and full end-to-end pipeline integration test.
- *
- * Requirements covered:
- *   REQ-001  Auditory alert
- *   REQ-002  Visual alert
- *   REQ-004  Radar / lidar data collection
- *   REQ-005  Camera classification
- *   REQ-006  Wheel speed sensor
- *   REQ-013  Braking control signal
- *   REQ-018  Fault tolerance
- *   REQ-019  Fail-safe mechanisms
- *   DR-08    Sensor consistency check before collision assessment
  */
 @DisplayName("TC-029..031 | Cross-Sensor Compensation and End-to-End Integration")
 class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
@@ -143,7 +132,7 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-029  REQ-018 / REQ-019 / DR-08 — Lidar compensates for total radar failure
+    // TC-029
     // ---------------------------------------------------------------
 
     /**
@@ -151,8 +140,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
      * After RedundancyChecker validates, the radar map must be empty but
      * lidar must remain. CollisionDetector must detect a vehicle at 40 m
      * using lidar alone.
-     *
-     * REQ-018 | REQ-019 | DR-08
      */
     @Test
     @DisplayName("TC-029-A | Lidar detects vehicle at 40 m when all radar fails")
@@ -187,8 +174,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
      * TC-029-B: With all radar failed and lidar healthy, FaultHandler must
      * recognise only ONE sensor type unavailable (radar) and issue a maintenance
      * warning — NOT engage FAIL_SAFE. Lidar keeps the system operational.
-     *
-     * REQ-018 | DR-08
      */
     @Test
     @DisplayName("TC-029-B | Total radar failure → maintenance warning only (not FAIL_SAFE) while lidar active")
@@ -209,8 +194,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-029-C: isSensorAvailable() on the validated snapshot correctly returns
      * false for radar and true for lidar after total radar failure.
-     *
-     * REQ-018
      */
     @Test
     @DisplayName("TC-029-C | isSensorAvailable correctly reports radar unavailable / lidar available")
@@ -233,15 +216,13 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     }
 
     // ---------------------------------------------------------------
-    // TC-030  REQ-018 / REQ-019 / DR-08 — Radar compensates for total lidar failure
+    // TC-030
     // ---------------------------------------------------------------
 
     /**
      * TC-030-A: Both primary and redundant LIDAR fail. RADAR is healthy.
      * After validation, lidar map must be empty. CollisionDetector must detect
      * a vehicle at 10 m using radar alone.
-     *
-     * REQ-018 | REQ-019 | DR-08
      */
     @Test
     @DisplayName("TC-030-A | Radar detects vehicle at 10 m when all lidar fails")
@@ -272,8 +253,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-030-B: Total lidar failure with healthy radar — FaultHandler must
      * issue maintenance warning only, NOT FAIL_SAFE.
-     *
-     * REQ-018
      */
     @Test
     @DisplayName("TC-030-B | Total lidar failure → maintenance warning only (not FAIL_SAFE) while radar active")
@@ -294,8 +273,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-030-C: isSensorAvailable correctly reports lidar unavailable and
      * radar available after total lidar failure.
-     *
-     * REQ-018
      */
     @Test
     @DisplayName("TC-030-C | isSensorAvailable correctly reports lidar unavailable / radar available")
@@ -325,8 +302,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
      * TC-031-A: Clear road end-to-end pipeline run. Push data through
      * RedundancyChecker → CollisionDetector → BrakeSystemController →
      * FaultHandler. No hazard → should produce NONE, NOT_NEEDED, no FAIL_SAFE.
-     *
-     * REQ-001 | REQ-004 | REQ-005 | REQ-006 | REQ-013
      */
     @Test
     @DisplayName("TC-031-A | Clear road end-to-end pipeline produces NONE threat and NOT_NEEDED brake")
@@ -355,8 +330,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-031-B: Hazard appears (vehicle at 10 m closing at 16.67 m/s) — full
      * pipeline must escalate to BRAKE and set DrivingMode to BRAKING.
-     *
-     * REQ-001 | REQ-002 | REQ-004 | REQ-013
      */
     @Test
     @DisplayName("TC-031-B | Hazard end-to-end pipeline produces BRAKE threat and sets BRAKING mode")
@@ -386,8 +359,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-031-C: Pedestrian scenario end-to-end. Pedestrian at 10 m closing at
      * 16.67 m/s. Pipeline must detect, classify as PEDESTRIAN, and brake.
-     *
-     * REQ-001 | REQ-005 | REQ-013
      */
     @Test
     @DisplayName("TC-031-C | Pedestrian hazard end-to-end — correctly classified and braked")
@@ -414,8 +385,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-031-D: Primary sensor failure mid-pipeline — primary radar garbage,
      * redundant healthy. Full pipeline still detects hazard.
-     *
-     * REQ-018 | DR-08
      */
     @Test
     @DisplayName("TC-031-D | Primary radar failure mid-pipeline — redundant takes over, hazard detected")
@@ -442,8 +411,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
      * TC-031-E: Sequential scenarios — clear road then sudden vehicle then road
      * clears again. Pipeline must handle all three state transitions correctly
      * without getting stuck.
-     *
-     * REQ-001 | REQ-002 | REQ-013 | DR-09
      */
     @Test
     @DisplayName("TC-031-E | Sequential clear → hazard → clear again transitions correctly")
@@ -486,8 +453,6 @@ class CrossSensorAndIntegrationTests extends com.team30.AEBSTestBase {
     /**
      * TC-031-F: Warning zone then brake zone — two-stage escalation in one
      * pipeline run sequence confirms the full threat ramp.
-     *
-     * REQ-001 | DR-07
      */
     @Test
     @DisplayName("TC-031-F | Full threat ramp: NONE → WARNING → BRAKE across three pipeline steps")
