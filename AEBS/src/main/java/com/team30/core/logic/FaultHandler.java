@@ -53,20 +53,24 @@ public class FaultHandler {
             return;
         }
 
-        int unavailableCount = 0;
-        // Unused variable
-        // SensorType unavailableType = null;
+        boolean radarUnavailable = false;
+        boolean lidarUnavailable = false;
+        boolean criticalUnavailable = false;
 
         for (SensorType type : SensorType.values()) {
             if (isSensorTypeUnavailable(data, type)) {
-                unavailableCount++;
-                // unavailableType = type;
+                if (type == SensorType.RADAR) {
+                    radarUnavailable = true;
+                } else if (type == SensorType.LIDAR) {
+                    lidarUnavailable = true;
+                } else {
+                    criticalUnavailable = true;
+                }
             }
         }
 
-        if (unavailableCount >= 1) {
+        if (criticalUnavailable || (radarUnavailable && lidarUnavailable)) {
             escalateCriticalFailure();
-
         } else {
             escalationAlertShown = false;
         }
